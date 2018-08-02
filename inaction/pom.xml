@@ -19,6 +19,8 @@
         <module>../inaction-algorithm</module>
         <module>../inaction-parallel</module>
         <module>../inaction-log</module>
+        <module>../inaction-rx</module>
+        <module>../inaction-tools</module>
     </modules>
     <packaging>pom</packaging>
 
