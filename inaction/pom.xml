@@ -12,7 +12,7 @@
 
     <groupId>cn.orangepoet.inaction</groupId>
     <artifactId>inaction</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <modules>
         <module>../inaction-spring</module>
         <module>../inaction-desginpattern</module>
