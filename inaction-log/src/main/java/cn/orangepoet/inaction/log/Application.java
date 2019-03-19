@@ -1,5 +1,6 @@
 package cn.orangepoet.inaction.log;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -39,7 +40,24 @@ public class Application {
         };
     }
 
-//    /**
+    @Bean
+    public CommandLineRunner lineRunner3() {
+        return (String... args) -> {
+            //MDC.put("mdc_trace_id","lineRunner2");
+            try {
+                doSmth();
+            } catch (Exception e) {
+                logger.error(ExceptionUtils.getStackTrace(e));
+            }
+            //logger.error("i'm lineRunner2");
+        };
+    }
+
+    private void doSmth() {
+        throw new IllegalArgumentException("name is invalid");
+    }
+
+    //    /**
 //     * 配置List bean, 使用CopyOnWriteList
 //     *
 //     * @return

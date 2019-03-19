@@ -12,7 +12,7 @@ public class ObserverAspect {
 
     private Logger logger = LoggerFactory.getLogger(ObserverAspect.class);
 
-    @Pointcut("execution(public * cn.orangepoet.action.Subject.onMessage())")
+    @Pointcut("execution(public * cn.orangepoet.inaction.spring.aspect.Subject.onMessage())")
     public void log() {
     }
 

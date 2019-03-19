@@ -1,7 +1,6 @@
 package cn.orangepoet.inaction.spring;
 
-import cn.orangepoet.inaction.spring.traffic.TrafficWay;
-import cn.orangepoet.inaction.spring.traffic.Traveler;
+import cn.orangepoet.inaction.spring.name.Foo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -15,21 +14,33 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @SpringBootApplication
 public class Application {
-    @Autowired
-    private Traveler traveler;
+    //@Autowired
+    //private Traveler traveler;
 
+    @Autowired
+    private Foo foo;
+
+    @Autowired
+    private Foo foo2;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class);
     }
 
-
     @Bean
-    public CommandLineRunner lineRunner2() {
+    public CommandLineRunner lineRunner1() {
         return (String... args) -> {
-            traveler.go(TrafficWay.FLIGHT_WAY);
+            foo.foo();
+            foo2.foo();
         };
     }
+
+    //@Bean
+    //public CommandLineRunner lineRunner2() {
+    //    return (String... args) -> {
+    //        traveler.go(TrafficWay.FLIGHT_WAY);
+    //    };
+    //}
 
     /**
      * 配置List bean, 使用CopyOnWriteList
