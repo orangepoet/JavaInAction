@@ -21,6 +21,11 @@
         <module>../inaction-log</module>
         <module>../inaction-rx</module>
         <module>../inaction-tools</module>
+        <module>inaction-quartz</module>
+        <module>../inaction-quartz</module>
+        <module>../inaction-function</module>
+        <module>inaction-once</module>
+        <module>../inaction-once</module>
     </modules>
     <packaging>pom</packaging>
 

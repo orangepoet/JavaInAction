@@ -1,7 +1,10 @@
 package cn.orangepoet.inaction.spring.traffic;
 
+import cn.orangepoet.inaction.spring.traffic.impl.Flight;
+import cn.orangepoet.inaction.spring.traffic.impl.Train;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,20 +12,23 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TrafficFactory {
-    @Autowired
-    @Qualifier("flightWay")
-    private Traffic flightWay;
+
+    @Value("${name}")
+    private String name;
 
     @Autowired
-    @Qualifier("trainWay")
-    private Traffic trainWay;
+    private Flight train;
+
+    @Autowired
+    private Train flightWay;
 
     public Traffic getTraffic(TrafficWay way) {
+        System.out.println(name);
         switch (way) {
             case FLIGHT_WAY:
                 return flightWay;
             case TRAIN_WAY:
-                return trainWay;
+                return train;
             default:
                 throw new IllegalArgumentException("way is not recognized!");
         }
