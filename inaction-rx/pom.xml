@@ -18,6 +18,10 @@
             <artifactId>rxjava</artifactId>
             <version>2.1.8</version>
         </dependency>
+        <dependency>
+            <groupId>cn.orangepoet.inaction</groupId>
+            <artifactId>inaction-tools</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

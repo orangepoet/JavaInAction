@@ -1,6 +1,7 @@
 package cn.orangepoet.inaction.log;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import cn.orangepoet.inaction.tools.Common;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -28,7 +29,7 @@ public class Application {
     public CommandLineRunner lineRunner() {
         return (String... args) -> {
             MDC.put("mdc_trace_id","lineRunner");
-            logger.error("i'm lineRunner");
+            logger.error("i'm lineRunner" + Common.sayHi());
         };
     }
 

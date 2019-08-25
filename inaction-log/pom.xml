@@ -26,5 +26,13 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
         </dependency>
+        <dependency>
+            <groupId>cn.orangepoet.inaction</groupId>
+            <artifactId>inaction-rx</artifactId>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>cn.orangepoet.inaction</groupId>-->
+            <!--<artifactId>inaction-tools</artifactId>-->
+        <!--</dependency>-->
     </dependencies>
 </project>
