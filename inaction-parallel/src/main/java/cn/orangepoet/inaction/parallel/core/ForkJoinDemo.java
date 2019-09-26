@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.*;
 
+/**
+ * ForkJoin, 采用的是分治算法, 将任务的集合分解为更小的子集计算, 然后再合并各个子集的结果;
+ *
+ * 调用的主要方法是fork(), join()方法, 分别对应递归任务分解, 和任务结果的获取(同步阻塞等待);
+ */
 public class ForkJoinDemo {
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(8);
     private static final CompletionService<Integer> COMPLETION_SERVICE = new ExecutorCompletionService<>(EXECUTOR_SERVICE);

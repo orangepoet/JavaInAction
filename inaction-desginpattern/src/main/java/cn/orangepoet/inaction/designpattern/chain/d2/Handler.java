@@ -1,5 +1,6 @@
 package cn.orangepoet.inaction.designpattern.chain.d2;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +27,14 @@ public abstract class Handler {
         if (this.next != null) {
             this.next.handle();
         }
+    }
+
+    @Builder
+    @Getter
+    @Setter
+    public static class Foo {
+        private String p1;
+        private String p2;
     }
 
 }
