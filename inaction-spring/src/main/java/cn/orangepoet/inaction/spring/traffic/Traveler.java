@@ -21,15 +21,15 @@ public class Traveler {
 
     @Autowired
     private TrafficFactory factory;
-    @Autowired
-    private List<String> myList;
+    //@Autowired
+    //private List<String> myList;
 
     public void go(TrafficWay way) {
         if (Optional.ofNullable(way).orElse(TrafficWay.UNKNOWN) == TrafficWay.UNKNOWN) {
             logger.error("empty way");
         }
 
-        myList.add("myname");
+        //myList.add("myname");
         Traffic traffic = factory.getTraffic(way);
         traffic.go();
     }

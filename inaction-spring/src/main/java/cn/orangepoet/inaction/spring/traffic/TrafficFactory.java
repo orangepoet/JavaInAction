@@ -13,14 +13,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class TrafficFactory {
 
-    @Value("${name}")
     private String name;
 
     @Autowired
-    private Flight train;
+    @Qualifier("trainWay")
+    private Traffic train;
 
     @Autowired
-    private Train flightWay;
+    @Qualifier("flightWay")
+    private Traffic flightWay;
 
     public Traffic getTraffic(TrafficWay way) {
         System.out.println(name);
