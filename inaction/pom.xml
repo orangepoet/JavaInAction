@@ -24,6 +24,9 @@
         <module>../inaction-quartz</module>
         <module>../inaction-function</module>
         <module>../inaction-once</module>
+        <module>../inaction-spi</module>
+        <module>../inaction-spi-impl</module>
+        <module>../inaction-spi-app</module>
     </modules>
     <packaging>pom</packaging>
 
