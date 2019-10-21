@@ -24,9 +24,10 @@
         <module>../inaction-quartz</module>
         <module>../inaction-function</module>
         <module>../inaction-once</module>
-        <module>../inaction-spi</module>
+        <module>../inaction-spi-api</module>
         <module>../inaction-spi-impl</module>
         <module>../inaction-spi-app</module>
+        <module>../inaction-spring-cloud</module>
     </modules>
     <packaging>pom</packaging>
 
