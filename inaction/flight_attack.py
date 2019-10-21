@@ -15,151 +15,108 @@ def init_map():
         for j in range(0,y_max):
             row.append((i,j))
         
-def print_flight(positions):
+def print_flight(dots):
     return 
     print('--------------------')
     for y in range(0,y_max):
         line = ''
         for x in range(0,x_max):
-            position = (x,y)
-            if position in positions:
+            dot = (x,y)
+            if dot in dots:
                 line+=' H'
             else:
                 line+=' *'
         print(line)
     print('--------------------')
 
-def is_position_in_map(position):
-    return position[0]>=0 and position[0]<=9 and position[1]>=0 and position[1]<=9
-
-def is_above_top_head_valid(head_position):
-    x = head_position[0]
-    y = head_position[1]
-
-    front_left = (x-2, y+1)
-    if not is_position_in_map(front_left):
-        # print("front left is out of map")
-        return False
-    
-    front_right = (x+2, y+1)
-    if not is_position_in_map(front_right):
-        # print("front right is out of map")
-        return False
-
-    back_left = (x-1, y+3)
-    if not is_position_in_map(back_left):
-        # print("back left is out of map")
-        return False
-
-    back_right = (x+1, y+3)
-    if not is_position_in_map(back_right):
-        # print("back right is out of map")
-        return False
-    # print("above")
-    print_flight([head_position,front_left,front_right,back_left,back_right])
+def is_position_in_map(dots):
+    for dot in dots:
+        if dot[0]>=0 and dot[0]<=9 and dot[1]>=0 and dot[1]<=9:
+            return False
     return True
 
-def is_below_bottom_head_valid(head_position):
-    x = head_position[0]
-    y = head_position[1]
+def get_up_flight(head):
+    x = head[0]
+    y = head[1]
 
-    front_left = (x-2, y-1)
-    if not is_position_in_map(front_left):
-        # print("front left is out of map")
-        return False
-    
-    front_right = (x+2, y-1)
-    if not is_position_in_map(front_right):
-        # print("front right is out of map")
-        return False
+    ret = []
 
-    back_left = (x-1, y-3)
-    if not is_position_in_map(back_left):
-        # print("back left is out of map")
-        return False
+    for i in range(x-2,x+2+1):
+        ret.append((i,y+1))
+    for i in range(x-1,x+1+1):
+        ret.append((i,y+3))
+    for j in range(y+1,y+3+1):
+        ret.append((x,j))
+    return ret
 
-    back_right = (x+1, y-3)
-    if not is_position_in_map(back_right):
-        # print("back right is out of map")
-        return False
-    # print("below")
-    print_flight([head_position,front_left,front_right,back_left,back_right])
-    return True
+def get_down_flight(head):
+    x = head[0]
+    y = head[1]
+    ret = []
 
-def is_left_head_valid(head_position):
-    x = head_position[0]
-    y = head_position[1]
+    for i in range(x-2,x+2+1):
+        ret.append((i,y-1))
+    for i in range(x-1,x+1+1):
+        ret.append((i,y-3))
+    for j in range(y-3,y-1+1):
+        ret.append((x,j))
+    return ret
 
-    front_left = (x+1,y+2)
-    if not is_position_in_map(front_left):
-        # print("front left is out of map")
-        return False
-    
-    front_right = (x+1,y-2)
-    if not is_position_in_map(front_right):
-        # print("front right is out of map")
-        return False
+def get_left_flight(head):
+    x = head[0]
+    y = head[1]
 
-    back_left = (x+3, y+1)
-    if not is_position_in_map(back_left):
-        # print("back left is out of map")
-        return False
+    ret = []
 
-    back_right = (x+3, y-1)
-    if not is_position_in_map(back_right):
-        # print("back right is out of map")
-        return False
-    # print("left")
-    print_flight([head_position,front_left,front_right,back_left,back_right])
-    return True
+    for j in range(y-2,y+2+1):
+        ret.append((x+1,j))
+    for j in range(y-1,y+1):
+        ret.append(x+3,y-1)
+    for i in range(x+1, x+3+1):
+        ret.append(i,y)
+    return ret
 
-def is_right_head_valid(head_position):
-    x = head_position[0]
-    y = head_position[1]
+def get_right_flight(head):
+    x = head[0]
+    y = head[1]
 
-    front_left = (x-1,y-2)
-    if not is_position_in_map(front_left):
-        # print("front left is out of map")
-        return False
-    
-    front_right = (x-1,y+2)
-    if not is_position_in_map(front_right):
-        # print("front right is out of map")
-        return False
+    ret = []
 
-    back_left = (x-3, y-1)
-    if not is_position_in_map(back_left):
-        # print("back left is out of map")
-        return False
+    for j in range(y-2,y+2+1):
+        ret.append((x-1,j))
+    for j in range(y-1,y+1+1):
+        ret.append((x-3,j))
+    for i in range(x-3,x-1+1):
+        ret.append((i,y))
+    return ret
 
-    back_right = (x-3, y+1)
-    if not is_position_in_map(back_right):
-        # print("back right is out of map")
-        return False
-    # print("right")
-    print_flight([head_position,front_left,front_right,back_left,back_right])
-    return True
-
-def get_head_count(positoin):
+def get_flight_cnt(head):
     count = 0
-    if is_above_top_head_valid(positoin):
+    flight0 = get_up_flight(head)
+    if is_position_in_map(flight0):
         count+=1
-    if is_below_bottom_head_valid(positoin):
+
+    flight1 = get_down_flight(head)
+    if is_position_in_map(flight1):
         count+=1
-    if is_left_head_valid(positoin):
+
+    flight2 = get_left_flight(head)
+    if is_position_in_map(flight2):
         count+=1
-    if is_right_head_valid(positoin):
+    
+    fligt3 = get_right_flight(head)
+    if is_position_in_map(fligh3):
         count+=1
     return count
 
-def get_all_head_position():
+def get_all_head():
     valid_head=[]
     head_cnt=0
     for y in range(0,y_max):
         for x in range(0,x_max):
             head=(x,y)
-            cnt = get_head_count(head)
-            if cnt>3:
+            cnt = get_flight_cnt(head)
+            if cnt>0:
                 head_cnt+=1
                 print(str(head)+": "+str(cnt))
             else:
@@ -169,7 +126,7 @@ def get_all_head_position():
 
 
 def main():
-    get_all_head_position()
+    get_all_head()
 
 if __name__ == "__main__":
     main()
