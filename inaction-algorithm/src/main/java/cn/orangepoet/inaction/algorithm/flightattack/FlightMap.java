@@ -146,7 +146,8 @@ public class FlightMap {
                                Set<Position> hintPosSet) {
         Map<Position, Long> posCntMap = flightUnits
             .stream()
-            .flatMap(fn -> fn.getAllPos().stream())
+            .flatMap(fn -> fn.getFlights().stream())
+            .map(Flight::getHead)
             .filter(p -> !hintPosSet.contains(p))
             .collect(Collectors.groupingBy(h -> h, Collectors.counting()));
         if (MapUtils.isEmpty(posCntMap)) {

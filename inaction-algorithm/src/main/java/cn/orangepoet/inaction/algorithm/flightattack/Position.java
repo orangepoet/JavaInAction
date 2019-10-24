@@ -24,7 +24,7 @@ public class Position {
 
     @Override
     public String toString() {
-        return String.format("(%d_%d)", x, y);
+        return String.format("(%d, %d)", x, y);
     }
 
     public static Position get(int x, int y) {

@@ -106,6 +106,10 @@ public class Flight implements FlightJudge {
         return this.allPosSet.stream().anyMatch(flight.allPosSet::contains);
     }
 
+    public Position getHead() {
+        return head;
+    }
+
     public Set<Position> allPosSet() {
         return new HashSet<>(this.allPosSet);
     }
