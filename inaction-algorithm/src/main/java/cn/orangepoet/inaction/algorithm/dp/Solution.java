@@ -20,18 +20,9 @@ class Solution {
 
     public static void main(String[] args) {
         Solution s = new Solution();
-//        int[] nums1 = {1, 2, 3, 0, 0, 0};
-//        int m = 3;
-//        int[] nums2 = {2, 5, 6};
-//        int n = 3;
-//
-//        new Solution().merge(nums1, m, nums2, n);
-//        for (int i : nums1) {
-//            System.out.println(i);
-//        }
-        List<List<Integer>> ret = s.combinationSum3(3, 7);
+        List<List<Integer>> ret = s.combinationSum3(2, 6);
         for (List<Integer> integers : ret) {
-            Arrays.toString(integers.toArray());
+            System.out.println(Arrays.toString(integers.toArray()));
         }
     }
 
@@ -45,7 +36,6 @@ class Solution {
         }
     }
 
-
     public boolean isSymmetric(TreeNode root) {
         return isMirror(root, root);
     }
@@ -58,8 +48,8 @@ class Solution {
             return false;
         }
         return left.val == right.val
-                && isMirror(left.right, right.left)
-                && isMirror(left.left, right.right);
+            && isMirror(left.right, right.left)
+            && isMirror(left.left, right.right);
     }
 
     public int change(int amount, int[] coins) {
@@ -86,23 +76,25 @@ class Solution {
         if (k > 9) {
             return Collections.emptyList();
         }
-        Set<List<Integer>> result = new HashSet<>();
+        List<List<Integer>> result = new ArrayList<>();
         int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9};
         int max = 1 << 9;
         for (int i = 1; i < max; i++) {
             List<Integer> combination = new ArrayList<>();
             int sum = 0;
-            for (int j = 1; j <= arr.length; j = j << 1) {
-                if ((i & j) == j) {
-                    sum += arr[j - 1];
-                    combination.add(arr[j - 1]);
+            for (int j = 0; j < arr.length; j++) {
+                int bit = 1 << j;
+                if ((i & bit) == bit) {
+                    sum += arr[j];
+                    combination.add(arr[j]);
                 }
             }
             if (sum == n && combination.size() == k) {
                 result.add(combination);
+                System.out.println(Integer.toBinaryString(i));
             }
         }
 
-        return new ArrayList<>(result);
+        return result;
     }
 }
