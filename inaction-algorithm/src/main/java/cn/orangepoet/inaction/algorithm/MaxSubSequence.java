@@ -6,19 +6,21 @@ package cn.orangepoet.inaction.algorithm;
 public class MaxSubSequence {
 
     public static void main(String[] args) {
-        int[] arr = new int[]{1, 3, -2, 4, 5};
+        int[] arr = new int[] {-2, 1, -3, 4, -1, 2, 1, -5, 4};
         int max = getMax(arr);
         System.out.println(max);
     }
 
-    public static int getMax(int[] sequence) {
-        int maxSubSum = 0, thisSubSum = 0;
-        for (int i = 0; i < sequence.length; i++) {
-            thisSubSum += sequence[i];
+    public static int getMax(int[] nums) {
+        int maxSubSum = Integer.MIN_VALUE;
+        int thisSubSum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            thisSubSum += nums[i];
+            if (nums[i] > thisSubSum) {
+                thisSubSum = nums[i];
+            }
             if (thisSubSum > maxSubSum) {
                 maxSubSum = thisSubSum;
-            } else if (thisSubSum < 0) {
-                thisSubSum = 0;
             }
         }
         return maxSubSum;

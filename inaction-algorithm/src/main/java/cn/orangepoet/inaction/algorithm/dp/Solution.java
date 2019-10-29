@@ -3,8 +3,10 @@ package cn.orangepoet.inaction.algorithm.dp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 class Solution {
@@ -20,10 +22,12 @@ class Solution {
 
     public static void main(String[] args) {
         Solution s = new Solution();
-        List<List<Integer>> ret = s.combinationSum3(2, 6);
-        for (List<Integer> integers : ret) {
-            System.out.println(Arrays.toString(integers.toArray()));
-        }
+        //List<List<Integer>> ret = s.combinationSum3(2, 6);
+        //for (List<Integer> integers : ret) {
+        //    System.out.println(Arrays.toString(integers.toArray()));
+        //}
+        int ret = s.climbStairs(31);
+        System.out.println(ret);
     }
 
     public class TreeNode {
@@ -96,5 +100,28 @@ class Solution {
         }
 
         return result;
+    }
+
+    public int climbStairs(int n) {
+        return climbStairs0(n, new HashMap<>());
+    }
+
+    private int climbStairs0(int n, Map<Integer, Integer> stairCnt) {
+        if (n <= 0) {
+            throw new IllegalArgumentException("n is invalid");
+        }
+        if (stairCnt.containsKey(n)) {
+            return stairCnt.get(n);
+        }
+        if (n == 1) {
+            stairCnt.put(n, 1);
+            return 1;
+        } else if (n == 2) {
+            stairCnt.put(n, 2);
+            return 2;
+        }
+        int cnt = climbStairs(n - 1) + climbStairs(n - 2);
+        stairCnt.put(n, cnt);
+        return cnt;
     }
 }
