@@ -1,15 +1,32 @@
 package cn.orangepoet.inaction.algorithm.dp;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 class Solution {
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        //List<List<Integer>> ret = s.combinationSum3(2, 6);
+        //for (List<Integer> integers : ret) {
+        //    System.out.println(Arrays.toString(integers.toArray()));
+        //}
+        //int ret = s.climbStairs(31);
+        //System.out.println(ret);
+        int ans = s.findShortestSubArray(new int[] {1, 2, 2, 3, 1, 4, 2});
+        System.out.println(ans);
+    }
+
+    /**
+     * 合并两个有序数组
+     *
+     * @param nums1
+     * @param m
+     * @param nums2
+     * @param n
+     */
     public void merge(int[] nums1, int m, int[] nums2, int n) {
         int p1 = m - 1;
         int p2 = n - 1;
@@ -18,16 +35,6 @@ class Solution {
             nums1[p--] = nums1[p1] > nums2[p2] ? nums1[p1--] : nums2[p2--];
         }
         System.arraycopy(nums2, 0, nums1, 0, p2 + 1);
-    }
-
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        //List<List<Integer>> ret = s.combinationSum3(2, 6);
-        //for (List<Integer> integers : ret) {
-        //    System.out.println(Arrays.toString(integers.toArray()));
-        //}
-        int ret = s.climbStairs(31);
-        System.out.println(ret);
     }
 
     public class TreeNode {
@@ -40,6 +47,12 @@ class Solution {
         }
     }
 
+    /**
+     * 判断树是否对称
+     *
+     * @param root
+     * @return
+     */
     public boolean isSymmetric(TreeNode root) {
         return isMirror(root, root);
     }
@@ -76,6 +89,13 @@ class Solution {
         return 0;
     }
 
+    /**
+     * 组合数 和为n, 数量为k
+     *
+     * @param k
+     * @param n
+     * @return
+     */
     public List<List<Integer>> combinationSum3(int k, int n) {
         if (k > 9) {
             return Collections.emptyList();
@@ -102,6 +122,12 @@ class Solution {
         return result;
     }
 
+    /**
+     * 爬楼算法
+     *
+     * @param n
+     * @return
+     */
     public int climbStairs(int n) {
         return climbStairs0(n, new HashMap<>());
     }
@@ -123,5 +149,57 @@ class Solution {
         int cnt = climbStairs(n - 1) + climbStairs(n - 2);
         stairCnt.put(n, cnt);
         return cnt;
+    }
+
+    /**
+     * 最大子序列的和
+     *
+     * @param nums
+     * @return
+     */
+    public static int getMax(int[] nums) {
+        int maxSubSum = Integer.MIN_VALUE;
+        int thisSubSum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            thisSubSum += nums[i];
+            if (nums[i] > thisSubSum) {
+                thisSubSum = nums[i];
+            }
+            if (thisSubSum > maxSubSum) {
+                maxSubSum = thisSubSum;
+            }
+        }
+        return maxSubSum;
+    }
+
+    /**
+     * 给定一个非空且只包含非负数的整数数组 nums, 数组的度的定义是指数组里任一元素出现频数的最大值。
+     * <p>
+     * 你的任务是找到与 nums 拥有相同大小的度的最短连续子数组，返回其长度
+     *
+     * @param nums
+     * @return
+     */
+    public int findShortestSubArray(int[] nums) {
+        Map<Integer, Integer> left = new HashMap<>();
+        Map<Integer, Integer> right = new HashMap<>();
+        Map<Integer, Integer> count = new HashMap<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            int x = nums[i];
+            if (!left.containsKey(x)) {
+                left.put(x, i);
+            }
+            right.put(x, i);
+            count.put(x, count.getOrDefault(x, 0) + 1);
+        }
+        int degree = Collections.max(count.values());
+        int ans = nums.length;
+        for (Map.Entry<Integer, Integer> entry : count.entrySet()) {
+            if (entry.getValue() == degree) {
+                ans = Math.min(ans, right.get(entry.getKey()) - left.get(entry.getKey()) + 1);
+            }
+        }
+        return ans;
     }
 }
