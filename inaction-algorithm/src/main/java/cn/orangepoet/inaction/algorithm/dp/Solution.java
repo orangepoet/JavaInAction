@@ -56,8 +56,8 @@ public class Solution {
             return false;
         }
         return left.val == right.val
-            && isMirror(left.right, right.left)
-            && isMirror(left.left, right.right);
+                && isMirror(left.right, right.left)
+                && isMirror(left.left, right.right);
     }
 
     /**
@@ -164,8 +164,8 @@ public class Solution {
         int coinNum;
         if (amount > 9) {
             coinNum = Math.min(
-                1 + makeChanges4(amount - 9, resultMap),
-                1 + makeChanges4(amount - 7, resultMap)
+                    1 + makeChanges4(amount - 9, resultMap),
+                    1 + makeChanges4(amount - 7, resultMap)
             );
         } else if (amount > 7) {
             coinNum = amount / 7 + amount % 7;
@@ -266,7 +266,9 @@ public class Solution {
      * @return result
      */
     public int fibonacci0(int seq) {
-        if (seq < 0) { throw new IllegalArgumentException("seq"); }
+        if (seq < 0) {
+            throw new IllegalArgumentException("seq");
+        }
 
         int[] arr = new int[seq];
         for (int i = 0; i < seq; i++) {
@@ -366,7 +368,9 @@ public class Solution {
         int val;
         ListNode next;
 
-        ListNode(int x) { val = x; }
+        ListNode(int x) {
+            val = x;
+        }
     }
 
     /**
@@ -378,7 +382,9 @@ public class Solution {
      * @return
      */
     public ListNode reverseBetween(ListNode head, int m, int n) {
-        if (head == null || m < 1 || n < 1 || m > n) {return head;}
+        if (head == null || m < 1 || n < 1 || m > n) {
+            return head;
+        }
 
         ListNode left = null;
         ListNode right = null;
@@ -386,8 +392,12 @@ public class Solution {
         int t = 0;
         while (cur != null) {
             t += 1;
-            if (t == m - 1) { left = cur; }
-            if (t == n + 1) { right = cur; }
+            if (t == m - 1) {
+                left = cur;
+            }
+            if (t == n + 1) {
+                right = cur;
+            }
             cur = cur.next;
         }
 
@@ -400,5 +410,39 @@ public class Solution {
         //TODO: 未完待续
 
         return head;
+    }
+
+    /**
+     * 查找目标数的开始和结束位置
+     *
+     * @param nums   升序的数组
+     * @param target 目标数值
+     * @return
+     */
+    public int[] searchRange(int[] nums, int target) {
+        int low = -1;
+        int high = -1;
+        int left = 0;
+        int right = nums.length - 1;
+        while (left <= right) {
+            int mid = (right + left) >> 1;
+            if (target < nums[mid]) {
+                right = mid - 1;
+            } else if (target > nums[mid]) {
+                left = mid + 1;
+            } else {
+                low = mid;
+                high = mid;
+                while (low - 1 >= 0 && nums[low - 1] == target) {
+                    low--;
+                }
+                while (high + 1 < nums.length && nums[high + 1] == target) {
+                    high++;
+                }
+                break;
+            }
+        }
+
+        return new int[]{low, high};
     }
 }

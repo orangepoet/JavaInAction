@@ -77,4 +77,18 @@ class SolutionTest extends Specification {
         [1, 7, 9] as int[] | 16   | 2
         [1, 7, 9] as int[] | 17   | 3
     }
+
+    def '查找目标数的范围'() {
+        given:
+        def solution = new Solution()
+
+        expect:
+        solution.searchRange(nums, target) == range
+
+        where:
+        nums                         | target | range
+        [5, 7, 7, 8, 8, 10] as int[] | 6      | [-1, -1] as int[]
+        [5, 7, 7, 8, 8, 10] as int[] | 7      | [1, 2] as int[]
+        [5, 7, 7, 8, 8, 10] as int[] | 8      | [3, 4] as int[]
+    }
 }
