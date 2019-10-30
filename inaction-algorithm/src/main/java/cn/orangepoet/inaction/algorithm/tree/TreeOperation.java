@@ -1,28 +1,21 @@
 package cn.orangepoet.inaction.algorithm.tree;
 
 /**
- * Created by Orange on 16/8/27.
+ * 树的操作, 左子树的值都小于右子树
+ *
+ * @author Orange
+ * @date 16/8/27.
  */
 public class TreeOperation {
-    public static void main(String[] args) {
-        BinaryNode root = BinaryNode.prepareTree();
-        root.print(0);
-
-        boolean isContain = contain(4, root);
-        System.out.println(String.format("contain 4: %s", isContain));
-
-        BinaryNode removedItem = remove(4, root);
-
-        BinaryNode newItem = add(7, root);
-        root.print(0);
-
-        add0(9, root);
-        root.print(0);
-    }
-
-    private static boolean contain(int x, BinaryNode node) {
-        if (node == null)
-            return false;
+    /**
+     * 二分查找, 小于走左, 大于走右
+     *
+     * @param node
+     * @param x
+     * @return
+     */
+    public static boolean contain(BinaryNode node, int x) {
+        if (node == null) { return false; }
 
         BinaryNode t = node;
         while (t != null) {
@@ -37,34 +30,42 @@ public class TreeOperation {
         return false;
     }
 
-    private static BinaryNode remove(int x, BinaryNode node) {
-        if (node == null)
-            return node;
+    /**
+     * 递归查找到x所在的子树, 如果就是当前节点 ->
+     * <p>
+     * 1. 从右子树选一个最小的作为 root
+     * </p>
+     * <p>
+     * 2. 从右子树中 删除1中的root节点, 递归下去 ->1
+     * </p>
+     *
+     * @param node
+     * @param x
+     * @return
+     */
+    public static BinaryNode remove(BinaryNode node, int x) {
+        if (node == null) { return node; }
 
-        if (x < node.element)
-            node.left = remove(x, node.left);
-        else if (x > node.element)
-            node.right = remove(x, node.right);
-        else if (node.left != null && node.right != null) {
+        if (x < node.element) {
+            node.left = remove(node.left, x);
+        } else if (x > node.element) {
+            node.right = remove(node.right, x);
+        } else if (node.left != null && node.right != null) {
             node.element = findMin(node.right).element;
-            node.right = remove(node.element, node.right);
+            node.right = remove(node.right, node.element);
         } else {
             node = (node.left != null) ? node.left : node.right;
         }
-
         return node;
     }
 
-    private static BinaryNode findMin(BinaryNode node) {
-        if (node != null)
-            while (node.left != null)
-                node = node.left;
+    public static BinaryNode findMin(BinaryNode node) {
+        if (node != null) { while (node.left != null) { node = node.left; } }
         return node;
     }
 
-    private static BinaryNode add(int x, BinaryNode node) {
-        if (node == null)
-            return new BinaryNode(x, null, null);
+    public static BinaryNode add(int x, BinaryNode node) {
+        if (node == null) { return new BinaryNode(x, null, null); }
 
         if (x < node.element) {
             node.left = add(x, node.left);
@@ -76,10 +77,10 @@ public class TreeOperation {
         return node;
     }
 
-    private static void add0(int x, BinaryNode node) {
+    public static void add0(int x, BinaryNode node) {
         if (node == null)
-//            return new BinaryNode(x, null, null);
-            throw new NullPointerException("node");
+        //            return new BinaryNode(x, null, null);
+        { throw new NullPointerException("node"); }
 
         BinaryNode t = node;
 
@@ -92,9 +93,7 @@ public class TreeOperation {
                     break;
                 }
             } else if (x > t.element) {
-                if (t.right != null)
-                    t = t.right;
-                else {
+                if (t.right != null) { t = t.right; } else {
                     t.right = new BinaryNode(x, null, null);
                     break;
                 }
