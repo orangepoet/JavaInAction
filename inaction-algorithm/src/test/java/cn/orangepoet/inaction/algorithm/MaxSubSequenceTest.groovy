@@ -1,5 +1,6 @@
 package cn.orangepoet.inaction.algorithm
 
+import cn.orangepoet.inaction.algorithm.dp.MaxSubSequence
 import spock.lang.Specification
 
 /**

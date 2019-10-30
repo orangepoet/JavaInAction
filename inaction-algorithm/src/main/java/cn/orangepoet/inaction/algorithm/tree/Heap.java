@@ -1,7 +1,9 @@
-package cn.orangepoet.inaction.algorithm;
+package cn.orangepoet.inaction.algorithm.tree;
 
 /**
- * Created by Orange on 16/9/4.
+ * 堆是一种完全二叉树, 是由满二叉树衍生而来
+ *
+ * @author chengzhi
  */
 public class Heap {
     private int[] element;
@@ -49,8 +51,7 @@ public class Heap {
     }
 
     /**
-     * 最小堆生成 (parent<children)
-     * 对每个新元素, 先放入到最后位置, 比较它和父元素大小, 如果小于, 交换它和父元素的位置, 递归下去;
+     * 最小堆生成 (parent<children) 对每个新元素, 先放入到最后位置, 比较它和父元素大小, 如果小于, 交换它和父元素的位置, 递归下去;
      *
      * @param newItem
      */
@@ -77,13 +78,12 @@ public class Heap {
         }
     }
 
-
     public boolean isEmpty() {
         return size() < 2;
     }
 
     public static void main(String[] args) {
-        int[] arr = new int[]{150, 80, 40, 20, 10, 50, 110, 100, 30, 90, 60, 70, 120, 140, 130};
+        int[] arr = new int[] {150, 80, 40, 20, 10, 50, 110, 100, 30, 90, 60, 70, 120, 140, 130};
         Heap heap = new Heap(arr);
         printHeap(heap);
         System.out.println(String.format("min element: %d", heap.findMin()));
@@ -95,10 +95,9 @@ public class Heap {
         }
         System.out.println("------------------------------");
         for (int i = 1; i < heap.size(); i++) {
-            if (heap.get(i) == 0)
-                break;
+            if (heap.get(i) == 0) { break; }
 
-            int step = (int) Math.floor(Math.log(i) / Math.log(2));
+            int step = (int)Math.floor(Math.log(i) / Math.log(2));
             StringBuilder sb = new StringBuilder();
             for (int j = 0; j < step; j++) {
                 sb.append("-");

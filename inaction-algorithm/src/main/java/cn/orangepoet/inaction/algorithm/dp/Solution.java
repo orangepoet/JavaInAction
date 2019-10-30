@@ -137,6 +137,62 @@ class Solution {
     }
 
     /**
+     * 按币种面值枚举, 面值高优先
+     *
+     * @param money
+     */
+    private static int makeChanges3(int money) {
+        int range = money / 9;
+        int minCount = Integer.MAX_VALUE;
+        int count;
+
+        int thisA = 0;
+        int thisB = 0;
+        int thisC = 0;
+        for (int i = 0; i < range; i++) {
+            int j = (money - 9 * i) / 7;
+            int k = money - 9 * i - 7 * j;
+
+            count = i + j + k;
+            System.out.println("calcuate count>>");
+            if (minCount > count) {
+                minCount = count;
+                //                System.out.println(String.format("This Best>> A: %d, B: %d, C: %d, Count: %d", i, j, k, count));
+                thisA = i;
+                thisB = j;
+                thisC = k;
+            }
+        }
+        System.out.println(String.format("Best>> A: %d, B: %d, C: %d, Count: %d", thisA, thisB, thisC, minCount));
+        return minCount;
+    }
+
+    /**
+     * 使用动态规则
+     *
+     * @param amount
+     */
+    private static int makeChanges4(int amount, Map<Integer, Integer> resultMap) {
+
+        if (resultMap.containsKey(amount)) {
+            return resultMap.get(amount);
+        }
+        int coinNum;
+        if (amount > 9) {
+            coinNum = Math.min(
+                1 + makeChanges4(amount - 9, resultMap),
+                1 + makeChanges4(amount - 7, resultMap)
+            );
+        } else if (amount > 7) {
+            coinNum = amount / 7 + amount % 7;
+        } else {
+            coinNum = amount;
+        }
+        resultMap.put(amount, coinNum);
+        return coinNum;
+    }
+
+    /**
      * 组合数 和为n, 数量为k
      *
      * @param k
@@ -217,6 +273,41 @@ class Solution {
             }
         }
         return maxSubSum;
+    }
+
+    /**
+     * 斐波那契数列 (非递归解法)
+     *
+     * @param seq
+     * @return result
+     */
+    public int fibonacci0(int seq) {
+        if (seq < 0)
+            throw new IllegalArgumentException("seq");
+
+        int[] arr = new int[seq];
+        for (int i = 0; i < seq; i++) {
+            if (i == 0 || i == 1) {
+                arr[i] = 1;
+            } else {
+                arr[i] = arr[i - 1] + arr[i - 2];
+            }
+        }
+        return arr[seq - 1];
+    }
+
+    /**
+     * 斐波那契数列(递归解法)
+     *
+     * @param seq
+     * @return result
+     */
+    public int fibonacci1(int seq) {
+        if (seq == 1 || seq == 2) {
+            return 1;
+        } else {
+            return fibonacci1(seq - 1) + fibonacci1(seq - 2);
+        }
     }
 
     /**

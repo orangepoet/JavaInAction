@@ -1,5 +1,6 @@
 package cn.orangepoet.inaction.algorithm
 
+import cn.orangepoet.inaction.algorithm.dp.Fibonacci
 import spock.lang.Specification
 
 /**
@@ -11,7 +12,7 @@ class FibonacciTest extends Specification {
     def "斐波那契数列 (非递归解法)"() {
         Fibonacci fibonacci = new Fibonacci();
         expect:
-        fibonacci.get(n) == arr
+        fibonacci.fibonacci0(n) == arr
 
         where:
         n | arr
@@ -25,7 +26,7 @@ class FibonacciTest extends Specification {
     def "斐波那契数列(递归解法)"() {
         Fibonacci fibonacci = new Fibonacci();
         expect:
-        fibonacci.get0(n) == arr
+        fibonacci.fibonacci1(n) == arr
 
         where:
         n | arr
