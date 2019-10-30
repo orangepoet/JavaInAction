@@ -193,7 +193,7 @@ class Solution {
             stairCnt.put(n, 2);
             return 2;
         }
-        int cnt = climbStairs(n - 1) + climbStairs(n - 2);
+        int cnt = climbStairs0(n - 1, stairCnt) + climbStairs0(n - 2, stairCnt);
         stairCnt.put(n, cnt);
         return cnt;
     }
@@ -273,5 +273,58 @@ class Solution {
             }
         }
         return cnt;
+    }
+    
+    /**
+     * 树的最大深度
+     *
+     * @param root
+     * @return
+     */
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+    }
+
+    public static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) { val = x; }
+    }
+
+    /**
+     * 链表反转
+     *
+     * @param head
+     * @param m
+     * @param n
+     * @return
+     */
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        if (head == null || m < 1 || n < 1 || m > n) {return head;}
+
+        ListNode left = null;
+        ListNode right = null;
+        ListNode cur = head;
+        int t = 0;
+        while (cur != null) {
+            t += 1;
+            if (t == m - 1) { left = cur; }
+            if (t == n + 1) { right = cur; }
+            cur = cur.next;
+        }
+
+        int len = n - m;
+        left = left == null ? head : left;
+        ListNode next = null;
+        while (len > 0) {
+            len--;
+        }
+        //TODO: 未完待续
+
+        return head;
     }
 }
