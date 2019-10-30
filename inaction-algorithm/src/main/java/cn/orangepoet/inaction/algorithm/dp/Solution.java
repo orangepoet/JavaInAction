@@ -3,20 +3,28 @@ package cn.orangepoet.inaction.algorithm.dp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 class Solution {
     public static void main(String[] args) {
         Solution s = new Solution();
-        //List<List<Integer>> ret = s.combinationSum3(2, 6);
-        //for (List<Integer> integers : ret) {
-        //    System.out.println(Arrays.toString(integers.toArray()));
-        //}
-        //int ret = s.climbStairs(31);
-        //System.out.println(ret);
-        int ans = s.findShortestSubArray(new int[] {1, 2, 2, 3, 1, 4, 2});
-        System.out.println(ans);
+        int[] coinsValues = new int[]{1, 7, 9};
+        long start = System.currentTimeMillis();
+        int cnt = s.makeChange(coinsValues, 3000, new HashMap<>());
+        long end = System.currentTimeMillis();
+        System.out.println(cnt);
+        System.out.println("elapsed: " + (end - start));
+
+
+        start = System.currentTimeMillis();
+        cnt = s.makeChange2(coinsValues, 3000);
+        end = System.currentTimeMillis();
+        System.out.println(cnt);
+        System.out.println("elapsed2: " + (end - start));
+
     }
 
     /**
@@ -65,28 +73,67 @@ class Solution {
             return false;
         }
         return left.val == right.val
-            && isMirror(left.right, right.left)
-            && isMirror(left.left, right.right);
+                && isMirror(left.right, right.left)
+                && isMirror(left.left, right.right);
     }
 
-    public int change(int amount, int[] coins) {
-        int total = 0;
+    /**
+     * 硬币找零 (递归 + 备忘录)
+     *
+     * @param coins
+     * @param n
+     * @return
+     */
+    private int makeChange(int[] coins, int n, Map<Integer, Integer> retMap) {
+        if (n == 0) {
+            return 0;
+        }
+        // 记忆性搜索 (备忘录)
+        if (retMap.containsKey(n)) {
+            return retMap.get(n);
+        }
+        int minChange = Integer.MAX_VALUE;
         for (int coin : coins) {
-            if (amount > coin) {
-                int ret = makeChange(amount - coin, coins);
-                if (ret == 0) {
-                    total++;
-                }
+            int subN;
+            int subChange;
+            if ((subN = n - coin) >= 0 && (subChange = makeChange(coins, subN, retMap)) != -1) {
+                minChange = Math.min(minChange, subChange + 1);
             }
         }
-        return total;
+        int ret = minChange == Integer.MAX_VALUE ? -1 : minChange;
+
+        // 备忘本次计算结果
+        retMap.put(n, ret);
+        return minChange;
     }
 
-    private int makeChange(int amount, int[] coins) {
-        if (amount == 0) {
-            return 1;
+    /**
+     * 硬币找零 (动态规划)
+     * <p>
+     * 状态转移方程
+     * <p>
+     * 重复子问题
+     *
+     * @param coins
+     * @param n
+     * @return
+     */
+    private int makeChange2(int[] coins, int n) {
+        // n -> ret mapping, 找零 n=0 需要0个硬币
+        Map<Integer, Integer> changeRet = new HashMap<>();
+        changeRet.put(0, 0);
+
+        for (int amount = 1; amount <= n; amount++) {
+            int minChange = Integer.MAX_VALUE;
+            for (int coin : coins) {
+                if (amount >= coin) {
+                    int subRet = changeRet.get(amount - coin);
+                    minChange = Math.min(minChange, subRet + 1);
+                }
+            }
+            changeRet.put(amount, minChange);
         }
-        return 0;
+        return changeRet.get(n);
     }
 
     /**
@@ -201,5 +248,30 @@ class Solution {
             }
         }
         return ans;
+    }
+
+    public int countCharacters(String[] words, String chars) {
+        int cnt = 0;
+        Set<Character> charsSet = new HashSet<>();
+        for (int i = 0; i < chars.length(); i++) {
+            charsSet.add(chars.charAt(i));
+        }
+        HashSet<Character> charSet2;
+        for (String word : words) {
+            charSet2 = new HashSet<>(charsSet);
+            boolean isContain = true;
+            for (int i = 0; i < word.length(); i++) {
+                char c = word.charAt(i);
+                boolean remove = charSet2.remove(c);
+                if (!remove) {
+                    isContain = false;
+                    break;
+                }
+            }
+            if (isContain) {
+                cnt++;
+            }
+        }
+        return cnt;
     }
 }
