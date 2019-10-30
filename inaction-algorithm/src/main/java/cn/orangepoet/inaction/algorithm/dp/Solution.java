@@ -8,16 +8,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-class Solution {
+public class Solution {
     public static void main(String[] args) {
         Solution s = new Solution();
-        int[] coinsValues = new int[]{1, 7, 9};
+        int[] coinsValues = new int[] {1, 7, 9};
         long start = System.currentTimeMillis();
         int cnt = s.makeChange(coinsValues, 3000, new HashMap<>());
         long end = System.currentTimeMillis();
         System.out.println(cnt);
         System.out.println("elapsed: " + (end - start));
-
 
         start = System.currentTimeMillis();
         cnt = s.makeChange2(coinsValues, 3000);
@@ -73,8 +72,8 @@ class Solution {
             return false;
         }
         return left.val == right.val
-                && isMirror(left.right, right.left)
-                && isMirror(left.left, right.right);
+            && isMirror(left.right, right.left)
+            && isMirror(left.left, right.right);
     }
 
     /**
@@ -157,7 +156,8 @@ class Solution {
             System.out.println("calcuate count>>");
             if (minCount > count) {
                 minCount = count;
-                //                System.out.println(String.format("This Best>> A: %d, B: %d, C: %d, Count: %d", i, j, k, count));
+                //                System.out.println(String.format("This Best>> A: %d, B: %d, C: %d, Count: %d", i,
+                //                j, k, count));
                 thisA = i;
                 thisB = j;
                 thisC = k;
@@ -260,7 +260,7 @@ class Solution {
      * @param nums
      * @return
      */
-    public static int getMax(int[] nums) {
+    public static int getMaxSubSet(int[] nums) {
         int maxSubSum = Integer.MIN_VALUE;
         int thisSubSum = 0;
         for (int i = 0; i < nums.length; i++) {
@@ -282,8 +282,7 @@ class Solution {
      * @return result
      */
     public int fibonacci0(int seq) {
-        if (seq < 0)
-            throw new IllegalArgumentException("seq");
+        if (seq < 0) { throw new IllegalArgumentException("seq"); }
 
         int[] arr = new int[seq];
         for (int i = 0; i < seq; i++) {
@@ -365,7 +364,7 @@ class Solution {
         }
         return cnt;
     }
-    
+
     /**
      * 树的最大深度
      *
