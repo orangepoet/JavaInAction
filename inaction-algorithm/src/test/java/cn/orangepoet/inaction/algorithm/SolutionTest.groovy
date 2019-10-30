@@ -91,4 +91,16 @@ class SolutionTest extends Specification {
         [5, 7, 7, 8, 8, 10] as int[] | 7      | [1, 2] as int[]
         [5, 7, 7, 8, 8, 10] as int[] | 8      | [3, 4] as int[]
     }
+
+    def '测试目标数解集'() {
+        given:
+        def solution = new Solution()
+
+        expect:
+        solution.combinationSum(candidates, target) == ans
+
+        where:
+        candidates            | target | ans
+        [2, 3, 6, 7] as int[] | 7      | [[2, 2, 3], [7]]
+    }
 }

@@ -1,6 +1,8 @@
 package cn.orangepoet.inaction.algorithm.dp;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -444,5 +446,66 @@ public class Solution {
         }
 
         return new int[]{low, high};
+    }
+
+    /**
+     * 给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
+     * candidates 中的数字可以无限制重复被选取。
+     * 说明：
+     * <p>
+     * 所有数字（包括 target）都是正整数。
+     * 解集不能包含重复的组合。
+     *
+     * <p>
+     * 示例 1:
+     * <p>
+     * 输入: candidates = [2,3,6,7], target = 7,
+     * 所求解集为:
+     * [
+     * [7],
+     * [2,2,3]
+     * ]
+     * <p/>
+     *
+     * @param candidates
+     * @param target
+     * @return
+     */
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        if (target <= 0) {
+            return Collections.emptyList();
+        }
+        Map<Integer, List<List<Integer>>> targetMap = new HashMap<>();
+        targetMap.put(0, Collections.emptyList());
+
+
+        for (int num = 1; num <= target; num++) {
+            Set<List<Integer>> targetAns = new HashSet<>();
+
+            for (int c : candidates) {
+                int subNum = num - c;
+                if (subNum >= 0 && targetMap.containsKey(subNum)) {
+                    List<List<Integer>> subAns = targetMap.get(subNum);
+
+                    List<Integer> integers;
+                    if (subAns.isEmpty()) {
+                        integers = new ArrayList<>();
+                        integers.add(c);
+                        targetAns.add(integers);
+                    } else {
+                        for (List<Integer> each : subAns) {
+                            integers = new ArrayList<>();
+                            integers.addAll(each);
+                            integers.add(c);
+                            Collections.sort(integers);
+                            targetAns.add(integers);
+                        }
+                    }
+                }
+            }
+            if (!targetAns.isEmpty())
+                targetMap.put(num, new ArrayList<>(targetAns));
+        }
+        return targetMap.getOrDefault(target, Collections.emptyList());
     }
 }
