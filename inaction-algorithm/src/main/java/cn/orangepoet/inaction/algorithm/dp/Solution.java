@@ -9,22 +9,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class Solution {
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        int[] coinsValues = new int[] {1, 7, 9};
-        long start = System.currentTimeMillis();
-        int cnt = s.makeChange(coinsValues, 3000, new HashMap<>());
-        long end = System.currentTimeMillis();
-        System.out.println(cnt);
-        System.out.println("elapsed: " + (end - start));
-
-        start = System.currentTimeMillis();
-        cnt = s.makeChange2(coinsValues, 3000);
-        end = System.currentTimeMillis();
-        System.out.println(cnt);
-        System.out.println("elapsed2: " + (end - start));
-
-    }
 
     /**
      * 合并两个有序数组
@@ -83,7 +67,7 @@ public class Solution {
      * @param n
      * @return
      */
-    private int makeChange(int[] coins, int n, Map<Integer, Integer> retMap) {
+    public int makeChange(int[] coins, int n, Map<Integer, Integer> retMap) {
         if (n == 0) {
             return 0;
         }
@@ -117,7 +101,7 @@ public class Solution {
      * @param n
      * @return
      */
-    private int makeChange2(int[] coins, int n) {
+    public int makeChange2(int[] coins, int n) {
         // n -> ret mapping, 找零 n=0 需要0个硬币
         Map<Integer, Integer> changeRet = new HashMap<>();
         changeRet.put(0, 0);
@@ -264,10 +248,10 @@ public class Solution {
         int maxSubSum = Integer.MIN_VALUE;
         int thisSubSum = 0;
         for (int i = 0; i < nums.length; i++) {
-            thisSubSum += nums[i];
-            if (nums[i] > thisSubSum) {
-                thisSubSum = nums[i];
+            if (thisSubSum < 0) {
+                thisSubSum = 0;
             }
+            thisSubSum += nums[i];
             if (thisSubSum > maxSubSum) {
                 maxSubSum = thisSubSum;
             }
