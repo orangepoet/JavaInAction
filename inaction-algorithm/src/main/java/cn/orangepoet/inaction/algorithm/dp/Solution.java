@@ -1,6 +1,8 @@
 package cn.orangepoet.inaction.algorithm.dp;
 
 import java.lang.reflect.Array;
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,13 +32,19 @@ public class Solution {
         System.arraycopy(nums2, 0, nums1, 0, p2 + 1);
     }
 
-    public class TreeNode {
+    public static class TreeNode {
         int val;
-        TreeNode left;
-        TreeNode right;
+        public TreeNode left;
+        public TreeNode right;
 
-        TreeNode(int x) {
+        public TreeNode(int x) {
             val = x;
+        }
+
+        public TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
         }
     }
 
@@ -509,4 +517,74 @@ public class Solution {
         //TODO: 时间复杂度高, 需要优化
         return targetMap.getOrDefault(target, Collections.emptyList());
     }
+    
+    /**
+     * 给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。
+     * <p>
+     * 答案中不可以包含重复的三元组。
+     *
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        int max = 1 << nums.length - 1;
+        Arrays.sort(nums);
+        for (int i = 1; i <= max; i++) {
+            List<Integer> combination = new ArrayList<>();
+            int sum = 0;
+            for (int j = 0; j < nums.length; j++) {
+                int bit = 1 << j;
+                if ((i & bit) == bit) {
+                    sum += nums[j];
+                    combination.add(nums[j]);
+                }
+            }
+            HashSet<String> hashSet = new HashSet<>();
+            if (sum == 0 && combination.size() == 3) {
+                result.add(combination);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 给定一个二叉树和一个目标和，找到所有从根节点到叶子节点路径总和等于给定目标和的路径。
+     *
+     * @param root
+     * @param sum
+     * @return
+     */
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        if (root == null) {
+            return null;
+        }
+        if (root.val == sum) {
+            return Collections.singletonList(Collections.singletonList(root.val));
+        }
+        if (root.left == null || root.right == null) {
+            return null;
+        }
+        if (root.val > sum) {
+            return null;
+        }
+
+        List<List<Integer>> result = new ArrayList<>();
+        List<List<Integer>> subAns = pathSum(root.left, sum - root.val);
+        if (subAns != null) {
+            for (List<Integer> subAn : subAns) {
+                subAn.add(root.val);
+            }
+            result.addAll(subAns);
+        }
+        List<List<Integer>> subAns2 = pathSum(root.right, sum - root.val);
+        if (subAns2 != null) {
+            for (List<Integer> each : subAns2) {
+                each.add(root.val);
+            }
+            result.addAll(subAns2);
+        }
+
+        return result;
+     }
 }
