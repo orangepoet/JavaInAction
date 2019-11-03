@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.algorithm
+package cn.orangepoet.inaction.algorithm.dp
 
 import cn.orangepoet.inaction.algorithm.dp.Solution
 import spock.lang.Specification
@@ -103,4 +103,18 @@ class SolutionTest extends Specification {
         candidates            | target | ans
         [2, 3, 6, 7] as int[] | 7      | [[2, 2, 3], [7]]
     }
+
+    def '数组单调测试'() {
+        given:
+        def solution = new Solution()
+
+        expect:
+        solution.isMonotonic(arr) == ans
+
+        where:
+        arr                   | ans
+        [1, 3, 2] as int[]    | false
+        [1, 2, 4, 5] as int[] | true
+    }
+
 }

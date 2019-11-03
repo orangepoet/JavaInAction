@@ -4,11 +4,13 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 public class Solution {
 
@@ -509,4 +511,57 @@ public class Solution {
         //TODO: 时间复杂度高, 需要优化
         return targetMap.getOrDefault(target, Collections.emptyList());
     }
+
+    /**
+     * 数组是否单调
+     *
+     * @param A
+     * @return
+     */
+    public boolean isMonotonic(int[] A) {
+        int lastCompare = 0;
+        for (int i = 1; i <= A.length - 1; i++) {
+            int compare = Integer.compare(A[i], A[i - 1]);
+            if (compare == 0) {
+                continue;
+            }
+            if (lastCompare == 0) {
+                lastCompare = compare;
+            } else if (lastCompare != compare) {
+                return false;
+            }
+
+        }
+        return true;
+    }
+
+    /**
+     * 给定一个树，按中序遍历重新排列树，使树中最左边的结点现在是树的根，并且每个结点没有左子结点，只有一个右子结点。
+     *
+     * @param root
+     * @return
+     */
+//    public TreeNode increasingBST(TreeNode root) {
+//        if (root == null) {
+//            return root;
+//        }
+//        Stack<TreeNode> treeNodes = new Stack<>();
+//
+//
+////        List<Integer> values = new ArrayList<>();
+//        TreeNode current = root;
+//        while (current != null) {
+//            if (current.right != null)
+//                treeNodes.push(current.right);
+//            treeNodes.push(current);
+////            if (current.left != null)
+////                treeNodes.push(current.left);
+//
+//            current = current.left;
+//        }
+//
+//        while (current != null) {
+//
+//        }
+//    }
 }
