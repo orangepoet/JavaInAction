@@ -1,6 +1,7 @@
 package cn.orangepoet.inaction.algorithm.dp;
 
 import java.lang.reflect.Array;
+
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
@@ -519,7 +520,7 @@ public class Solution {
         //TODO: 时间复杂度高, 需要优化
         return targetMap.getOrDefault(target, Collections.emptyList());
     }
-    
+
     /**
      * 给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。
      * <p>
@@ -588,7 +589,7 @@ public class Solution {
         }
 
         return result;
-     }
+    }
 
     /**
      * 数组是否单调
@@ -616,7 +617,7 @@ public class Solution {
     /**
      * 给定一个树，按中序遍历重新排列树，使树中最左边的结点现在是树的根，并且每个结点没有左子结点，只有一个右子结点。
      *
-     * @param root
+     * @param
      * @return
      */
 //    public TreeNode increasingBST(TreeNode root) {
@@ -642,4 +643,42 @@ public class Solution {
 //
 //        }
 //    }
+
+    public boolean isValidSudoku(char[][] board) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] == '.') {
+                    continue;
+                }
+                boolean isDuplicate = isNumDuplicate(board, i, j);
+                if (isDuplicate) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean isNumDuplicate(char[][] board, int i, int j) {
+        int num = board[i][j];
+        int gX = i / 3 * 3;
+        int gY = j / 3 * 3;
+        for (int m = 0; m < 3; m++) {
+            for (int n = 0; n < 3; n++) {
+                if (!(i == (gX + m) && j == (gY + n)) && (int) board[gX + m][gY + n] == num) {
+                    return true;
+                }
+            }
+        }
+
+        for (int k = 0; k < 9; k++) {
+            if (k != i && (int) board[k][j] == num) {
+                return true;
+            }
+            if (k != j && (int) board[i][k] == num) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
