@@ -644,6 +644,12 @@ public class Solution {
 //        }
 //    }
 
+    /**
+     * 判断数独是否合理
+     *
+     * @param board
+     * @return
+     */
     public boolean isValidSudoku(char[][] board) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
