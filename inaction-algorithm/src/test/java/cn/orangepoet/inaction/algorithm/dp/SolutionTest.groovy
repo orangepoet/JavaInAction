@@ -103,6 +103,42 @@ class SolutionTest extends Specification {
         candidates            | target | ans
         [2, 3, 6, 7] as int[] | 7      | [[2, 2, 3], [7]]
     }
+    
+    def '三数之和'() {
+        given:
+        def solution = new Solution()
+        expect:
+        solution.threeSum(nums) == result
+
+        where:
+        nums                           | result
+        [-1, 0, 1, 2, -1, -4] as int[] | [[-1, 0, 1], [-1, -1, 2]] as List
+    }
+
+    def '树的路径总和'() {
+        given:
+        Solution.TreeNode n6 = new Solution.TreeNode(2)
+        Solution.TreeNode n5 = new Solution.TreeNode(7)
+        Solution.TreeNode n4 = new Solution.TreeNode(11, n5, n6)
+        Solution.TreeNode n2 = new Solution.TreeNode(4, n4, null)
+
+        Solution.TreeNode n10 = new Solution.TreeNode(1)
+        Solution.TreeNode n9 = new Solution.TreeNode(5)
+        Solution.TreeNode n8 = new Solution.TreeNode(4, n9, n10)
+        Solution.TreeNode n7 = new Solution.TreeNode(13)
+        Solution.TreeNode n3 = new Solution.TreeNode(8, n7, n8)
+
+        Solution.TreeNode n1 = new Solution.TreeNode(5, n2, n3)
+
+        n1.left
+        def solution = new Solution()
+        expect:
+        solution.pathSum(root, sum) == ret
+
+        where:
+        root                           | sum | ret
+        [-1, 0, 1, 2, -1, -4] as int[] | 22  | [[5, 4, 11, 2] as int[], [5, 8, 4, 5] as int[]] as int[]
+    }
 
     def '数组单调测试'() {
         given:
