@@ -1,20 +1,13 @@
 package cn.orangepoet.inaction.algorithm.dp;
 
-import java.lang.reflect.Array;
-
-import org.apache.commons.collections4.CollectionUtils;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
-import java.util.concurrent.ForkJoinPool;
 
 public class Solution {
 
@@ -687,25 +680,24 @@ public class Solution {
      * @return
      */
     public String shiftingLetters(String S, int[] shifts) {
-        char[] charArr = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
-            'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+        char[] charArr = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+            'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-        long[] finalShifs = new long[shifts.length];
-        for (int i = 0; i < shifts.length; i++) {
-            long shiftVal = shifts[i];
-            for (int j = i + 1; j < shifts.length; j++) {
-                shiftVal += shifts[j];
-            }
-            finalShifs[i] = shiftVal;
+        int size = shifts.length;
+
+        long[] shifts2 = new long[size];
+        shifts2[size - 1] = shifts[size - 1];
+
+        for (int i = size - 2; i >= 0; i--) {
+            shifts2[i] = shifts[i] + shifts2[i + 1];
         }
-
         StringBuilder ans = new StringBuilder();
         for (int i = 0; i < S.length(); i++) {
             char c = S.charAt(i);
-            if (i < finalShifs.length) {
-                int index = Arrays.binarySearch(charArr, c);
-                int updateIndex = (int)((index + finalShifs[i]) % charArr.length);
-                c = charArr[updateIndex];
+            if (i < shifts2.length) {
+                int index = (int)c - 97;
+                int newIndex = (int)((index + shifts2[i]) % charArr.length);
+                c = charArr[newIndex];
             }
             ans.append(c);
         }
