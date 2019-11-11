@@ -680,11 +680,7 @@ public class Solution {
      * @return
      */
     public String shiftingLetters(String S, int[] shifts) {
-        char[] charArr = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-            'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-
         int size = shifts.length;
-
         long[] shifts2 = new long[size];
         shifts2[size - 1] = shifts[size - 1];
 
@@ -696,8 +692,8 @@ public class Solution {
             char c = S.charAt(i);
             if (i < shifts2.length) {
                 int index = (int)c - 97;
-                int newIndex = (int)((index + shifts2[i]) % charArr.length);
-                c = charArr[newIndex];
+                int newIndex = (int)((index + shifts2[i]) % 26);
+                c = (char)(newIndex+97);
             }
             ans.append(c);
         }
