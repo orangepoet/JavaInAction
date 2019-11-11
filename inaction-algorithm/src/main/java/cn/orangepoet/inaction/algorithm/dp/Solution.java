@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.concurrent.ForkJoinPool;
 
 public class Solution {
 
@@ -69,8 +70,8 @@ public class Solution {
             return false;
         }
         return left.val == right.val
-                && isMirror(left.right, right.left)
-                && isMirror(left.left, right.right);
+            && isMirror(left.right, right.left)
+            && isMirror(left.left, right.right);
     }
 
     /**
@@ -177,8 +178,8 @@ public class Solution {
         int coinNum;
         if (amount > 9) {
             coinNum = Math.min(
-                    1 + makeChanges4(amount - 9, resultMap),
-                    1 + makeChanges4(amount - 7, resultMap)
+                1 + makeChanges4(amount - 9, resultMap),
+                1 + makeChanges4(amount - 7, resultMap)
             );
         } else if (amount > 7) {
             coinNum = amount / 7 + amount % 7;
@@ -456,26 +457,18 @@ public class Solution {
             }
         }
 
-        return new int[]{low, high};
+        return new int[] {low, high};
     }
 
     /**
-     * 给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
-     * candidates 中的数字可以无限制重复被选取。
-     * 说明：
+     * 给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。 candidates 中的数字可以无限制重复被选取。 说明：
      * <p>
-     * 所有数字（包括 target）都是正整数。
-     * 解集不能包含重复的组合。
+     * 所有数字（包括 target）都是正整数。 解集不能包含重复的组合。
      *
      * <p>
      * 示例 1:
      * <p>
-     * 输入: candidates = [2,3,6,7], target = 7,
-     * 所求解集为:
-     * [
-     * [7],
-     * [2,2,3]
-     * ]
+     * 输入: candidates = [2,3,6,7], target = 7, 所求解集为: [ [7], [2,2,3] ]
      * <p/>
      *
      * @param candidates
@@ -488,7 +481,6 @@ public class Solution {
         }
         Map<Integer, List<List<Integer>>> targetMap = new HashMap<>();
         targetMap.put(0, Collections.emptyList());
-
 
         for (int num = 1; num <= target; num++) {
             Set<List<Integer>> targetAns = new HashSet<>();
@@ -514,8 +506,7 @@ public class Solution {
                     }
                 }
             }
-            if (!targetAns.isEmpty())
-                targetMap.put(num, new ArrayList<>(targetAns));
+            if (!targetAns.isEmpty()) { targetMap.put(num, new ArrayList<>(targetAns)); }
         }
         //TODO: 时间复杂度高, 需要优化
         return targetMap.getOrDefault(target, Collections.emptyList());
@@ -620,29 +611,29 @@ public class Solution {
      * @param
      * @return
      */
-//    public TreeNode increasingBST(TreeNode root) {
-//        if (root == null) {
-//            return root;
-//        }
-//        Stack<TreeNode> treeNodes = new Stack<>();
-//
-//
-////        List<Integer> values = new ArrayList<>();
-//        TreeNode current = root;
-//        while (current != null) {
-//            if (current.right != null)
-//                treeNodes.push(current.right);
-//            treeNodes.push(current);
-////            if (current.left != null)
-////                treeNodes.push(current.left);
-//
-//            current = current.left;
-//        }
-//
-//        while (current != null) {
-//
-//        }
-//    }
+    //    public TreeNode increasingBST(TreeNode root) {
+    //        if (root == null) {
+    //            return root;
+    //        }
+    //        Stack<TreeNode> treeNodes = new Stack<>();
+    //
+    //
+    ////        List<Integer> values = new ArrayList<>();
+    //        TreeNode current = root;
+    //        while (current != null) {
+    //            if (current.right != null)
+    //                treeNodes.push(current.right);
+    //            treeNodes.push(current);
+    ////            if (current.left != null)
+    ////                treeNodes.push(current.left);
+    //
+    //            current = current.left;
+    //        }
+    //
+    //        while (current != null) {
+    //
+    //        }
+    //    }
 
     /**
      * 判断数独是否合理
@@ -671,20 +662,53 @@ public class Solution {
         int gY = j / 3 * 3;
         for (int m = 0; m < 3; m++) {
             for (int n = 0; n < 3; n++) {
-                if (!(i == (gX + m) && j == (gY + n)) && (int) board[gX + m][gY + n] == num) {
+                if (!(i == (gX + m) && j == (gY + n)) && (int)board[gX + m][gY + n] == num) {
                     return true;
                 }
             }
         }
 
         for (int k = 0; k < 9; k++) {
-            if (k != i && (int) board[k][j] == num) {
+            if (k != i && (int)board[k][j] == num) {
                 return true;
             }
-            if (k != j && (int) board[i][k] == num) {
+            if (k != j && (int)board[i][k] == num) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * 字母移位
+     *
+     * @param S
+     * @param shifts
+     * @return
+     */
+    public String shiftingLetters(String S, int[] shifts) {
+        char[] charArr = new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+            'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+        long[] finalShifs = new long[shifts.length];
+        for (int i = 0; i < shifts.length; i++) {
+            long shiftVal = shifts[i];
+            for (int j = i + 1; j < shifts.length; j++) {
+                shiftVal += shifts[j];
+            }
+            finalShifs[i] = shiftVal;
+        }
+
+        StringBuilder ans = new StringBuilder();
+        for (int i = 0; i < S.length(); i++) {
+            char c = S.charAt(i);
+            if (i < finalShifs.length) {
+                int index = Arrays.binarySearch(charArr, c);
+                int updateIndex = (int)((index + finalShifs[i]) % charArr.length);
+                c = charArr[updateIndex];
+            }
+            ans.append(c);
+        }
+        return ans.toString();
     }
 }
