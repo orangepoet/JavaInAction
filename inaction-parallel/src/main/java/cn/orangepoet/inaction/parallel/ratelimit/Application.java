@@ -31,7 +31,7 @@ public class Application {
                     final int k = i + BATCH_COUNT * x;
                     scheduler.execute(() -> {
                         System.out.println(String.valueOf(k));
-                        startGate.countDown();
+                        //startGate.countDown();
                     });
                     try {
                         Thread.sleep(5);
