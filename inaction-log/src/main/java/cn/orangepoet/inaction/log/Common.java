@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.tools;
+package cn.orangepoet.inaction.log;
 
 public class Common {
     public static String sayHi() {

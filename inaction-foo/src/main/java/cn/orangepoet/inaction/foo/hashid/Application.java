@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.once;
+package cn.orangepoet.inaction.foo.hashid;
 
 import org.hashids.Hashids;
 
@@ -6,7 +6,7 @@ import org.hashids.Hashids;
  * @author chengzhi
  * @date 2019/05/10
  */
-public class Progress {
+public class Application {
     public static void main(String[] args) {
         Hashids hashids = new Hashids("this is my salt");
         String encode = hashids.encode(1013989972);

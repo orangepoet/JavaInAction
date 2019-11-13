@@ -19,11 +19,9 @@
         <module>../inaction-algorithm</module>
         <module>../inaction-parallel</module>
         <module>../inaction-log</module>
+        <module>../inaction-foo</module>
         <module>../inaction-rx</module>
-        <module>../inaction-tools</module>
-        <module>../inaction-quartz</module>
-        <module>../inaction-function</module>
-        <module>../inaction-once</module>
+        <module>../inaction-fp</module>
         <module>../inaction-spi-api</module>
         <module>../inaction-spi-impl</module>
         <module>../inaction-spi-app</module>

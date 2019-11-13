@@ -1,13 +1,10 @@
-package cn.orangepoet.inaction.tools;
-
-import cn.orangepoet.inaction.tools.ratelimit.RateSchedulerImpl;
-import cn.orangepoet.inaction.tools.ratelimit.ScheduleExecutor;
+package cn.orangepoet.inaction.parallel.ratelimit;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Foo {
+public class Application {
 
     private static ScheduleExecutor scheduler = new RateSchedulerImpl("test", 5);
     private static final int BATCH_COUNT = 10;

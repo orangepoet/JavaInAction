@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.tools.ratelimit;
+package cn.orangepoet.inaction.parallel.ratelimit;
 
 import com.google.common.base.Preconditions;
 
@@ -12,6 +12,15 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 流量控制调度器
+ * <p>
+ * 使用本地阻塞队列, 模拟生产-消费者模型, 当队列为空时获取元素时会等待 (有超时时间)
+ * </p>
+ * <p>
+ * 使用mock的redisClient解决分布式流控问题;
+ * </p>
+ */
 public class RateSchedulerImpl implements ScheduleExecutor {
     private final BlockingQueue<Runnable> commands = new LinkedBlockingQueue<>();
     private final String topic;
@@ -22,8 +31,8 @@ public class RateSchedulerImpl implements ScheduleExecutor {
 
     public RateSchedulerImpl(String topic, int rate) {
         this(topic, rate,
-                new ThreadPoolExecutor(10, 100, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<>(1000)),
-                Executors.newScheduledThreadPool(4));
+            new ThreadPoolExecutor(10, 100, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<>(1000)),
+            Executors.newScheduledThreadPool(4));
     }
 
     public RateSchedulerImpl(String topic, int rate, Executor executor, ScheduledExecutorService scheduledExecutor) {
@@ -38,7 +47,6 @@ public class RateSchedulerImpl implements ScheduleExecutor {
     }
 
     private RedisClient redisClient = new RedisClient();
-
 
     @Override
     public void schedule() {

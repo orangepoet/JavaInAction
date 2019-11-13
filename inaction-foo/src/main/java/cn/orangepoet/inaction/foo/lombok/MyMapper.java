@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.tools.codegen;
+package cn.orangepoet.inaction.foo.lombok;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

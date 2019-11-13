@@ -1,7 +1,6 @@
 package cn.orangepoet.inaction.log;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import cn.orangepoet.inaction.tools.Common;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;

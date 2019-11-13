@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.tools.ratelimit;
+package cn.orangepoet.inaction.parallel.ratelimit;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
