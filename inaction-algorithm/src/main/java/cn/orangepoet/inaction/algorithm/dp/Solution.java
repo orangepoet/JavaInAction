@@ -63,8 +63,8 @@ public class Solution {
             return false;
         }
         return left.val == right.val
-            && isMirror(left.right, right.left)
-            && isMirror(left.left, right.right);
+                && isMirror(left.right, right.left)
+                && isMirror(left.left, right.right);
     }
 
     /**
@@ -171,8 +171,8 @@ public class Solution {
         int coinNum;
         if (amount > 9) {
             coinNum = Math.min(
-                1 + makeChanges4(amount - 9, resultMap),
-                1 + makeChanges4(amount - 7, resultMap)
+                    1 + makeChanges4(amount - 9, resultMap),
+                    1 + makeChanges4(amount - 7, resultMap)
             );
         } else if (amount > 7) {
             coinNum = amount / 7 + amount % 7;
@@ -450,7 +450,7 @@ public class Solution {
             }
         }
 
-        return new int[] {low, high};
+        return new int[]{low, high};
     }
 
     /**
@@ -499,7 +499,9 @@ public class Solution {
                     }
                 }
             }
-            if (!targetAns.isEmpty()) { targetMap.put(num, new ArrayList<>(targetAns)); }
+            if (!targetAns.isEmpty()) {
+                targetMap.put(num, new ArrayList<>(targetAns));
+            }
         }
         //TODO: 时间复杂度高, 需要优化
         return targetMap.getOrDefault(target, Collections.emptyList());
@@ -649,23 +651,103 @@ public class Solution {
         return true;
     }
 
+    /**
+     * 数组分组后的最大值 (分割为K个), 分组后的每个成员变成组中最大那个
+     *
+     * @param A
+     * @param K
+     * @return
+     */
+    public int maxSumAfterSplit(int[] A, int K) {
+        List<Integer> topK = new ArrayList<>();
+        for (int i = 0; i < A.length; i++) {
+            updateTopK(topK, A[i], K);
+        }
+        int topKTail = topK.get(0);
+        int prev = -1;
+        int ans = 0;
+        for (int i = 0; i < A.length; i++) {
+            if (A[i] >= topKTail) {
+                if (prev == -1) {
+                    ans += i * A[i];
+                    prev = i;
+                } else {
+                    ans += A[prev] + Math.max(A[i], A[prev]) * (i - prev - 1);
+                    prev = i;
+                }
+            }
+        }
+        if (prev != -1) {
+            ans += (A.length - prev) * A[prev];
+        }
+        return ans;
+    }
+
+    private void updateTopK(List<Integer> topK, int num, int maxSize) {
+        if (topK.isEmpty()) {
+            topK.add(num);
+            return;
+        }
+        if (num < topK.get(0)) {
+            return;
+        }
+
+        int index = 0;
+        for (; index < topK.size(); index++) {
+            if (num <= topK.get(index)) {
+                break;
+            }
+        }
+        if (topK.size() < maxSize) {
+            topK.add(index, num);
+        } else {
+            topK.add(index, num);
+            topK.remove(0);
+        }
+    }
+
+    /**
+     * 给出整数数组 A，将该数组分隔为长度最多为 K 的几个（连续）子数组。分隔完成后，每个子数组的中的值都会变为该子数组中的最大值。
+     *
+     * @param A
+     * @param K
+     * @return
+     */
+    public int maxSumAfterPartitioning2(int[] A, int K) {
+        int len = A.length;
+        int[] dp = new int[len];
+        for (int i = 0; i < len; i++) {
+            /* 分别计算最后一段区间长度 j ∈[1, K]时的解，并更新位置i时的最优解 */
+            int domainMax = A[i];
+            for (int j = 1; j <= K && i - j + 1 >= 0; j++) {
+                domainMax = Math.max(domainMax, A[i - j + 1]);
+                if (i - j >= 0) {
+                    dp[i] = Math.max(dp[i], dp[i - j] + j * domainMax);
+                } else {
+                    dp[i] = Math.max(dp[i], j * domainMax);
+                }
+            }
+        }
+        return dp[len - 1];
+    }
+
     private boolean isNumDuplicate(char[][] board, int i, int j) {
         int num = board[i][j];
         int gX = i / 3 * 3;
         int gY = j / 3 * 3;
         for (int m = 0; m < 3; m++) {
             for (int n = 0; n < 3; n++) {
-                if (!(i == (gX + m) && j == (gY + n)) && (int)board[gX + m][gY + n] == num) {
+                if (!(i == (gX + m) && j == (gY + n)) && (int) board[gX + m][gY + n] == num) {
                     return true;
                 }
             }
         }
 
         for (int k = 0; k < 9; k++) {
-            if (k != i && (int)board[k][j] == num) {
+            if (k != i && (int) board[k][j] == num) {
                 return true;
             }
-            if (k != j && (int)board[i][k] == num) {
+            if (k != j && (int) board[i][k] == num) {
                 return true;
             }
         }
@@ -691,9 +773,9 @@ public class Solution {
         for (int i = 0; i < S.length(); i++) {
             char c = S.charAt(i);
             if (i < shifts2.length) {
-                int index = (int)c - 97;
-                int newIndex = (int)((index + shifts2[i]) % 26);
-                c = (char)(newIndex+97);
+                int index = (int) c - 97;
+                int newIndex = (int) ((index + shifts2[i]) % 26);
+                c = (char) (newIndex + 97);
             }
             ans.append(c);
         }

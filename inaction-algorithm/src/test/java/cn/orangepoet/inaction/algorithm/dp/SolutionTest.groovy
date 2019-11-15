@@ -199,4 +199,17 @@ class SolutionTest extends Specification {
         "abc"                  | [3, 5, 9] as int[]                                                                                                                                                                                                                   | "rpl"
         "mkgfzkkuxownxvfvxasy" | [505870226, 437526072, 266740649, 224336793, 532917782, 311122363, 567754492, 595798950, 81520022, 684110326, 137742843, 275267355, 856903962, 148291585, 919054234, 467541837, 622939912, 116899933, 983296461, 536563513] as int[] | "wqqwlcjnkphhsyvrkdod"
     }
+
+    def "分组最大数"() {
+        given:
+        def solution = new Solution()
+
+        expect:
+        solution.maxSumAfterPartitioning(A, K) == ans
+
+        where:
+        A                                          | K | ans
+        [1, 15, 7, 9, 2, 5, 10] as int[]           | 3 | 84
+        [1, 4, 1, 5, 7, 3, 6, 1, 9, 9, 3] as int[] | 4 | 83
+    }
 }
