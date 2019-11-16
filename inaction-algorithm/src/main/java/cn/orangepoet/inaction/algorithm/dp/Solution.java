@@ -1,5 +1,8 @@
 package cn.orangepoet.inaction.algorithm.dp;
 
+import com.sun.org.apache.xml.internal.dtm.ref.sax2dtm.SAX2DTM2;
+
+import java.io.CharArrayReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -713,7 +716,7 @@ public class Solution {
      * @param K
      * @return
      */
-    public int maxSumAfterPartitioning2(int[] A, int K) {
+    public int maxSumAfterPartitioning(int[] A, int K) {
         int len = A.length;
         int[] dp = new int[len];
         for (int i = 0; i < len; i++) {
@@ -780,5 +783,88 @@ public class Solution {
             ans.append(c);
         }
         return ans.toString();
+    }
+
+    /**
+     * 字母模式匹配
+     *
+     * @param pattern
+     * @param str
+     * @return
+     */
+    public boolean wordPattern(String pattern, String str) {
+        if (pattern == null || pattern.length() == 0 || str == null || str.length() == 0) {
+            return false;
+        }
+        String[] parts = str.split(" ");
+        if (parts.length != pattern.length()) {
+            return false;
+        }
+        Map<Character, String> patternMap = new HashMap<>();
+
+        for (int i = 0; i < parts.length; i++) {
+            String part = parts[i];
+            char c = pattern.charAt(i);
+            if (patternMap.containsKey(c)) {
+                if (!patternMap.get(c).equals(part)) {
+                    return false;
+                }
+            } else {
+                if (patternMap.containsValue(part)) {
+                    return false;
+                }
+                patternMap.put(c, part);
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 分糖果
+     *
+     * @param candies
+     * @return
+     */
+    public int distributeCandies(int[] candies) {
+        if (candies == null || candies.length == 0) {
+            return 0;
+        }
+        Set<Integer> candySet = new HashSet<>();
+        for (int candy : candies) {
+            candySet.add(candy);
+        }
+        return Math.min(candySet.size(), candies.length / 2);
+    }
+
+    /**
+     * 猜数字
+     *
+     * @param secret
+     * @param guess
+     * @return
+     */
+    public String getHint(String secret, String guess) {
+        int a = 0;
+        int b = 0;
+        int[] guessNum = new int[10];
+        int[] secretNum = new int[10];
+        for (int i = 0; i < secret.length(); i++) {
+            char tmp = secret.charAt(i);
+            if (tmp == guess.charAt(i)) {
+                a++;
+            } else {
+                guessNum[guess.charAt(i) - '0'] += 1;
+                secretNum[tmp - '0'] += 1;
+            }
+        }
+        for (int i = 0; i < 10; i++) {
+            b += Math.min(guessNum[i], secretNum[i]);
+        }
+        return a + "A" + b + "B";
+    }
+
+    public static void main(String[] args) {
+        String ans = new Solution().getHint("11", "01");
+        System.out.println(ans);
     }
 }

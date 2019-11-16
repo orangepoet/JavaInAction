@@ -212,4 +212,17 @@ class SolutionTest extends Specification {
         [1, 15, 7, 9, 2, 5, 10] as int[]           | 3 | 84
         [1, 4, 1, 5, 7, 3, 6, 1, 9, 9, 3] as int[] | 4 | 83
     }
+
+    def "模式匹配"() {
+        given:
+        def solution = new Solution()
+
+        expect:
+        solution.wordPattern(pattern, str) == ans
+
+        where:
+        pattern | str               | ans
+        "abba"  | "dog cat cat dog" | true
+        "abba"  | "dog dog dog dog" | false
+    }
 }
