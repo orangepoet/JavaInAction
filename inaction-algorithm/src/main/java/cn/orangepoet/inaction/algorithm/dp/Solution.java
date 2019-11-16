@@ -1,8 +1,5 @@
 package cn.orangepoet.inaction.algorithm.dp;
 
-import com.sun.org.apache.xml.internal.dtm.ref.sax2dtm.SAX2DTM2;
-
-import java.io.CharArrayReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -863,8 +860,26 @@ public class Solution {
         return a + "A" + b + "B";
     }
 
-    public static void main(String[] args) {
-        String ans = new Solution().getHint("11", "01");
-        System.out.println(ans);
+
+    /**
+     * 求解数组nums的子数组, 要求满足和为K的, 给出子数组的个数。
+     * <p>
+     *
+     * @param nums 原始数组
+     * @param k    子数组的和
+     * @return 子数组的个数
+     */
+    public int subArrayIsK(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        int sum = 0;
+        int ans = 0;
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            if (map.containsKey(sum - k))
+                ans += map.get(sum - k);
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+        }
+        return ans;
     }
 }

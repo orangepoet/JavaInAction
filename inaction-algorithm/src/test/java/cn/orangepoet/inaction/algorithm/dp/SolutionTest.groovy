@@ -1,6 +1,6 @@
 package cn.orangepoet.inaction.algorithm.dp
 
-import cn.orangepoet.inaction.algorithm.dp.Solution
+
 import spock.lang.Specification
 
 /**
@@ -224,5 +224,18 @@ class SolutionTest extends Specification {
         pattern | str               | ans
         "abba"  | "dog cat cat dog" | true
         "abba"  | "dog dog dog dog" | false
+    }
+
+    def "优美子数组"() {
+        given:
+        def solution = new Solution()
+
+        expect:
+        solution.subArrayIsK(nums, k) == ans
+
+        where:
+        nums                     | k | ans
+        [1, 1, 2, 1, 1] as int[] | 3 | 2
+        [2, 4, 6] as int[]       | 1 | 0
     }
 }
