@@ -1,12 +1,16 @@
 package cn.orangepoet.inaction.algorithm.dp;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 public class Solution {
@@ -879,6 +883,92 @@ public class Solution {
             if (map.containsKey(sum - k))
                 ans += map.get(sum - k);
             map.put(sum, map.getOrDefault(sum, 0) + 1);
+        }
+        return ans;
+    }
+
+    public int hammingWeight(int n) {
+        String binary = Integer.toBinaryString(n);
+        int ans = 0;
+        for (int i = 0; i < binary.length(); i++) {
+            if (binary.charAt(i) == '1') {
+                ans++;
+            }
+        }
+        return ans;
+//        int ans = 0;
+//        for (int i = 0; ; i++) {
+//            int m = 1 << i;
+//            if (m > n) {
+//                break;
+//            }
+//            if ((n & m) == m) {
+//                ans++;
+//            }
+//        }
+//        return ans;
+    }
+
+    public boolean repeatedSubstringPattern(String s) {
+        int half = s.length() / 2;
+        boolean ans;
+        for (int i = 1; i <= half; i++) {
+            if ((s.length() % i) != 0) {
+                continue;
+            }
+            ans = true;
+            for (int j = 0, k = j + i; k < s.length(); j++, k++) {
+                if (s.charAt(j) != s.charAt(k)) {
+                    ans = false;
+                    break;
+                }
+            }
+            if (ans) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 给定一棵二叉树，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
+     * <p>
+     * 示例:
+     * <p>
+     * 输入: [1,2,3,null,5,null,4]
+     * 输出: [1, 3, 4]
+     * 解释:
+     * <p>
+     * 1            <---
+     * /   \
+     * 2     3         <---
+     * \     \
+     * 5     4       <---
+     * <p>
+     *
+     * @param root
+     * @return
+     */
+    public List<Integer> rightSideView(TreeNode root) {
+        if (root == null) {
+            return Collections.emptyList();
+        }
+        List<Integer> ans = new ArrayList<>();
+
+        List<TreeNode> lst = new ArrayList<>();
+        lst.add(root);
+
+        while (!lst.isEmpty()) {
+            ans.add(lst.get(0).val);
+
+            List<TreeNode> lst2 = new ArrayList<>();
+            for (TreeNode treeNode : lst) {
+                if (treeNode.right != null)
+                    lst2.add(treeNode.right);
+                if (treeNode.left != null)
+                    lst2.add(treeNode.left);
+            }
+            lst = lst2;
         }
         return ans;
     }
