@@ -26,6 +26,7 @@
         <module>../inaction-spi-impl</module>
         <module>../inaction-spi-app</module>
         <module>../inaction-spring-cloud</module>
+        <module>../inaction-appversion</module>
     </modules>
     <packaging>pom</packaging>
 

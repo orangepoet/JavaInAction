@@ -1,6 +1,5 @@
 package cn.orangepoet.inaction.spring.traffic
 
-import cn.orangepoet.inaction.spring.Application
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
