@@ -26,7 +26,7 @@
         <module>../inaction-spi-impl</module>
         <module>../inaction-spi-app</module>
         <module>../inaction-spring-cloud</module>
-        <module>../inaction-appversion</module>
+        <module>../inaction-annotationprocessing</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -48,6 +48,13 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
