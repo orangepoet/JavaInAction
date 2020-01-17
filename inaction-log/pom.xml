@@ -5,16 +5,13 @@
     <parent>
         <groupId>cn.orangepoet.inaction</groupId>
         <artifactId>inaction</artifactId>
-        <version>1.0</version>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath>../inaction/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>inaction-log</artifactId>
-
-    <properties>
-        <!--<logback.version>1.2.3.3-struct</logback.version>-->
-    </properties>
+    <version>1.0.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -31,8 +28,8 @@
             <artifactId>inaction-rx</artifactId>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>cn.orangepoet.inaction</groupId>-->
-            <!--<artifactId>inaction-tools</artifactId>-->
+        <!--<groupId>cn.orangepoet.inaction</groupId>-->
+        <!--<artifactId>inaction-tools</artifactId>-->
         <!--</dependency>-->
     </dependencies>
 </project>

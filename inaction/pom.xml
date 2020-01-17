@@ -12,7 +12,7 @@
 
     <groupId>cn.orangepoet.inaction</groupId>
     <artifactId>inaction</artifactId>
-    <version>1.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <modules>
         <module>../inaction-spring</module>
         <module>../inaction-desginpattern</module>
@@ -22,10 +22,7 @@
         <module>../inaction-foo</module>
         <module>../inaction-rx</module>
         <module>../inaction-fp</module>
-        <module>../inaction-spi-api</module>
-        <module>../inaction-spi-impl</module>
-        <module>../inaction-spi-app</module>
-        <module>../inaction-spring-cloud</module>
+        <module>../inaction-spi</module>
         <module>../inaction-annotationprocessing</module>
     </modules>
     <packaging>pom</packaging>
@@ -39,7 +36,7 @@
             <dependency>
                 <groupId>cn.orangepoet.inaction</groupId>
                 <artifactId>inaction-rx</artifactId>
-                <version>${project.version}</version>
+                <version>1.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>cn.orangepoet.inaction</groupId>
@@ -53,6 +50,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 

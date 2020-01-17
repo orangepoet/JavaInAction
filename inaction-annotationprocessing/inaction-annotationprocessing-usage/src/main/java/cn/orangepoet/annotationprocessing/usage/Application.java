@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.annotationprocessing;
+package cn.orangepoet.annotationprocessing.usage;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

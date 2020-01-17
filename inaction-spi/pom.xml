@@ -5,23 +5,18 @@
     <parent>
         <artifactId>inaction</artifactId>
         <groupId>cn.orangepoet.inaction</groupId>
-        <version>1.0</version>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath>../inaction/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>inaction-spi-app</artifactId>
+    <artifactId>inaction-spi</artifactId>
 
-<dependencies>
-    <dependency>
-        <groupId>cn.orangepoet.inaction</groupId>
-        <artifactId>inaction-spi-api</artifactId>
-        <version>1.0</version>
-    </dependency>
-    <dependency>
-        <groupId>cn.orangepoet.inaction</groupId>
-        <artifactId>inaction-spi-impl</artifactId>
-        <version>1.0</version>
-    </dependency>
-</dependencies>
+    <packaging>pom</packaging>
+    <modules>
+        <module>inaction-spi-api</module>
+        <module>inaction-spi-app</module>
+        <module>inaction-spi-impl</module>
+        <module>inaction-spi-autoservice</module>
+    </modules>
 </project>
