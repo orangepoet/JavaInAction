@@ -18,10 +18,8 @@
         <module>../inaction-desginpattern</module>
         <module>../inaction-algorithm</module>
         <module>../inaction-parallel</module>
-        <module>../inaction-log</module>
-        <module>../inaction-foo</module>
+        <module>../inaction-demo</module>
         <module>../inaction-rx</module>
-        <module>../inaction-fp</module>
         <module>../inaction-spi</module>
         <module>../inaction-annotationprocessing</module>
     </modules>
