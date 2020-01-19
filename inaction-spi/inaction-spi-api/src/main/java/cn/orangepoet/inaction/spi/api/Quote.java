@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.spi;
+package cn.orangepoet.inaction.spi.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

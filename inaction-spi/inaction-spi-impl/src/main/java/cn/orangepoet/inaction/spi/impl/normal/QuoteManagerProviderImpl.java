@@ -1,7 +1,7 @@
-package cn.orangepoet.inaction.spi.impl;
+package cn.orangepoet.inaction.spi.impl.normal;
 
-import cn.orangepoet.inaction.spi.QuoteManager;
-import cn.orangepoet.inaction.spi.QuoteManagerProvider;
+import cn.orangepoet.inaction.spi.api.QuoteManager;
+import cn.orangepoet.inaction.spi.api.QuoteManagerProvider;
 
 /**
  * @author chengzhi

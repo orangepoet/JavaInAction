@@ -1,7 +1,7 @@
-package cn.orangepoet.inaction.spi.autoservice;
+package cn.orangepoet.inaction.spi.impl.autoservice;
 
-import cn.orangepoet.inaction.spi.Quote;
-import cn.orangepoet.inaction.spi.QuoteManager;
+import cn.orangepoet.inaction.spi.api.Quote;
+import cn.orangepoet.inaction.spi.api.QuoteManager;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -14,6 +14,6 @@ import java.util.List;
 public class QuoteManagerImpl2 implements QuoteManager {
     @Override
     public List<Quote> getQuotes(String baseCurrency, LocalDate date) {
-        return Collections.singletonList(new Quote("RMB", LocalDate.now()));
+        return Collections.singletonList(new Quote(baseCurrency, LocalDate.now()));
     }
 }

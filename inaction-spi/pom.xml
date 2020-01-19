@@ -15,8 +15,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>inaction-spi-api</module>
-        <module>inaction-spi-app</module>
         <module>inaction-spi-impl</module>
-        <module>inaction-spi-autoservice</module>
+        <module>inaction-spi-starter</module>
     </modules>
 </project>

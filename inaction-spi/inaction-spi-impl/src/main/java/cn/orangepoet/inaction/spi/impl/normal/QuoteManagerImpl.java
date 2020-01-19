@@ -1,7 +1,7 @@
-package cn.orangepoet.inaction.spi.impl;
+package cn.orangepoet.inaction.spi.impl.normal;
 
-import cn.orangepoet.inaction.spi.Quote;
-import cn.orangepoet.inaction.spi.QuoteManager;
+import cn.orangepoet.inaction.spi.api.Quote;
+import cn.orangepoet.inaction.spi.api.QuoteManager;
 
 import java.time.LocalDate;
 import java.util.Arrays;
