@@ -1,6 +1,9 @@
 package cn.orangepoet.inaction.spi;
 
+import org.springframework.util.CollectionUtils;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
@@ -22,12 +25,15 @@ public class ExchangeQuote {
         }
 
         Iterator<QuoteManagerProvider> iterator = serviceLoader.iterator();
-        if (iterator.hasNext()) {
+        List<Quote> quotes = new ArrayList<>();
+        while (iterator.hasNext()) {
             QuoteManagerProvider next = iterator.next();
             QuoteManager manager = next.getManager();
-            List<Quote> quotes = manager.getQuotes("baseCurrency", LocalDate.now());
-            return quotes;
+            List<Quote> quotes0 = manager.getQuotes("baseCurrency", LocalDate.now());
+            if (!CollectionUtils.isEmpty(quotes0)) {
+                quotes.addAll(quotes0);
+            }
         }
-        return null;
+        return quotes;
     }
 }
