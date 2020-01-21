@@ -1,10 +1,11 @@
 package cn.orangepoet.annotationprocessing.processor;
 
 import com.google.auto.service.AutoService;
-import com.squareup.javapoet.CodeBlock;
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -19,6 +20,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.ExecutableType;
+import javax.lang.model.type.TypeMirror;
 import javax.tools.Diagnostic;
 import java.util.List;
 import java.util.Map;
@@ -71,37 +73,35 @@ public class BuilderProcessor extends AbstractProcessor {
                 String simpleClassName = className.substring(className.lastIndexOf(".") + 1);
                 String packageName = className.substring(0, className.lastIndexOf("."));
 
-                Map<String, String> setterMap = setters.stream().collect(Collectors.toMap(
+                Map<String, TypeMirror> setterMap = setters.stream().collect(Collectors.toMap(
                     setter -> setter.getSimpleName().toString(),
-                    setter -> ((ExecutableType)setter.asType())
-                        .getParameterTypes().get(0).toString()
+                    setter -> ((ExecutableType)setter.asType()).getParameterTypes().get(0)
                 ));
 
-                Class<?> classType = Class.forName(className);
-                FieldSpec instance = FieldSpec.builder(classType, "instance", Modifier.PUBLIC).build();
+                ClassName typeName = ClassName.get(packageName, simpleClassName);
 
-                TypeSpec.Builder typeSpecBuilder = TypeSpec.classBuilder(className + "Builder")
-                    .addField(instance);
-
-                // build method
-                typeSpecBuilder.addMethod(MethodSpec.methodBuilder("build").returns(classType).build());
+                String builderType = simpleClassName + "Builder";
+                TypeSpec.Builder typeSpecBuilder = TypeSpec
+                    .classBuilder(builderType)
+                    .addField(
+                        FieldSpec.builder(typeName, "instance", Modifier.PRIVATE, Modifier.FINAL)
+                            .initializer("new " + simpleClassName + "()").build())
+                    .addMethod(
+                        MethodSpec.methodBuilder("build").addModifiers(Modifier.PUBLIC)
+                            .addCode(String.format("return this.instance;%n"))
+                            .returns(typeName).build());
 
                 // fluent set method
-                setterMap.entrySet().forEach(entry -> {
-                    //entry.get
-                    try {
-                        MethodSpec methodSpec = MethodSpec.methodBuilder(entry.getValue())
-                            .addCode(String.format("this.instance.setAge(age);"))
-                            .returns(Class.forName(entry.getKey()))
-                            .addModifiers(Modifier.PUBLIC)
-                            .build();
-                        typeSpecBuilder.addMethod(methodSpec);
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                });
+                setterMap.forEach((key, value) -> typeSpecBuilder.addMethod(
+                    MethodSpec.methodBuilder(key)
+                        .addParameter(TypeName.get(value), "arg")
+                        .addCode(String.format("this.instance.%s(%s);%n", key, "arg"))
+                        .addCode(String.format("return this;%n"))
+                        .returns(ClassName.get(packageName, builderType))
+                        .addModifiers(Modifier.PUBLIC)
+                        .build()));
 
-                JavaFile javaFile = JavaFile.builder(packageName, typeSpecBuilder.build()).build();
+                JavaFile javaFile = JavaFile.builder(packageName, typeSpecBuilder.build()).indent("    ").build();
                 javaFile.writeTo(this.filer);
             }
             return true;

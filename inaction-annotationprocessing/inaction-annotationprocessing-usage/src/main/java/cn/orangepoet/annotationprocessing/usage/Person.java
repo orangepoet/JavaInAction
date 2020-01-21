@@ -1,12 +1,15 @@
 package cn.orangepoet.annotationprocessing.usage;
 
 import cn.orangepoet.annotationprocessing.processor.BuilderProperty;
+import lombok.ToString;
 
+
+@ToString
 public class Person {
 
-    private int age;
-
     private String name;
+
+    private int age;
 
     public int getAge() {
         return age;
