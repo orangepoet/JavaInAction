@@ -1,6 +1,6 @@
 package cn.orangepoet.annotationprocessing.usage;
 
-import cn.orangepoet.annotationprocessing.processor.BuilderProperty;
+import cn.orangepoet.annotationprocessing.processor.builder.BuilderProperty;
 
 public class Person {
 

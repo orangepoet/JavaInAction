@@ -1,7 +1,5 @@
 package cn.orangepoet.annotationprocessing.usage;
 
-import cn.orangepoet.annotationprocessing.processor.BuilderProperty;
-
 public class PersonBuilder {
 
     private Person instance = new Person();

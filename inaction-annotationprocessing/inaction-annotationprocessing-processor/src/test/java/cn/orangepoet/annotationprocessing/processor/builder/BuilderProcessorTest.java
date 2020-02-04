@@ -1,12 +1,10 @@
-package cn.orangepoet.annotationprocessing.processor;
+package cn.orangepoet.annotationprocessing.processor.builder;
 
 import com.google.common.io.Resources;
 import com.google.common.truth.Truth;
 import com.google.testing.compile.JavaFileObjects;
 import com.google.testing.compile.JavaSourceSubjectFactory;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * @author chengzhi

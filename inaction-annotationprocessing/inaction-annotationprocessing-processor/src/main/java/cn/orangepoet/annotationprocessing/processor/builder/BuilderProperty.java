@@ -1,4 +1,4 @@
-package cn.orangepoet.annotationprocessing.processor;
+package cn.orangepoet.annotationprocessing.processor.builder;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

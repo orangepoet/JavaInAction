@@ -1,4 +1,4 @@
-package cn.orangepoet.annotationprocessing.processor;
+package cn.orangepoet.annotationprocessing.processor.builder;
 
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  * @author chengzhi
  * @date 2020/01/17
  */
-@SupportedAnnotationTypes("cn.orangepoet.annotationprocessing.processor.BuilderProperty")
+@SupportedAnnotationTypes("cn.orangepoet.annotationprocessing.processor.builder.BuilderProperty")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
 public class BuilderProcessor extends AbstractProcessor {
