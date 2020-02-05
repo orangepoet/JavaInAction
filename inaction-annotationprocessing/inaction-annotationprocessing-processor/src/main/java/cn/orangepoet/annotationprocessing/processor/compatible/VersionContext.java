@@ -6,11 +6,11 @@ package cn.orangepoet.annotationprocessing.processor.compatible;
 public class VersionContext {
     private static ThreadLocal<String> serviceVersion = new ThreadLocal<>();
 
-    static String currentVersion() {
+    public static String currentVersion() {
         return serviceVersion.get();
     }
 
-    static void setCurrentVersion(String version) {
+    public static void setCurrentVersion(String version) {
         serviceVersion.set(version);
     }
 
@@ -21,7 +21,7 @@ public class VersionContext {
      * @param version2
      * @return 1: version1版本高于version2, 0: 版本一致, -1: version1版本低于version2
      */
-    static int compare(String version1, String version2) {
+    public static int compare(String version1, String version2) {
         // todo: mock impl compare
         return version1.compareTo(version2);
     }

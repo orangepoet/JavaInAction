@@ -21,7 +21,7 @@ public @interface ServiceVersion {
      *
      * @return
      */
-    Class<?> type();
+    Class<?> serviceType();
 
     /**
      * 支持的起始版本

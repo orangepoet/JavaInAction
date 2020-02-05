@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-@ServiceVersion(type = MyHandler.class, floor = "1.0")
+@ServiceVersion(serviceType = MyHandler.class, floor = "1.0")
 public class MyHandlerImpl1_0 implements MyHandler {
     @Override
     public String getName() {

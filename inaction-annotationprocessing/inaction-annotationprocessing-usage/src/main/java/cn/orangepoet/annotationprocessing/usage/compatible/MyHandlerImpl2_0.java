@@ -1,4 +1,4 @@
-package cn.orangepoet.annotationprocessing.processor.concrete;
+package cn.orangepoet.annotationprocessing.usage.compatible;
 
 import cn.orangepoet.annotationprocessing.processor.compatible.ServiceVersion;
 import lombok.extern.slf4j.Slf4j;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@ServiceVersion(type = MyHandler.class, floor = "2.0")
+@ServiceVersion(serviceType = MyHandler.class, floor = "2.0")
 public class MyHandlerImpl2_0 implements MyHandler {
 
     @Override
@@ -15,7 +15,7 @@ public class MyHandlerImpl2_0 implements MyHandler {
     }
 
     @Override
-    public void sayHi() {
-        log.info("hi, " + getName());
+    public void greet(String greeter, CharSequence words) {
+        log.info(greeter + words);
     }
 }
