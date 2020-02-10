@@ -29,7 +29,7 @@ public class ServiceFactory {
         if (service.isPresent()) {
             return service.get();
         }
-        throw new ServiceVersionNoMatchedException();
+        throw new ServiceVersionNoMatchedException(String.format("target version [%s] not matched",VersionContext.currentVersion()) );
     }
 
 }

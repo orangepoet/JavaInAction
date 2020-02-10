@@ -15,7 +15,7 @@ public class MyHandlerImpl1_0 implements MyHandler {
 
     @Override
     public void greet(String greeter, CharSequence words) {
-        log.info(greeter + words);
+        log.info("{}: {}", greeter, words);
     }
 }
 
