@@ -9,7 +9,10 @@ import java.util.Optional;
  * 多版本服务工厂
  */
 public class ServiceFactory {
-    private ServiceFactory() {
+    private final VersionContext versionContext;
+
+    private ServiceFactory(VersionContext versionContext) {
+        this.versionContext = versionContext;
     }
 
     /**
@@ -18,18 +21,18 @@ public class ServiceFactory {
      * @param serviceMap
      * @return
      */
-    public static <TService> TService getService(Map<TService, ServiceVersion> serviceMap) {
+    public <TService> TService getService(Map<TService, ServiceVersion> serviceMap) {
         Optional<TService> service = serviceMap.entrySet()
                 .stream()
                 .filter(entry -> StringUtils.isNotBlank(entry.getValue().floor()))
-                .sorted((entry1, entry2) -> -1 * VersionContext.compare(entry1.getValue().floor(), entry2.getValue().floor()))
-                .filter(entry -> VersionContext.compare(VersionContext.currentVersion(), entry.getValue().floor()) >= 0)
+                .sorted((entry1, entry2) -> -1 * versionContext.compare(entry1.getValue().floor(), entry2.getValue().floor()))
+                .filter(entry -> versionContext.compare(versionContext.getCurrentVersion(), entry.getValue().floor()) >= 0)
                 .map(Map.Entry::getKey)
                 .findFirst();
         if (service.isPresent()) {
             return service.get();
         }
-        throw new ServiceVersionNoMatchedException(String.format("target version [%s] not matched",VersionContext.currentVersion()) );
+        throw new ServiceVersionNoMatchedException(String.format("target version [%s] not matched", versionContext.getCurrentVersion()) );
     }
 
 }

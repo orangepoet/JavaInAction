@@ -11,6 +11,8 @@ import java.net.URL;
 public class Application {
     public static void main(String[] args) {
         try {
+            System.out.println(Action.A.ordinal());
+
             File jarFile = new File(
                 "/Users/orangecheng/codes/JavaInAction/inaction-annotationprocessing/inaction-annotationprocessing"
                     + "-processor/target/inaction-annotationprocessing-processor-1.0.0-SNAPSHOT.jar");
@@ -22,5 +24,11 @@ public class Application {
         } catch (MalformedURLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    enum Action {
+        A,
+        B,
+        C
     }
 }

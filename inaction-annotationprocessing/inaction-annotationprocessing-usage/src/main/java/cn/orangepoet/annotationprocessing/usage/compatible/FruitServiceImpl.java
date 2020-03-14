@@ -1,17 +1,13 @@
 package cn.orangepoet.annotationprocessing.usage.compatible;
 
-import cn.orangepoet.annotationprocessing.processor.compatible.VersionContext;
-
-import java.util.List;
-
 //@Component
 public class FruitServiceImpl implements FruitService {
     @Override
     public Fruit showFruit() {
-        String currentVersion = VersionContext.currentVersion();
+        String currentVersion = VersionContextImpl.getCurrentVersion();
 
         // version 2.0
-        if (VersionContext.compare(currentVersion, "2.0") >= 0) {
+        if (VersionContextImpl.compare(currentVersion, "2.0") >= 0) {
             Fruit apple = new Fruit();
             apple.setWeight(10);
             apple.setPrice(2.0);

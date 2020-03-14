@@ -26,6 +26,9 @@ public class Application {
     private MyHandler myHandler;
 
     @Autowired
+    private VersionContext versionContext;
+
+    @Autowired
     private FruitService fruitService;
 
     public static void main(String[] args) {
@@ -44,15 +47,15 @@ public class Application {
     //    @Bean
     public CommandLineRunner CommandLineRunner1() {
         return (args) -> {
-            VersionContext.setCurrentVersion("3.0");
+            versionContext.setCurrentVersion("3.0");
             log.info("current version: 3.0");
             myHandler.greet(myHandler.getName(), "hello, world");
 
-            VersionContext.setCurrentVersion("2.0");
+            versionContext.setCurrentVersion("2.0");
             log.info("current version: 2.0");
             myHandler.greet(myHandler.getName(), "hello, world");
 
-            VersionContext.setCurrentVersion("1.0");
+            versionContext.setCurrentVersion("1.0");
             log.info("current version: 1.0");
             myHandler.greet(myHandler.getName(), "hello, world");
         };
@@ -70,7 +73,7 @@ public class Application {
 
     private void printResult(String currentVersion) {
         log.info("current version: " + currentVersion);
-        VersionContext.setCurrentVersion(currentVersion);
+        versionContext.setCurrentVersion(currentVersion);
         Fruit fruit = fruitService.showFruit();
         log.info(fruit.toString());
         List<Fruit> fruits = fruitService.listFruit();
