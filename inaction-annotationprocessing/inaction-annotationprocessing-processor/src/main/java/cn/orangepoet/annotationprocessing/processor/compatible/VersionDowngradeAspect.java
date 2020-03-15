@@ -1,5 +1,9 @@
 package cn.orangepoet.annotationprocessing.processor.compatible;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -8,11 +12,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import static java.util.stream.Collectors.toList;
 
 @Aspect
