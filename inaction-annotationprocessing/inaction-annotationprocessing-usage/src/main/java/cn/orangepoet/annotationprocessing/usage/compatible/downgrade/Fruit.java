@@ -1,4 +1,4 @@
-package cn.orangepoet.annotationprocessing.usage.compatible;
+package cn.orangepoet.annotationprocessing.usage.compatible.downgrade;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

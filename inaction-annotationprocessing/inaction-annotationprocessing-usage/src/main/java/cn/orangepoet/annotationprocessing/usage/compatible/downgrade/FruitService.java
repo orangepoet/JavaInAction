@@ -1,4 +1,6 @@
-package cn.orangepoet.annotationprocessing.usage.compatible;
+package cn.orangepoet.annotationprocessing.usage.compatible.downgrade;
+
+import cn.orangepoet.annotationprocessing.usage.compatible.downgrade.Fruit;
 
 import java.util.Collections;
 import java.util.List;

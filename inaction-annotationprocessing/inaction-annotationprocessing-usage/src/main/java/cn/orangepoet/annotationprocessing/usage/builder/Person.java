@@ -1,4 +1,4 @@
-package cn.orangepoet.annotationprocessing.usage;
+package cn.orangepoet.annotationprocessing.usage.builder;
 
 import cn.orangepoet.annotationprocessing.processor.builder.BuilderProperty;
 import lombok.ToString;

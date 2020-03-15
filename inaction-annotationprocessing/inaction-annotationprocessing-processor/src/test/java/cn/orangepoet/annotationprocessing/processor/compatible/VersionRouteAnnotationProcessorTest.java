@@ -10,7 +10,7 @@ import org.junit.Test;
  * @author chengzhi
  * @date 2020/01/19
  */
-public class ServiceVersionAnnotationProcessorTest {
+public class VersionRouteAnnotationProcessorTest {
 
     @Test
     public void process() {

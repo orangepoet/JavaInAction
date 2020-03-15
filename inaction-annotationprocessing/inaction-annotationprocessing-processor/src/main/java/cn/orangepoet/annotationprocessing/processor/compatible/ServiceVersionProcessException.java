@@ -4,7 +4,7 @@ package cn.orangepoet.annotationprocessing.processor.compatible;
 import javax.lang.model.element.Element;
 
 /**
- * 对{@link ServiceVersion}注解处理 {@link ServiceVersionAnnotationProcessor} 遇到异常
+ * 对{@link VersionRoute}注解处理 {@link ServiceVersionAnnotationProcessor} 遇到异常
  */
 public class ServiceVersionProcessException extends RuntimeException {
 

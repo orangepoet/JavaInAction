@@ -11,7 +11,7 @@ import java.util.Optional;
 public class ServiceFactory {
     private final VersionContext versionContext;
 
-    private ServiceFactory(VersionContext versionContext) {
+    public ServiceFactory(VersionContext versionContext) {
         this.versionContext = versionContext;
     }
 
@@ -21,18 +21,18 @@ public class ServiceFactory {
      * @param serviceMap
      * @return
      */
-    public <TService> TService getService(Map<TService, ServiceVersion> serviceMap) {
+    public <TService> TService getService(Map<TService, VersionRoute> serviceMap) {
         Optional<TService> service = serviceMap.entrySet()
                 .stream()
-                .filter(entry -> StringUtils.isNotBlank(entry.getValue().floor()))
-                .sorted((entry1, entry2) -> -1 * versionContext.compare(entry1.getValue().floor(), entry2.getValue().floor()))
-                .filter(entry -> versionContext.compare(versionContext.getCurrentVersion(), entry.getValue().floor()) >= 0)
+                .filter(entry -> StringUtils.isNotBlank(entry.getValue().value()))
+                .sorted((entry1, entry2) -> -1 * versionContext.compare(entry1.getValue().value(), entry2.getValue().value()))
+                .filter(entry -> versionContext.compare(versionContext.getRequestVersion(), entry.getValue().value()) >= 0)
                 .map(Map.Entry::getKey)
                 .findFirst();
         if (service.isPresent()) {
             return service.get();
         }
-        throw new ServiceVersionNoMatchedException(String.format("target version [%s] not matched", versionContext.getCurrentVersion()) );
+        throw new ServiceVersionNoMatchedException(String.format("target version [%s] not matched", versionContext.getRequestVersion()));
     }
 
 }

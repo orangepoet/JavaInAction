@@ -10,11 +10,13 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface ServiceVersion {
+public @interface VersionRoute {
     /**
-     * 初始 (打底) 版本
+     * 支持的起始版本, 大于等于此版本才被路由到
+     *
+     * @return
      */
-    String INIT = "0.0";
+    String value();
 
     /**
      * 服务接口
@@ -22,11 +24,4 @@ public @interface ServiceVersion {
      * @return
      */
     Class<?> serviceType();
-
-    /**
-     * 支持的起始版本
-     *
-     * @return
-     */
-    String floor() default INIT;
 }

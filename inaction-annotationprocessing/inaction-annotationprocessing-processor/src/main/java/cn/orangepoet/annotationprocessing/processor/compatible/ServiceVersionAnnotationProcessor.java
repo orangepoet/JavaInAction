@@ -42,10 +42,12 @@ import java.util.Set;
 /**
  * 生成服务类型的代理类, 基于spring方式实现
  *
- * @Component
- * @Primary public class CustomerProxy implements CustomService {
  * <p>
- * }
+ *
+ * @Component
+ * @Primary public class CustomerProxy implements CustomService {}
+ *
+ * </p>
  */
 @AutoService(Processor.class)
 public class ServiceVersionAnnotationProcessor extends AbstractProcessor {
@@ -59,7 +61,7 @@ public class ServiceVersionAnnotationProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> annotations = new LinkedHashSet<String>();
-        annotations.add(ServiceVersion.class.getCanonicalName());
+        annotations.add(VersionRoute.class.getCanonicalName());
         return annotations;
     }
 
@@ -80,7 +82,7 @@ public class ServiceVersionAnnotationProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         try {
             Set<TypeElement> serviceTypes = new LinkedHashSet<>();
-            for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(ServiceVersion.class)) {
+            for (Element annotatedElement : roundEnv.getElementsAnnotatedWith(VersionRoute.class)) {
                 ServiceVersionCtx ctx = new ServiceVersionCtx(annotatedElement, elements);
                 serviceTypes.add(ctx.getServiceType());
             }
@@ -114,38 +116,47 @@ public class ServiceVersionAnnotationProcessor extends AbstractProcessor {
                 .addAnnotation(Primary.class)
                 .addSuperinterface(ClassName.get(serviceType));
 
-        // serviceMap field
-        ParameterizedTypeName serviceVersionMapType = ParameterizedTypeName.get(ClassName.get(Map.class), TypeName.get(serviceType.asType()), ClassName.get(ServiceVersion.class));
-        FieldSpec.Builder serviceMap = FieldSpec.builder(serviceVersionMapType, "serviceMap")
+        // versionRouteMap field
+        ParameterizedTypeName serviceMap = ParameterizedTypeName.get(ClassName.get(Map.class), TypeName.get(serviceType.asType()), ClassName.get(VersionRoute.class));
+        FieldSpec.Builder versionRouteMap = FieldSpec.builder(serviceMap, "serviceMap")
                 .addModifiers(Modifier.PRIVATE, Modifier.FINAL);
 
-        classBuilder.addField(serviceMap.build());
+        // ServiceFactory field
+//        ParameterizedTypeName serviceFactoryType = ParameterizedTypeName.get(ClassName.get(ServiceFactory.class));
+        TypeName serviceFactoryType = ParameterizedTypeName.get(ServiceFactory.class);
+        FieldSpec.Builder serviceFactory = FieldSpec.builder(serviceFactoryType, "serviceFactory")
+                .addModifiers(Modifier.PRIVATE, Modifier.FINAL);
+
+        classBuilder.addField(versionRouteMap.build());
+        classBuilder.addField(serviceFactory.build());
 
         // constructor
         MethodSpec.Builder constructor = MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(serviceType)), "services")
-                .addStatement("this.serviceMap = getServiceMap(services);");
+                .addParameter(serviceFactoryType, "serviceFactory")
+                .addStatement("this.serviceMap = getServiceMap(services)")
+                .addStatement("this.serviceFactory = serviceFactory");
 
         classBuilder.addMethod(constructor.build());
 
         // private getServiceMap
-        MethodSpec.Builder getServiceMapMethod = MethodSpec.methodBuilder("getServiceMap")
+        MethodSpec.Builder getServiceMap = MethodSpec.methodBuilder("getServiceMap")
                 .addModifiers(Modifier.PRIVATE)
                 .addParameter(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(serviceType)), "services")
-                .returns(serviceVersionMapType)
+                .returns(serviceMap)
                 .beginControlFlow("if (services == null || services.isEmpty())")
                 .addStatement("return $T.emptyMap()", Collections.class)
                 .endControlFlow()
-                .addStatement("Map<$T, ServiceVersion> result = new $T<>()", serviceType, HashMap.class)
+                .addStatement("Map<$T, VersionRoute> result = new $T<>()", serviceType, HashMap.class)
                 .beginControlFlow("for ($T service : services)", serviceType)
-                .addStatement("ServiceVersion serviceVersion = service.getClass().getAnnotation(ServiceVersion.class)")
-                .beginControlFlow(" if (serviceVersion != null) ")
-                .addStatement("result.put(service, serviceVersion)")
+                .addStatement("VersionRoute versionRoute = service.getClass().getAnnotation(VersionRoute.class)")
+                .beginControlFlow(" if (versionRoute != null) ")
+                .addStatement("result.put(service, versionRoute)")
                 .endControlFlow()
                 .endControlFlow()
                 .addStatement("return result");
-        classBuilder.addMethod(getServiceMapMethod.build());
+        classBuilder.addMethod(getServiceMap.build());
 
         // interface methods
         List<? extends Element> enclosedElements = serviceType.getEnclosedElements();
@@ -165,7 +176,7 @@ public class ServiceVersionAnnotationProcessor extends AbstractProcessor {
                 parameterList.add(pn);
             }
 
-            method.addStatement("$T service = $T.getService(serviceMap)", serviceType, ServiceFactory.class);
+            method.addStatement("$T service = serviceFactory.getService(serviceMap)", serviceType);
 
             if (ee.getReturnType().getKind() == TypeKind.VOID) {
                 method.addStatement("service.$N($L)", ee.getSimpleName().toString(), String.join(",", parameterList));
@@ -185,14 +196,14 @@ public class ServiceVersionAnnotationProcessor extends AbstractProcessor {
         public ServiceVersionCtx(Element element, Elements elements) {
             if (element.getKind() != ElementKind.CLASS) {
                 throw new ServiceVersionProcessException(element, "Only classes can be annotated with @%s",
-                        ServiceVersion.class.getSimpleName());
+                        VersionRoute.class.getSimpleName());
             }
             this.annotationClass = (TypeElement) element;
 
             String serviceName;
             try {
-                ServiceVersion serviceVersion = annotationClass.getAnnotation(ServiceVersion.class);
-                serviceName = serviceVersion.serviceType().getCanonicalName();
+                VersionRoute versionRoute = annotationClass.getAnnotation(VersionRoute.class);
+                serviceName = versionRoute.serviceType().getCanonicalName();
             } catch (MirroredTypeException e) {
                 DeclaredType classTypeMirror = (DeclaredType) e.getTypeMirror();
                 TypeElement classTypeElement = (TypeElement) classTypeMirror.asElement();
@@ -217,14 +228,14 @@ public class ServiceVersionAnnotationProcessor extends AbstractProcessor {
             if (annotationClass.getModifiers().contains(Modifier.ABSTRACT)) {
                 throw new ServiceVersionProcessException(annotationClass,
                         "The class %s is abstract. You can't annotate abstract classes with @%",
-                        annotationClass.getQualifiedName().toString(), ServiceVersion.class.getSimpleName());
+                        annotationClass.getQualifiedName().toString(), VersionRoute.class.getSimpleName());
             }
 
             // Check inheritance: Class must be childclass as specified in @ServiceVersion.serviceType();
             if (!annotationClass.getInterfaces().contains(this.serviceType.asType())) {
                 throw new ServiceVersionProcessException(annotationClass,
                         "The class %s annotated with @%s must implement the interface %s",
-                        annotationClass.getQualifiedName().toString(), ServiceVersion.class.getSimpleName(),
+                        annotationClass.getQualifiedName().toString(), VersionRoute.class.getSimpleName(),
                         this.serviceType.getSimpleName().toString());
             }
         }
