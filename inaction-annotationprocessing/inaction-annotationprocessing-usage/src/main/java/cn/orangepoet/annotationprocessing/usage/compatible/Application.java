@@ -1,6 +1,7 @@
 package cn.orangepoet.annotationprocessing.usage.compatible;
 
-import cn.orangepoet.annotationprocessing.processor.compatible.VersionContext;
+import java.util.List;
+
 import cn.orangepoet.annotationprocessing.usage.compatible.dispatcher.GreetService;
 import cn.orangepoet.annotationprocessing.usage.compatible.downgrade.Fruit;
 import cn.orangepoet.annotationprocessing.usage.compatible.downgrade.FruitService;
@@ -10,8 +11,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import java.util.List;
 
 /**
  * @author chengzhi
@@ -29,7 +28,7 @@ public class Application {
     private FruitService fruitService;
 
     @Autowired
-    private VersionContext clientVersionHolder;
+    private ClientVersionHolder clientVersionHolder;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class);

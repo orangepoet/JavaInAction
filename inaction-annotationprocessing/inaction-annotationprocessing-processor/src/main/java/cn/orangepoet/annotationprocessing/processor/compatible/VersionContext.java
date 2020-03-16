@@ -12,12 +12,6 @@ public interface VersionContext {
      */
     String getRequestVersion();
 
-    /**
-     * 设置请求的版本信息
-     *
-     * @param version 版本信息
-     */
-    void setRequestVersion(String version);
 
     /**
      * 版本比较

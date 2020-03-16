@@ -6,13 +6,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClientVersionHolder implements VersionContext {
     private ThreadLocal<String> versionHolder = new InheritableThreadLocal<>();
-    
+
     @Override
     public String getRequestVersion() {
         return versionHolder.get();
     }
 
-    @Override
     public void setRequestVersion(String version) {
         versionHolder.set(version);
     }
