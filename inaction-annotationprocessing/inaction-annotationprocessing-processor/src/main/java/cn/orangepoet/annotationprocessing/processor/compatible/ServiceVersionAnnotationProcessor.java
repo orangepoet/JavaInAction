@@ -37,6 +37,8 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -53,7 +55,6 @@ import org.springframework.stereotype.Component;
 @AutoService(Processor.class)
 public class ServiceVersionAnnotationProcessor extends AbstractProcessor {
     private static final String SUFFIX = "GeneratedProxy";
-
 
     private Messager messager;
     private Filer filer;
@@ -112,52 +113,41 @@ public class ServiceVersionAnnotationProcessor extends AbstractProcessor {
         String serviceName = serviceType.getSimpleName().toString();
         String proxyClassName = serviceName + SUFFIX;
 
+        // classBuilder
         TypeSpec.Builder classBuilder = TypeSpec.classBuilder(proxyClassName)
-                .addAnnotation(Component.class)
-                .addAnnotation(Primary.class)
-                .addSuperinterface(ClassName.get(serviceType));
+            .addModifiers(Modifier.PUBLIC)
+            .addAnnotation(Component.class)
+            .addAnnotation(Primary.class)
+            .addSuperinterface(ClassName.get(serviceType))
+            .addSuperinterface(InitializingBean.class);
 
-        // versionRouteMap field
-        ParameterizedTypeName serviceMap = ParameterizedTypeName.get(ClassName.get(Map.class), TypeName.get(serviceType.asType()), ClassName.get(VersionRoute.class));
-        FieldSpec.Builder versionRouteMap = FieldSpec.builder(serviceMap, "serviceMap")
-                .addModifiers(Modifier.PRIVATE, Modifier.FINAL);
-
-        // ServiceFactory field
-//        ParameterizedTypeName serviceFactoryType = ParameterizedTypeName.get(ClassName.get(ServiceFactory.class));
+        // serviceFactory field
         TypeName serviceFactoryType = ParameterizedTypeName.get(ServiceFactory.class);
         FieldSpec.Builder serviceFactory = FieldSpec.builder(serviceFactoryType, "serviceFactory")
-                .addModifiers(Modifier.PRIVATE, Modifier.FINAL);
-
-        classBuilder.addField(versionRouteMap.build());
+            .addModifiers(Modifier.PRIVATE, Modifier.FINAL);
         classBuilder.addField(serviceFactory.build());
+
+        // serviceList
+        FieldSpec.Builder serviceList = FieldSpec.builder(
+            ParameterizedTypeName.get(ClassName.get(List.class), TypeName.get(serviceType.asType())), "serviceList")
+            .addModifiers(Modifier.PRIVATE)
+            .addAnnotation(Autowired.class);
+        classBuilder.addField(serviceList.build());
+
+        // serviceMap field
+        FieldSpec.Builder versionRouteMap = FieldSpec.builder(
+            ParameterizedTypeName.get(ClassName.get(Map.class),
+                TypeName.get(serviceType.asType()), ClassName.get(VersionRoute.class)), "serviceMap")
+            .addModifiers(Modifier.PRIVATE);
+        classBuilder.addField(versionRouteMap.build());
 
         // constructor
         MethodSpec.Builder constructor = MethodSpec.constructorBuilder()
-                .addModifiers(Modifier.PUBLIC)
-                .addParameter(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(serviceType)), "services")
-                .addParameter(serviceFactoryType, "serviceFactory")
-                .addStatement("this.serviceMap = getServiceMap(services)")
-                .addStatement("this.serviceFactory = serviceFactory");
+            .addModifiers(Modifier.PUBLIC)
+            .addParameter(serviceFactoryType, "serviceFactory")
+            .addStatement("this.serviceFactory = serviceFactory");
 
         classBuilder.addMethod(constructor.build());
-
-        // private getServiceMap
-        MethodSpec.Builder getServiceMap = MethodSpec.methodBuilder("getServiceMap")
-                .addModifiers(Modifier.PRIVATE)
-                .addParameter(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(serviceType)), "services")
-                .returns(serviceMap)
-                .beginControlFlow("if (services == null || services.isEmpty())")
-                .addStatement("return $T.emptyMap()", Collections.class)
-                .endControlFlow()
-                .addStatement("Map<$T, VersionRoute> result = new $T<>()", serviceType, HashMap.class)
-                .beginControlFlow("for ($T service : services)", serviceType)
-                .addStatement("VersionRoute versionRoute = service.getClass().getAnnotation(VersionRoute.class)")
-                .beginControlFlow(" if (versionRoute != null) ")
-                .addStatement("result.put(service, versionRoute)")
-                .endControlFlow()
-                .endControlFlow()
-                .addStatement("return result");
-        classBuilder.addMethod(getServiceMap.build());
 
         // interface methods
         List<? extends Element> enclosedElements = serviceType.getEnclosedElements();
@@ -165,10 +155,10 @@ public class ServiceVersionAnnotationProcessor extends AbstractProcessor {
             if (e.getKind() != ElementKind.METHOD) {
                 continue;
             }
-            ExecutableElement ee = (ExecutableElement) e;
+            ExecutableElement ee = (ExecutableElement)e;
             MethodSpec.Builder method = MethodSpec.methodBuilder(ee.getSimpleName().toString())
-                    .addModifiers(Modifier.PUBLIC)
-                    .returns(TypeName.get(ee.getReturnType()));
+                .addModifiers(Modifier.PUBLIC)
+                .returns(TypeName.get(ee.getReturnType()));
 
             List<String> parameterList = new ArrayList<>();
             for (VariableElement ve : ee.getParameters()) {
@@ -182,10 +172,37 @@ public class ServiceVersionAnnotationProcessor extends AbstractProcessor {
             if (ee.getReturnType().getKind() == TypeKind.VOID) {
                 method.addStatement("service.$N($L)", ee.getSimpleName().toString(), String.join(",", parameterList));
             } else {
-                method.addStatement("return service.$N($L)", ee.getSimpleName().toString(), String.join(",", parameterList));
+                method.addStatement("return service.$N($L)", ee.getSimpleName().toString(),
+                    String.join(",", parameterList));
             }
             classBuilder.addMethod(method.build());
         }
+
+        // afterPropertiesSet
+        MethodSpec.Builder afterPropertiesSet = MethodSpec.methodBuilder("afterPropertiesSet")
+            .addModifiers(Modifier.PUBLIC)
+            .addAnnotation(Override.class)
+            .addStatement("this.serviceMap = getServiceMap(this.serviceList)");
+        classBuilder.addMethod(afterPropertiesSet.build());
+
+        // private getServiceMap
+        MethodSpec.Builder getServiceMap = MethodSpec.methodBuilder("getServiceMap")
+            .addModifiers(Modifier.PRIVATE)
+            .addParameter(ParameterizedTypeName.get(ClassName.get(List.class), ClassName.get(serviceType)), "services")
+            .returns(ParameterizedTypeName.get(ClassName.get(Map.class),
+                TypeName.get(serviceType.asType()), ClassName.get(VersionRoute.class)))
+            .beginControlFlow("if (services == null || services.isEmpty())")
+            .addStatement("return $T.emptyMap()", Collections.class)
+            .endControlFlow()
+            .addStatement("Map<$T, VersionRoute> result = new $T<>()", serviceType, HashMap.class)
+            .beginControlFlow("for ($T service : services)", serviceType)
+            .addStatement("VersionRoute versionRoute = service.getClass().getAnnotation(VersionRoute.class)")
+            .beginControlFlow(" if (versionRoute != null) ")
+            .addStatement("result.put(service, versionRoute)")
+            .endControlFlow()
+            .endControlFlow()
+            .addStatement("return result");
+        classBuilder.addMethod(getServiceMap.build());
 
         JavaFile.builder(packageName, classBuilder.build()).indent("    ").build().writeTo(filer);
     }
@@ -197,69 +214,25 @@ public class ServiceVersionAnnotationProcessor extends AbstractProcessor {
         public ServiceVersionCtx(Element element, Elements elements) {
             if (element.getKind() != ElementKind.CLASS) {
                 throw new ServiceVersionProcessException(element, "Only classes can be annotated with @%s",
-                        VersionRoute.class.getSimpleName());
+                    VersionRoute.class.getSimpleName());
             }
-            this.annotationClass = (TypeElement) element;
+            this.annotationClass = (TypeElement)element;
 
             String serviceName;
             try {
                 VersionRoute versionRoute = annotationClass.getAnnotation(VersionRoute.class);
                 serviceName = versionRoute.serviceType().getCanonicalName();
             } catch (MirroredTypeException e) {
-                DeclaredType classTypeMirror = (DeclaredType) e.getTypeMirror();
-                TypeElement classTypeElement = (TypeElement) classTypeMirror.asElement();
+                DeclaredType classTypeMirror = (DeclaredType)e.getTypeMirror();
+                TypeElement classTypeElement = (TypeElement)classTypeMirror.asElement();
                 serviceName = classTypeElement.getQualifiedName().toString();
             }
             TypeElement serviceType = elements.getTypeElement(serviceName);
             if (serviceType.getKind() != ElementKind.INTERFACE) {
-                throw new ServiceVersionProcessException(annotationClass, "serviceType: %s is not interface", serviceType.getSimpleName());
+                throw new ServiceVersionProcessException(annotationClass, "serviceType: %s is not interface",
+                    serviceType.getSimpleName());
             }
             this.serviceType = serviceType;
-            //check();
-        }
-
-        @Deprecated
-        private void check() {
-            if (!annotationClass.getModifiers().contains(Modifier.PUBLIC)) {
-                throw new ServiceVersionProcessException(annotationClass, "The class %s is not public.",
-                        annotationClass.getQualifiedName().toString());
-            }
-
-            // Check if it's an abstract class
-            if (annotationClass.getModifiers().contains(Modifier.ABSTRACT)) {
-                throw new ServiceVersionProcessException(annotationClass,
-                        "The class %s is abstract. You can't annotate abstract classes with @%",
-                        annotationClass.getQualifiedName().toString(), VersionRoute.class.getSimpleName());
-            }
-
-            // Check inheritance: Class must be childclass as specified in @ServiceVersion.serviceType();
-            if (!annotationClass.getInterfaces().contains(this.serviceType.asType())) {
-                throw new ServiceVersionProcessException(annotationClass,
-                        "The class %s annotated with @%s must implement the interface %s",
-                        annotationClass.getQualifiedName().toString(), VersionRoute.class.getSimpleName(),
-                        this.serviceType.getSimpleName().toString());
-            }
-        }
-
-        /**
-         * Get the full QualifiedTypeName
-         *
-         * @param serviceType
-         * @return
-         */
-        private CharSequence getServiceName(Class<?> serviceType) {
-            //
-            try {
-                return serviceType.getCanonicalName();
-            } catch (MirroredTypeException mte) {
-                DeclaredType classTypeMirror = (DeclaredType) mte.getTypeMirror();
-                TypeElement classTypeElement = (TypeElement) classTypeMirror.asElement();
-                return classTypeElement.getQualifiedName().toString();
-            }
-        }
-
-        public TypeElement getAnnotationClass() {
-            return annotationClass;
         }
 
         public TypeElement getServiceType() {
