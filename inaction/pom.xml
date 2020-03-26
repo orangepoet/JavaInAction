@@ -18,10 +18,9 @@
         <module>../inaction-desginpattern</module>
         <module>../inaction-algorithm</module>
         <module>../inaction-parallel</module>
-        <module>../inaction-demo</module>
-        <module>../inaction-rx</module>
         <module>../inaction-spi</module>
         <module>../inaction-annotationprocessing</module>
+        <module>../inaction-app</module>
     </modules>
     <packaging>pom</packaging>
 
