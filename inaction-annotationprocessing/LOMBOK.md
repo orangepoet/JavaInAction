@@ -1,15 +1,16 @@
-Lombok原理分析
-
-
-
+## Lombok原理分析
 
  (暂时不做源码 不够时间吃透)
 
+### 什么是Lombok？
+
+一. 定义
  Lombok项目是一个Java库，它会自动插入编辑器和构建工具中，Lombok提供了一组有用的注释，用来消除Java类中的大量样板代码。仅五个字符(@Data)就可以替换数百行代码从而产生干净，简洁且易于维护的Java类。
 
  可以在编译期间生成getter，setter，构造器，builder等代码，
  
 
+二. 与运行时注解的区别
 区别于运行时
  但是，我们发现这个包跟一般的包有很大区别，绝大多数java包都工作在运行时，比如spring提供的那种注解，通过在运行时用反射来实现业务逻辑。Lombok这个东西工作却在编译期，在运行时是无法通过反射获取到这个注解的。
 
@@ -25,6 +26,8 @@ lombok大量的都是修改已存在的Java文件, 做功能增强
  核心是修改了AST, [抽象语法树]
 
 
+
+三. 执行流程
 
  Lombok的基本流程应该基本是这样：
 
@@ -82,6 +85,8 @@ public synchronized boolean process(Set<? extends TypeElement> annotations, Roun
     return true;
 }
 
+### 源码详解
+
 步骤大概是下面这样：
 
 利用roundEnv的getElementsAnnotatedWith方法过滤出被Getter这个注解标记的类，并存入set
@@ -110,6 +115,7 @@ private Name getNewMethodName(Name name) {
 注解处理器的编译方式:
 1) 使用javac需要指定 processor
 2) MAVEN构建并打包, 通过spi的方式, 在meta-inf下放置javax.annotation.processing.Processor
+
 
 
 问题:
