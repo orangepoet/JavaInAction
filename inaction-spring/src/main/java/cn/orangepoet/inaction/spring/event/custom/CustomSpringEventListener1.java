@@ -13,6 +13,13 @@ import org.springframework.stereotype.Component;
 public class CustomSpringEventListener1 implements ApplicationListener<CustomSpringEvent> {
     @Override
     public void onApplicationEvent(CustomSpringEvent event) {
-        log.info("Received spring custom event - " + event.getMessage());
+        log.info("CustomSpringEventListener1 Received spring custom event - " + event.getMessage());
+        log.info("threadId: " + Thread.currentThread().getId());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        throw new RuntimeException("failed");
     }
 }

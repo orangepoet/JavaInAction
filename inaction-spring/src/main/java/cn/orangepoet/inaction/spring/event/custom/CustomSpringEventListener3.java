@@ -16,6 +16,13 @@ public class CustomSpringEventListener3 {
     @Async
     @EventListener
     public void handleContextStart(CustomSpringEvent event) {
-        log.info("Received spring custom event - " + event.getMessage());
+        log.info("CustomSpringEventListener3 Received spring custom event - " + event.getMessage());
+        log.info("threadId: " + Thread.currentThread().getId());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //throw new RuntimeException("failed");
     }
 }
