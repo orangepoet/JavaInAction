@@ -51,7 +51,7 @@ public class FactoryProcessor extends AbstractProcessor {
             printWriter.println();
             printWriter.println("public class " + factoryName + " {");
             printWriter.println();
-            printWriter.println("   public static " + classFullName + " getInstance() {");
+            printWriter.println("   public static " + classFullName + " newInstance() {");
             printWriter.println("       return new " + className + "();");
             printWriter.println("   }");
             printWriter.println();

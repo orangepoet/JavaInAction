@@ -10,6 +10,6 @@ import cn.orangepoet.annotationprocessing.processor.factory.Factory;
 public class Farm {
 
     public static void main() {
-        Farm farm = FarmFactory.getInstance();
+        Farm farm = FarmFactory.newInstance();
     }
 }
