@@ -14,13 +14,13 @@
     <artifactId>inaction</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
+        <module>../inaction-app</module>
         <module>../inaction-spring</module>
         <module>../inaction-desginpattern</module>
         <module>../inaction-algorithm</module>
         <module>../inaction-parallel</module>
         <module>../inaction-spi</module>
         <module>../inaction-annotationprocessing</module>
-        <module>../inaction-app</module>
     </modules>
     <packaging>pom</packaging>
 

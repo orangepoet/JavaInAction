@@ -12,16 +12,18 @@
 
     <artifactId>inaction-app</artifactId>
 
-    <properties>
-        <auto-service.version>1.0-rc2</auto-service.version>
-    </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.google.auto.service</groupId>
             <artifactId>auto-service</artifactId>
-            <version>${auto-service.version}</version>
+            <version>1.0-rc2</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.auto.factory</groupId>
+            <artifactId>auto-factory</artifactId>
+            <version>1.0-beta5</version>
         </dependency>
         <dependency>
             <groupId>io.vavr</groupId>
