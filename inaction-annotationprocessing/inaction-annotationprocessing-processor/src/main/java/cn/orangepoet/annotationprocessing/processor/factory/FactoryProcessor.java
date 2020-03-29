@@ -27,11 +27,10 @@ public class FactoryProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-
         for (TypeElement annotation : annotations) {
             Set<? extends Element> elementsAnnotatedWithFactory = roundEnv.getElementsAnnotatedWith(annotation);
             for (Element element : elementsAnnotatedWithFactory) {
-                String className = ((TypeElement) element).getQualifiedName().toString();
+                String className = ((TypeElement)element).getQualifiedName().toString();
 
                 try {
                     writeFactoryFile(className);

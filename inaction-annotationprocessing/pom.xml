@@ -9,6 +9,9 @@
         <relativePath>../inaction/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
 
     <artifactId>inaction-annotationprocessing</artifactId>
     <packaging>pom</packaging>
