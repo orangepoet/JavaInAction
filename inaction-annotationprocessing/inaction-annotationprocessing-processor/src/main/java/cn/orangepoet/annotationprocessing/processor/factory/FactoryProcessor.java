@@ -3,18 +3,17 @@ package cn.orangepoet.annotationprocessing.processor.factory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
-
-import com.google.auto.service.AutoService;
 
 /**
  * @Author: chengzhi
@@ -22,11 +21,20 @@ import com.google.auto.service.AutoService;
  */
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @SupportedAnnotationTypes("cn.orangepoet.annotationprocessing.processor.factory.Factory")
-@AutoService(Processor.class)
+//@AutoService(Processor.class)
 public class FactoryProcessor extends AbstractProcessor {
+    private AtomicInteger rounds = new AtomicInteger();
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE,
+            "FactoryProcessor process, round: " + rounds.incrementAndGet());
+
+        for (Element rootElement : roundEnv.getRootElements()) {
+            processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "FactoryProcessor root elements",
+                rootElement);
+        }
+
         for (TypeElement annotation : annotations) {
             Set<? extends Element> elementsAnnotatedWithFactory = roundEnv.getElementsAnnotatedWith(annotation);
             for (Element element : elementsAnnotatedWithFactory) {

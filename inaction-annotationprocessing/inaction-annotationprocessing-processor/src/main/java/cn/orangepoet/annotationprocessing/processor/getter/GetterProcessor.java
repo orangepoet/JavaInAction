@@ -1,11 +1,11 @@
 package cn.orangepoet.annotationprocessing.processor.getter;
 
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
@@ -14,7 +14,6 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 
-import com.google.auto.service.AutoService;
 import com.sun.source.tree.Tree;
 import com.sun.tools.javac.api.JavacTrees;
 import com.sun.tools.javac.code.Flags;
@@ -32,10 +31,12 @@ import com.sun.tools.javac.util.Names;
  * @author chengzhi
  * @date 2020/03/28
  */
-@AutoService(Processor.class)
 @SupportedAnnotationTypes("cn.orangepoet.annotationprocessing.processor.getter.Getter")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
+//@AutoService(Processor.class)
 public class GetterProcessor extends AbstractProcessor {
+    private AtomicInteger rounds = new AtomicInteger();
+
     private JavacTrees trees;
     private Messager messager;
     private TreeMaker treeMaker;
@@ -62,7 +63,14 @@ public class GetterProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        messager.printMessage(Diagnostic.Kind.WARNING, "GetterProcessor");
+        processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE,
+            "GetterProcessor process, round: " + rounds.incrementAndGet());
+
+        for (Element rootElement : roundEnv.getRootElements()) {
+            processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "FactoryProcessor root elements",
+                rootElement);
+        }
+
         for (TypeElement annotation : annotations) {
             Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(annotation);
             for (Element element : elements) {

@@ -1,4 +1,4 @@
-package cn.orangepoet.annotationprocessing.processor.builder;
+package cn.orangepoet.annotationprocessing.processor.factory;
 
 import com.google.common.io.Resources;
 import com.google.common.truth.Truth;
@@ -10,15 +10,15 @@ import org.junit.Test;
  * @author chengzhi
  * @date 2020/01/19
  */
-public class BuilderProcessorTest {
+public class FactoryProcessorTest {
 
     @Test
     public void process() {
         Truth.assert_().about(JavaSourceSubjectFactory.javaSource())
-            .that(JavaFileObjects.forResource(Resources.getResource("Person.java")))
-            .processedWith(new BuilderProcessor())
+            .that(JavaFileObjects.forResource(Resources.getResource("Farm.java")))
+            .processedWith(new FactoryProcessor())
             .compilesWithoutError()
             .and()
-            .generatesSources(JavaFileObjects.forResource(Resources.getResource("PersonBuilder.java")));
+            .generatesSources(JavaFileObjects.forResource(Resources.getResource("FarmFactory.java")));
     }
 }
