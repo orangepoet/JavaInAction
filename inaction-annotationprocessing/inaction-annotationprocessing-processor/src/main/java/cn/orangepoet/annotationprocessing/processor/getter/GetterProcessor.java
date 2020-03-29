@@ -67,7 +67,7 @@ public class GetterProcessor extends AbstractProcessor {
             "GetterProcessor process, round: " + rounds.incrementAndGet());
 
         for (Element rootElement : roundEnv.getRootElements()) {
-            processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "FactoryProcessor root elements",
+            processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "GetterProcessor root elements",
                 rootElement);
         }
 
