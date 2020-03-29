@@ -44,11 +44,19 @@ public class GetterProcessor extends AbstractProcessor {
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
-        trees = JavacTrees.instance(processingEnv);
+
         JavacProcessingEnvironment javacProcessingEnvironment = (JavacProcessingEnvironment)processingEnv;
         Context context = javacProcessingEnvironment.getContext();
+
+        // JSR269的一个工具类，用于联系程序元素和树节点
+        trees = JavacTrees.instance(processingEnv);
+
+        // 编译器的内部组件，是用于创建树节点的工厂类
         treeMaker = TreeMaker.instance(context);
+
+        // message reporter: 在注解处理过程中打印消息的
         messager = processingEnv.getMessager();
+
         names = Names.instance(context);
     }
 
@@ -59,38 +67,22 @@ public class GetterProcessor extends AbstractProcessor {
             Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(annotation);
             for (Element element : elements) {
                 JCTree jcTree = trees.getTree(element);
-                //jcTree.accept(new JCTree.Visitor() {
-                //    @Override
-                //    public void visitClassDef(JCTree.JCClassDecl jcClassDecl) {
-                //        //List<JCTree.JCVariableDecl> jcVariableDecls = List.nil();
-                //        //
-                //        //for (JCTree tree : jcClassDecl.defs) {
-                //        //    if (tree.getKind() == Tree.Kind.VARIABLE) {
-                //        //        jcVariableDecls.add((JCTree.JCVariableDecl)tree);
-                //        //    }
-                //        //}
-                //        //
-                //        //for (JCTree.JCVariableDecl jcVariableDecl : jcVariableDecls) {
-                //        //    messager.printMessage(Diagnostic.Kind.NOTE,
-                //        //        jcVariableDecl.getName() + " has been processed");
-                //        //    jcClassDecl.defs = jcClassDecl.defs.prepend(makeGetterMethodDecl(jcVariableDecl));
-                //        //}
-                //
-                //        super.visitClassDef(jcClassDecl);
-                //    }
-                //});
+
+                // JCTree利用的是访问者模式，将数据与数据的处理进行解耦，TreeTranslator就是访问者，这里我们重写访问类时的逻辑
                 jcTree.accept(new TreeTranslator() {
                     @Override
                     public void visitClassDef(JCTree.JCClassDecl jcClassDecl) {
                         try {
-                            List<JCTree.JCVariableDecl> jcVariableDecls = List.nil();
 
+                            // 获取成员变量列表
+                            List<JCTree.JCVariableDecl> jcVariableDecls = List.nil();
                             for (JCTree tree : jcClassDecl.defs) {
                                 if (tree.getKind() == Tree.Kind.VARIABLE) {
                                     jcVariableDecls = jcVariableDecls.append((JCTree.JCVariableDecl)tree);
                                 }
                             }
 
+                            //对每个成员变量生成相应的Getter方法
                             jcVariableDecls.forEach(jcVariableDecl -> {
                                 messager.printMessage(Diagnostic.Kind.NOTE,
                                     jcVariableDecl.getName() + " has been processed");
@@ -107,6 +99,12 @@ public class GetterProcessor extends AbstractProcessor {
         return true;
     }
 
+    /**
+     * 生成Getter方法的语法树节点
+     *
+     * @param jcVariableDecl
+     * @return
+     */
     private JCTree makeGetterMethodDecl(JCTree.JCVariableDecl jcVariableDecl) {
         ListBuffer<JCTree.JCStatement> statements = new ListBuffer<>();
         statements.append(
@@ -117,6 +115,12 @@ public class GetterProcessor extends AbstractProcessor {
             jcVariableDecl.vartype, List.nil(), List.nil(), List.nil(), body, null);
     }
 
+    /**
+     * Getter方法名
+     *
+     * @param name
+     * @return
+     */
     private Name getNewMethodName(Name name) {
         String s = name.toString();
         return names.fromString("get" + s.substring(0, 1).toUpperCase() + s.substring(1));
