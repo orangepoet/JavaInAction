@@ -8,10 +8,11 @@ import java.util.concurrent.*;
 
 /**
  * ForkJoin, 采用的是分治算法, 将任务的集合分解为更小的子集计算, 然后再合并各个子集的结果;
- *
+ * <p>
  * 调用的主要方法是fork(), join()方法, 分别对应递归任务分解, 和任务结果的获取(同步阻塞等待);
  */
 public class ForkJoinDemo {
+    private static final ExecutorService FORK_JOIN_SERVICE = Executors.newWorkStealingPool(8);
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(8);
     private static final CompletionService<Integer> COMPLETION_SERVICE = new ExecutorCompletionService<>(EXECUTOR_SERVICE);
 
@@ -25,16 +26,16 @@ public class ForkJoinDemo {
 
         // 1: simple loop
         long start = System.currentTimeMillis();
-        int total0 = 0;
+        int r1 = 0;
         for (LongTimeCompute longTimeCompute : longTimeComputes) {
             int number = longTimeCompute.getNumber();
-            total0 += number;
+            r1 += number;
         }
         long end = System.currentTimeMillis();
-        System.out.println("system0 elapse time: " + (end - start));
+        System.out.println("sequence elapse time: " + (end - start));
 
         //  2: completion service
-        int total1 = 0;
+        int r2 = 0;
         start = System.currentTimeMillis();
         for (LongTimeCompute longTimeCompute : longTimeComputes) {
             COMPLETION_SERVICE.submit(() -> longTimeCompute.getNumber());
@@ -43,28 +44,46 @@ public class ForkJoinDemo {
             try {
                 Future<Integer> future = COMPLETION_SERVICE.take();
                 Integer result = future.get();
-                total1 += result;
+                r2 += result;
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
         }
         end = System.currentTimeMillis();
-        System.out.println("system1 elapse time: " + (end - start));
-
+        System.out.println("completionService elapse time: " + (end - start));
 
         // 3: fork join
         start = System.currentTimeMillis();
-        int total2 = new Computer().sumList(longTimeComputes);
+        int r3 = new Computer().sumList(longTimeComputes);
         end = System.currentTimeMillis();
-        System.out.println("system2 elapse time: " + (end - start));
+        System.out.println("forkJoinPool elapse time: " + (end - start));
 
         // 4: stream
         start = System.currentTimeMillis();
-        Integer total3 = longTimeComputes.stream().parallel().map(c -> c.getNumber()).reduce(0, Integer::sum);
+        Integer r4 = longTimeComputes.stream().parallel().map(c -> c.getNumber()).reduce(0, Integer::sum);
         end = System.currentTimeMillis();
-        System.out.println("system3 elapse time: " + (end - start));
+        System.out.println("parallelStream time: " + (end - start));
 
-        assert total0 == total1 && total1 == total2 && total2 == total3;
+        // 5: custom parallel stream
+        int r5 = 0;
+        start = System.currentTimeMillis();
+        try {
+            r5 = FORK_JOIN_SERVICE.submit(
+                () -> longTimeComputes.stream().parallel()
+                    .map(c -> c.getNumber())
+                    .reduce(0, Integer::sum)
+            ).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        end = System.currentTimeMillis();
+        System.out.println("customParallelStream elapse time: " + (end - start));
+
+        if (r1 != r2 || r2 != r3 || r3 != r4 || r4 != r5) {
+            throw new IllegalStateException("result is incorrent");
+        }
 
         EXECUTOR_SERVICE.shutdown();
     }
@@ -175,7 +194,6 @@ public class ForkJoinDemo {
             int mid = intArr.length / 2;
             int[] leftArr = Arrays.copyOfRange(intArr, 0, mid);
             int[] rightArr = Arrays.copyOfRange(intArr, mid, intArr.length);
-
 
             ForkJoinTask<Integer> leftFork = new SumTask(leftArr).fork();
             ForkJoinTask<Integer> rightFork = new SumTask(rightArr).fork();
