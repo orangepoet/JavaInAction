@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -967,5 +968,36 @@ public class Solution {
             lst = lst2;
         }
         return ans;
+    }
+
+    /**
+     * 有效的括号
+     *
+     * @param s
+     * @return
+     */
+    public boolean isValid(String s) {
+        Map<Character, Character> map = new HashMap<Character, Character>() {{
+            put('?', '?');
+            put('{', '}');
+            put('(', ')');
+            put('[', ']');
+        }};
+        LinkedList<Character> stack = new LinkedList<Character>() {{
+            add('?');
+        }};
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            // 左进栈
+            if (map.containsKey(c)) {
+                stack.push(c);
+            } else {
+                Character c1 = stack.pop();
+                if (map.get(c1) != c) {
+                    return false;
+                }
+            }
+        }
+        return stack.size() == 1;
     }
 }
