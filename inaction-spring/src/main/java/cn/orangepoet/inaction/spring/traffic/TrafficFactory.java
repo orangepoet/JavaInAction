@@ -1,6 +1,9 @@
 package cn.orangepoet.inaction.spring.traffic;
 
+import java.util.List;
+
 import cn.orangepoet.inaction.spring.traffic.impl.Train;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -25,6 +28,11 @@ public class TrafficFactory {
     @Autowired
     @Qualifier("flightWay")
     private Traffic flightWay;
+
+
+    @Autowired
+    @Getter
+    private List<Traffic> trafficList;
 
     public Traffic getTraffic(TrafficWay way) {
         System.out.println(name);

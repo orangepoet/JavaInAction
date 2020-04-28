@@ -64,8 +64,8 @@ public class Solution {
             return false;
         }
         return left.val == right.val
-                && isMirror(left.right, right.left)
-                && isMirror(left.left, right.right);
+            && isMirror(left.right, right.left)
+            && isMirror(left.left, right.right);
     }
 
     /**
@@ -172,8 +172,8 @@ public class Solution {
         int coinNum;
         if (amount > 9) {
             coinNum = Math.min(
-                    1 + makeChanges4(amount - 9, resultMap),
-                    1 + makeChanges4(amount - 7, resultMap)
+                1 + makeChanges4(amount - 9, resultMap),
+                1 + makeChanges4(amount - 7, resultMap)
             );
         } else if (amount > 7) {
             coinNum = amount / 7 + amount % 7;
@@ -451,7 +451,7 @@ public class Solution {
             }
         }
 
-        return new int[]{low, high};
+        return new int[] {low, high};
     }
 
     /**
@@ -738,17 +738,17 @@ public class Solution {
         int gY = j / 3 * 3;
         for (int m = 0; m < 3; m++) {
             for (int n = 0; n < 3; n++) {
-                if (!(i == (gX + m) && j == (gY + n)) && (int) board[gX + m][gY + n] == num) {
+                if (!(i == (gX + m) && j == (gY + n)) && (int)board[gX + m][gY + n] == num) {
                     return true;
                 }
             }
         }
 
         for (int k = 0; k < 9; k++) {
-            if (k != i && (int) board[k][j] == num) {
+            if (k != i && (int)board[k][j] == num) {
                 return true;
             }
-            if (k != j && (int) board[i][k] == num) {
+            if (k != j && (int)board[i][k] == num) {
                 return true;
             }
         }
@@ -774,9 +774,9 @@ public class Solution {
         for (int i = 0; i < S.length(); i++) {
             char c = S.charAt(i);
             if (i < shifts2.length) {
-                int index = (int) c - 97;
-                int newIndex = (int) ((index + shifts2[i]) % 26);
-                c = (char) (newIndex + 97);
+                int index = (int)c - 97;
+                int newIndex = (int)((index + shifts2[i]) % 26);
+                c = (char)(newIndex + 97);
             }
             ans.append(c);
         }
@@ -861,7 +861,6 @@ public class Solution {
         return a + "A" + b + "B";
     }
 
-
     /**
      * 求解数组nums的子数组, 要求满足和为K的, 给出子数组的个数。
      * <p>
@@ -877,8 +876,7 @@ public class Solution {
         int ans = 0;
         for (int i = 0; i < nums.length; i++) {
             sum += nums[i];
-            if (map.containsKey(sum - k))
-                ans += map.get(sum - k);
+            if (map.containsKey(sum - k)) { ans += map.get(sum - k); }
             map.put(sum, map.getOrDefault(sum, 0) + 1);
         }
         return ans;
@@ -893,17 +891,17 @@ public class Solution {
             }
         }
         return ans;
-//        int ans = 0;
-//        for (int i = 0; ; i++) {
-//            int m = 1 << i;
-//            if (m > n) {
-//                break;
-//            }
-//            if ((n & m) == m) {
-//                ans++;
-//            }
-//        }
-//        return ans;
+        //        int ans = 0;
+        //        for (int i = 0; ; i++) {
+        //            int m = 1 << i;
+        //            if (m > n) {
+        //                break;
+        //            }
+        //            if ((n & m) == m) {
+        //                ans++;
+        //            }
+        //        }
+        //        return ans;
     }
 
     public boolean repeatedSubstringPattern(String s) {
@@ -932,15 +930,9 @@ public class Solution {
      * <p>
      * 示例:
      * <p>
-     * 输入: [1,2,3,null,5,null,4]
-     * 输出: [1, 3, 4]
-     * 解释:
+     * 输入: [1,2,3,null,5,null,4] 输出: [1, 3, 4] 解释:
      * <p>
-     * 1            <---
-     * /   \
-     * 2     3         <---
-     * \     \
-     * 5     4       <---
+     * 1            <--- /   \ 2     3         <--- \     \ 5     4       <---
      * <p>
      *
      * @param root
@@ -960,10 +952,8 @@ public class Solution {
 
             List<TreeNode> lst2 = new ArrayList<>();
             for (TreeNode treeNode : lst) {
-                if (treeNode.right != null)
-                    lst2.add(treeNode.right);
-                if (treeNode.left != null)
-                    lst2.add(treeNode.left);
+                if (treeNode.right != null) { lst2.add(treeNode.right); }
+                if (treeNode.left != null) { lst2.add(treeNode.left); }
             }
             lst = lst2;
         }
@@ -999,5 +989,33 @@ public class Solution {
             }
         }
         return stack.size() == 1;
+    }
+    
+    /**
+     * 大小为K且平均值大于等于阈值的子数组数目
+     *
+     * @param arr
+     * @param k
+     * @param threshold
+     * @return
+     */
+    public int numOfSubarrays(int[] arr, int k, int threshold) {
+        int nums = 0;
+
+        int sum = 0;
+        for (int i = 0, j = i + k - 1; j < arr.length; i++, j++) {
+            if (i == 0) {
+                for (int m = i; m <= j; m++) {
+                    sum += arr[m];
+                }
+            } else {
+                sum -= arr[i - 1];
+                sum += arr[j];
+            }
+            if (sum / k >= threshold) {
+                nums++;
+            }
+        }
+        return nums;
     }
 }

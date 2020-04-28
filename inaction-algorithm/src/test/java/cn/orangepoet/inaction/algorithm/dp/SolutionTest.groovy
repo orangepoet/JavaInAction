@@ -238,4 +238,21 @@ class SolutionTest extends Specification {
         [1, 1, 2, 1, 1] as int[] | 3 | 2
         [2, 4, 6] as int[]       | 1 | 0
     }
+
+    def '大小为K且平均值大于等于阈值的子数组数目'() {
+        given:
+        def solution = new Solution()
+
+        expect:
+        solution.numOfSubarrays(arr, k, threshold) == nums
+
+        where:
+        nums | arr                                           | k | threshold
+        5    | [1, 1, 1, 1, 1] as int[]                      | 1 | 0
+        3    | [2, 2, 2, 2, 5, 5, 5, 8] as int[]             | 3 | 4
+        6    | [11, 13, 17, 23, 29, 31, 7, 5, 2, 3] as int[] | 3 | 6
+        1    | [7, 7, 7, 7, 7, 7, 7] as int[]                | 7 | 7
+        6    | [11, 13, 17, 23, 29, 31, 7, 5, 2, 3] as int[] | 3 | 5
+        1    | [4, 4, 4, 4] as int[]                         | 4 | 1
+    }
 }

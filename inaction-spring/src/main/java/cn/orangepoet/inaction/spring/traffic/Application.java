@@ -15,6 +15,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Application implements CommandLineRunner {
     @Autowired
     private Traveler traveler;
+    @Autowired
+    private TrafficFactory factory;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class);
@@ -23,5 +25,9 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
         traveler.go(TrafficWay.TRAIN_WAY);
+
+        factory.getTrafficList().forEach(traffic -> {
+            log.info(traffic.toString());
+        });
     }
 }
