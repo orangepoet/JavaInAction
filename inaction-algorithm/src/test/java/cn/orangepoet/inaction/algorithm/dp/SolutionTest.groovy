@@ -111,8 +111,9 @@ class SolutionTest extends Specification {
         solution.threeSum(nums) == result
 
         where:
-        nums                           | result
-        [-1, 0, 1, 2, -1, -4] as int[] | [[-1, 0, 1], [-1, -1, 2]] as List
+        nums                                                              | result
+        [-1, 0, 1, 2, -1, -4] as int[]                                    | [[-1, -1, 2], [-1, 0, 1]] as List
+        [-4, -2, 1, -5, -4, -4, 4, -2, 0, 4, 0, -2, 3, 1, -5, 0] as int[] | [[-5, 1, 4], [-4, 0, 4], [-4, 1, 3], [-2, -2, 4], [-2, 1, 1], [0, 0, 0]] as List
     }
 
     def '树的路径总和'() {

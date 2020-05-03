@@ -517,25 +517,41 @@ public class Solution {
      * @return
      */
     public List<List<Integer>> threeSum(int[] nums) {
-        List<List<Integer>> result = new ArrayList<>();
-        int max = 1 << nums.length - 1;
+        List<List<Integer>> ans = new ArrayList<>();
+
         Arrays.sort(nums);
-        for (int i = 1; i <= max; i++) {
-            List<Integer> combination = new ArrayList<>();
-            int sum = 0;
-            for (int j = 0; j < nums.length; j++) {
-                int bit = 1 << j;
-                if ((i & bit) == bit) {
-                    sum += nums[j];
-                    combination.add(nums[j]);
+
+        Integer last = null;
+        for (int i = 0; i < nums.length; i++) {
+            if (last != null && nums[i] == last) {
+                continue;
+            }
+            last = nums[i];
+            if (nums[i] > 0) {
+                break;
+            }
+
+            int L = i + 1;
+            int R = nums.length - 1;
+
+            while (L < R) {
+                while (L < R && nums[i] + nums[L] + nums[R] < 0) {
+                    L++;
+                }
+                while (L < R && nums[i] + nums[L] + nums[R] > 0) {
+                    R--;
+                }
+                if (L < R && nums[i] + nums[L] + nums[R] == 0) {
+                    ans.add(Arrays.asList(nums[i], nums[L], nums[R]));
+                }
+                L++;
+                while (L < R && nums[L] == nums[L - 1]) {
+                    L++;
                 }
             }
-            HashSet<String> hashSet = new HashSet<>();
-            if (sum == 0 && combination.size() == 3) {
-                result.add(combination);
-            }
         }
-        return result;
+
+        return ans;
     }
 
     /**
@@ -990,7 +1006,7 @@ public class Solution {
         }
         return stack.size() == 1;
     }
-    
+
     /**
      * 大小为K且平均值大于等于阈值的子数组数目
      *
