@@ -1142,4 +1142,70 @@ public class Solution {
 
         return max;
     }
+
+    /**
+     * 判断树是否平衡
+     *
+     * @param root
+     * @return
+     */
+    public boolean isBalanced(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+
+        int leftHeight = height(root.left);
+        int rightHeight = height(root.right);
+
+        return Math.abs(leftHeight - rightHeight) <= 1
+            && isBalanced(root.left)
+            && isBalanced(root.right);
+    }
+
+    private int height(TreeNode treeNode) {
+        if (treeNode == null) {
+            return 0;
+        }
+        int deep = Math.max(height(treeNode.left), height(treeNode.right)) + 1;
+        return deep;
+    }
+
+    /**
+     * 邻近的重复数 (重复数nums[i]和nums[j], j和i的距离<=k
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        Map<Integer, Integer> numPos = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int num = nums[i];
+            if (numPos.containsKey(num)) {
+                Integer dupPos = numPos.get(num);
+                if (i != dupPos && i - dupPos <= k) {
+                    return true;
+                }
+            }
+            numPos.put(num, i);
+        }
+        return false;
+    }
+
+    /**
+     * 交叉点
+     *
+     * @param headA
+     * @param headB
+     * @return
+     */
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode pA = headA;
+        ListNode pB = headB;
+        while (pA != pB) {
+            pA = pA == null ? headB : pA.next;
+            pB = pB == null ? headA : pB.next;
+        }
+        return pA;
+    }
 }

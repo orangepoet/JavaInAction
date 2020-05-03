@@ -296,4 +296,5 @@ class SolutionTest extends Specification {
         " "        | 1
         "au"       | 2
     }
+
 }
