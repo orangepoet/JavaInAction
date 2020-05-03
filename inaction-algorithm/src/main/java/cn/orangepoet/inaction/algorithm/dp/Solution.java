@@ -1032,6 +1032,8 @@ public class Solution {
 
     /**
      * 大小为K且平均值大于等于阈值的子数组数目
+     * <p>
+     * 滑动窗口
      *
      * @param arr
      * @param k
@@ -1115,5 +1117,29 @@ public class Solution {
             nodes.get(i).next = nodes.get(i + 1);
         }
         return nodes.get(0);
+    }
+
+    /**
+     * 无重复字符的最长子串
+     * <p>
+     * 解法: 滑动窗口
+     *
+     * @param s
+     * @return
+     */
+    public int lengthOfLongestSubstring(String s) {
+        int max = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        for (int start = 0, end = 0; end < s.length(); end++) {
+            char c = s.charAt(end);
+            if (map.containsKey(c)) {
+                start = Math.max(start, map.get(c));
+            }
+            max = Math.max(max, end - start + 1);
+
+            map.put(c, end + 1);
+        }
+
+        return max;
     }
 }

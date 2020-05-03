@@ -280,4 +280,20 @@ class SolutionTest extends Specification {
         expect:
         solution.addTwoNumbers(p1, r1) == t1
     }
+
+    def '最大无重复子序列'() {
+        given:
+        def solution = new Solution()
+
+        expect:
+        solution.lengthOfLongestSubstring(s) == max
+
+        where:
+        s          | max
+        "abcabcbb" | 3
+        "bbbbbb"   | 1
+        "pwwkew"   | 3
+        " "        | 1
+        "au"       | 2
+    }
 }

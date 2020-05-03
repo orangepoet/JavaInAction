@@ -57,8 +57,12 @@ public class Ski {
             return value[row][col];
         }
         //不然就计算此点的“滑雪长度” = 上下左右的点的“滑雪长度”的最大值 + 1
-        value[row][col] = max(ski(row - 1, col, arr[row][col]), ski(row + 1, col, arr[row][col]),
-            ski(row, col - 1, arr[row][col]), ski(row, col + 1, arr[row][col])) + 1;
+        value[row][col] = max(
+            ski(row - 1, col, arr[row][col]),
+            ski(row + 1, col, arr[row][col]),
+            ski(row, col - 1, arr[row][col]),
+            ski(row, col + 1, arr[row][col])
+        ) + 1;
         return value[row][col];
     }
 
