@@ -256,4 +256,28 @@ class SolutionTest extends Specification {
         6    | [11, 13, 17, 23, 29, 31, 7, 5, 2, 3] as int[] | 3 | 5
         1    | [4, 4, 4, 4] as int[]                         | 4 | 1
     }
+
+    def '两数相加'() {
+        given:
+        def p1 = new Solution.ListNode(2)
+        def p2 = new Solution.ListNode(4)
+        def p3 = new Solution.ListNode(3)
+        p1.next = p2
+        p2.next = p3
+        def r1 = new Solution.ListNode(5)
+        def r2 = new Solution.ListNode(6)
+        def r3 = new Solution.ListNode(4)
+        r1.next = r2
+        r2.next = r3
+        def t1 = new Solution.ListNode(7)
+        def t2 = new Solution.ListNode(0)
+        def t3 = new Solution.ListNode(8)
+        t1.next = t2
+        t2.next = t3
+        def solution = new Solution()
+
+
+        expect:
+        solution.addTwoNumbers(p1, r1) == t1
+    }
 }

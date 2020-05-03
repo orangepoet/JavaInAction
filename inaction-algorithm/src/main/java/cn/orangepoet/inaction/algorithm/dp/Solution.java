@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 public class Solution {
@@ -378,6 +379,28 @@ public class Solution {
 
         ListNode(int x) {
             val = x;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) { return true; }
+            if (o == null || getClass() != o.getClass()) { return false; }
+            ListNode listNode = (ListNode)o;
+            if (val == listNode.val) {
+                if (this.next == null) {
+                    if (listNode.next == null) {
+                        return true;
+                    }
+                    return false;
+                }
+                return this.next.equals(listNode.next);
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(val);
         }
     }
 
@@ -1033,5 +1056,78 @@ public class Solution {
             }
         }
         return nums;
+    }
+
+    /**
+     * 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
+     * <p>
+     * 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
+     * <p>
+     * 您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+     * <p>
+     * <p>
+     * 示例:
+     *
+     * <p>
+     * 输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
+     * </p>
+     * <p>
+     * 输出：7 -> 0 -> 8
+     * </p>
+     * <p>
+     * 原因：342 + 465 = 807
+     * </p>
+     *
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        LinkedList<Integer> stack1 = new LinkedList<>();
+        LinkedList<Integer> stack2 = new LinkedList<>();
+
+        ListNode iter1 = l1;
+        while (iter1 != null) {
+            stack1.push(iter1.val);
+            iter1 = iter1.next;
+        }
+
+        ListNode iter2 = l2;
+        while (iter2 != null) {
+            stack2.push(iter2.val);
+            iter2 = iter2.next;
+        }
+
+        // 7 -> 0 -> 8
+        //  7  <  0   < 8
+        int exceed = 0;
+        List<ListNode> nodes = new ArrayList<>();
+        while (!stack1.isEmpty() || !stack2.isEmpty()) {
+            int sum = 0;
+            if (!stack1.isEmpty()) {
+                sum += stack1.pop();
+            }
+            if (!stack2.isEmpty()) {
+                sum += stack2.pop();
+            }
+            sum += exceed;
+            if (sum >= 10) {
+                sum = sum - 10;
+                exceed = 1;
+            } else {
+                exceed = 0;
+            }
+
+            ListNode node = new ListNode(sum);
+            nodes.add(node);
+        }
+        if (exceed > 0) {
+            nodes.add(new ListNode(exceed));
+        }
+
+        for (int i = 0; i < nodes.size() - 1; i++) {
+            nodes.get(i).next = nodes.get(i + 1);
+        }
+        return nodes.get(0);
     }
 }
