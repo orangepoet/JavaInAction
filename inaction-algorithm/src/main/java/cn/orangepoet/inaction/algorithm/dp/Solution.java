@@ -1083,48 +1083,34 @@ public class Solution {
      * @return
      */
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        LinkedList<Integer> stack1 = new LinkedList<>();
-        LinkedList<Integer> stack2 = new LinkedList<>();
-
-        ListNode iter1 = l1;
-        while (iter1 != null) {
-            stack1.push(iter1.val);
-            iter1 = iter1.next;
-        }
-
-        ListNode iter2 = l2;
-        while (iter2 != null) {
-            stack2.push(iter2.val);
-            iter2 = iter2.next;
-        }
-
-        // 7 -> 0 -> 8
-        //  7  <  0   < 8
-        int exceed = 0;
         List<ListNode> nodes = new ArrayList<>();
-        while (!stack1.isEmpty() || !stack2.isEmpty()) {
+
+        int exceed = 0;
+        while (l1 != null || l2 != null) {
             int sum = 0;
-            if (!stack1.isEmpty()) {
-                sum += stack1.pop();
+            if (l1 != null) {
+                sum += l1.val;
+                l1 = l1.next;
             }
-            if (!stack2.isEmpty()) {
-                sum += stack2.pop();
+            if (l2 != null) {
+                sum += l2.val;
+                l2 = l2.next;
             }
-            sum += exceed;
-            if (sum >= 10) {
-                sum = sum - 10;
-                exceed = 1;
-            } else {
+            if (exceed > 0) {
+                sum += exceed;
                 exceed = 0;
             }
 
+            if (sum >= 10) {
+                sum -= 10;
+                exceed = 1;
+            }
             ListNode node = new ListNode(sum);
             nodes.add(node);
         }
         if (exceed > 0) {
             nodes.add(new ListNode(exceed));
         }
-
         for (int i = 0; i < nodes.size() - 1; i++) {
             nodes.get(i).next = nodes.get(i + 1);
         }
