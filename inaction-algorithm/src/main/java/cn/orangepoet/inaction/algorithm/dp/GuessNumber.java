@@ -126,7 +126,6 @@ public class GuessNumber {
 
         List<Character> value = multipleNumSet.getValue();
 
-        TableNumConflictException ex = null;
         for (int i = 0; i < value.size(); i++) {
             Character guessValue = value.get(i);
 
