@@ -1208,4 +1208,128 @@ public class Solution {
         }
         return pA;
     }
+
+    /**
+     * 判断IP地址
+     *
+     * @param IP
+     * @return
+     */
+    public static String validIPAddress(String IP) {
+        if (IP == null || IP.length() == 0) {
+            return "Neither";
+        }
+        if (IP.contains(".")) {
+            String[] segments = IP.split("\\.", -1);
+            if (segments.length != 4) {
+                return "Neither";
+            }
+            Set<String> set = new HashSet<>();
+            for (int j = 0; j <= 9; j++) {
+                set.add(String.valueOf(j));
+            }
+
+            for (int i = 0; i < segments.length; i++) {
+                String seg = segments[i];
+                if (seg.length() == 0 || seg.length() > 4) {
+                    return "Neither";
+                }
+                if (seg.length() > 1 && seg.startsWith("0")) {
+                    return "Neither";
+                }
+                for (int j = 0; j < seg.length(); j++) {
+                    char c = seg.charAt(j);
+                    if (!set.contains(String.valueOf(c))) {
+                        return "Neither";
+                    }
+                }
+
+                try {
+                    int num = Integer.parseInt(seg);
+                    if (num < 0 || num > 255) {
+                        return "Neither";
+                    }
+                } catch (NumberFormatException e) {
+                    return "Neither";
+                }
+            }
+            return "IPv4";
+        } else if (IP.contains(":")) {
+            String[] segments = IP.split(":", -1);
+            if (segments.length != 8) {
+                return "Neither";
+            }
+            Set<Character> cSet = new HashSet(Arrays.asList(
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'A', 'B', 'C', 'D', 'E', 'F'
+            ));
+            for (int i = 0; i < segments.length; i++) {
+                String seg = segments[i];
+                if (seg.length() == 0 || seg.length() > 4) {
+                    return "Neither";
+                }
+                for (int j = 0; j < seg.length(); j++) {
+                    if (!cSet.contains(seg.charAt(j))) {
+                        return "Neither";
+                    }
+                }
+            }
+            return "IPv6";
+        }
+        return "Neither";
+    }
+
+    /**
+     * 求和 (递归)
+     *
+     * @param nums
+     * @param S
+     * @return
+     */
+    public int findTargetSumWays(int[] nums, int S) {
+        if (nums.length == 0) {
+            return S == 0 ? 1 : 0;
+        }
+        int cnt = 0;
+
+        int[] subNums = new int[nums.length - 1];
+        System.arraycopy(nums, 1, subNums, 0, subNums.length);
+        cnt += findTargetSumWays(subNums, S - nums[0]);
+        cnt += findTargetSumWays(subNums, S + nums[0]);
+
+        return cnt;
+    }
+
+    /**
+     * 求和 (动规)
+     * <p>
+     * S可能是负数, 最大-1000
+     *
+     * @param nums
+     * @param S
+     * @return
+     */
+    public int findTargetSumWays1(int[] nums, int S) {
+        // x: 前N个数, y: 计算和 从0到2001
+        int[][] dp = new int[nums.length][2001];
+        for (int j = 0; j <= 2000; j++) {
+            int ans = 0;
+            if (nums[0] == j) { ans += 1; }
+            if (nums[0] == -j) { ans += 1; }
+            dp[0][j] = ans;
+        }
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = -1000; j <= 1000; j++) {
+                int k = j + 1000;
+                int minusValue = k - nums[i];
+                if (minusValue >= 0 && minusValue <= 2000) {
+                    dp[i][k] += dp[i - 1][minusValue];
+                }
+                int addValue = k + nums[i];
+                if (addValue >= 0 && addValue <= 2000) {
+                    dp[i][k] += dp[i - 1][addValue];
+                }
+            }
+        }
+        return dp[nums.length - 1][S + 1000];
+    }
 }

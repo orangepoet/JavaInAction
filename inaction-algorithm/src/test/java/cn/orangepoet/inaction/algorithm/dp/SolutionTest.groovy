@@ -297,4 +297,17 @@ class SolutionTest extends Specification {
         "au"       | 2
     }
 
+    def '目标和'() {
+        given:
+        def solution = new Solution()
+
+        expect:
+//        solution.findTargetSumWays(arr, S) == num
+        solution.findTargetSumWays1(arr, S) == num
+
+        where:
+        arr             | S | num
+        [1, 1, 1, 1, 1] as int[] | 3 | 5
+//        [1, 0] as int[] | 1 | 2
+    }
 }
