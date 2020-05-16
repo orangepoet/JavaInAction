@@ -1309,24 +1309,26 @@ public class Solution {
      * @return
      */
     public int findTargetSumWays1(int[] nums, int S) {
+        // 只计算数组和最大1000内的动态规划
+        if (S > 1000 || S < -1000) {
+            return 0;
+        }
         // x: 前N个数, y: 计算和 从0到2001
         int[][] dp = new int[nums.length][2001];
-        for (int j = 0; j <= 2000; j++) {
+        for (int j = -1000; j <= 1000; j++) {
             int ans = 0;
             if (nums[0] == j) { ans += 1; }
             if (nums[0] == -j) { ans += 1; }
-            dp[0][j] = ans;
+            dp[0][j + 1000] = ans;
         }
         for (int i = 1; i < nums.length; i++) {
             for (int j = -1000; j <= 1000; j++) {
                 int k = j + 1000;
-                int minusValue = k - nums[i];
-                if (minusValue >= 0 && minusValue <= 2000) {
-                    dp[i][k] += dp[i - 1][minusValue];
+                if (k - nums[i] >= 0 && k - nums[i] <= 2000) {
+                    dp[i][k] += dp[i - 1][k - nums[i]];
                 }
-                int addValue = k + nums[i];
-                if (addValue >= 0 && addValue <= 2000) {
-                    dp[i][k] += dp[i - 1][addValue];
+                if (k + nums[i] >= 0 && k + nums[i] <= 2000) {
+                    dp[i][k] += dp[i - 1][k + nums[i]];
                 }
             }
         }
