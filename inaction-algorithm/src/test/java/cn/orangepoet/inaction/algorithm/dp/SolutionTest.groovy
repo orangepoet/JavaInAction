@@ -306,8 +306,27 @@ class SolutionTest extends Specification {
         solution.findTargetSumWays1(arr, S) == num
 
         where:
-        arr             | S | num
+        arr                      | S | num
         [1, 1, 1, 1, 1] as int[] | 3 | 5
 //        [1, 0] as int[] | 1 | 2
+    }
+
+    def '搜索词汇'() {
+        given:
+        def solution = new Solution()
+
+        expect:
+        solution.suggestedProducts(products, searchWord) == ans
+
+        where:
+        products                                                           | searchWord | ans
+        ["mobile", "mouse", "moneypot", "monitor", "mousepad"] as String[] | "mouse"    | [
+                ["mobile", "moneypot", "monitor"],
+                ["mobile", "moneypot", "monitor"],
+                ["mouse", "mousepad"],
+                ["mouse", "mousepad"],
+                ["mouse", "mousepad"] as List<List<String>>
+        ]
+
     }
 }

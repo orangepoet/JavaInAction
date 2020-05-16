@@ -1334,4 +1334,40 @@ public class Solution {
         }
         return dp[nums.length - 1][S + 1000];
     }
+
+    /**
+     * 搜索单词, 返回匹配的 字母排序的top3
+     *
+     * @param products
+     * @param searchWord
+     * @return
+     */
+    public List<List<String>> suggestedProducts(String[] products, String searchWord) {
+        Arrays.sort(products);
+        boolean[][] dp = new boolean[searchWord.length()][products.length];
+        for (int i = 0; i < searchWord.length(); i++) {
+            for (int j = 0; j < products.length; j++) {
+                if (i == 0) {
+                    dp[i][j] = products[j].length() > i && products[j].charAt(i) == searchWord.charAt(i);
+                } else {
+                    dp[i][j] = dp[i - 1][j] && products[j].length() > i && products[j].charAt(i) == searchWord.charAt(i);
+                }
+            }
+        }
+
+        List<List<String>> ans = new ArrayList<>();
+        for (int i = 0; i < dp.length; i++) {
+            List<String> matchedProducts = new ArrayList<>();
+            for (int j = 0; j < products.length; j++) {
+                if (dp[i][j]) {
+                    matchedProducts.add(products[j]);
+                    if (matchedProducts.size() >= 3) {
+                        break;
+                    }
+                }
+            }
+            ans.add(matchedProducts);
+        }
+        return ans;
+    }
 }
