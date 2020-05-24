@@ -314,9 +314,12 @@ class SolutionTest extends Specification {
         solution.fractionToDecimal(numerator, denominator) == ans
 
         where:
-        numerator | denominator | ans
-        1         | 2           | "0.5"
-        2         | 1           | "2"
-        2         | 3           | "0.(6)"
+        numerator   | denominator | ans
+        1           | 2           | "0.5"
+        2           | 1           | "2"
+        2           | 3           | "0.(6)"
+        -1          | -2147483648 | "0.0000000004656612873077392578125"
+        -2147483648 | 1           | "-2147483648"
+        7           | -12         | "-0.58(3)"
     }
 }

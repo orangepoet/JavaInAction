@@ -1398,16 +1398,31 @@ public class Solution {
      * @return
      */
     public String fractionToDecimal(int numerator, int denominator) {
-        Map<Integer, Integer> numeratorMap = new HashMap<>();
+        if (numerator == 0) {
+            return "0";
+        }
+        if (denominator == 0) {
+            throw new IllegalArgumentException("denominator is invalid");
+        }
+
+        Map<Long, Integer> numeratorMap = new HashMap<>();
         StringBuilder ans = new StringBuilder();
         boolean isFirst = true;
+        long numerator0 = numerator;
+        long denominator0 = denominator;
+
+        numerator0 = Math.abs(numerator0);
+        denominator0 = Math.abs(denominator0);
+        boolean isNegative = numerator == numerator0 ^ denominator == denominator0;
         while (true) {
-            int ret = numerator / denominator;
+            long ret = numerator0 / denominator0;
+            long mod = numerator0 % denominator0;
+
             ans.append(ret);
-            int mod = numerator % denominator;
             if (mod == 0) {
                 break;
             }
+
             if (isFirst) {
                 ans.append(".");
                 isFirst = false;
@@ -1419,7 +1434,10 @@ public class Solution {
                 break;
             }
             numeratorMap.put(mod, ans.length());
-            numerator = mod * 10;
+            numerator0 = mod * 10;
+        }
+        if (isNegative) {
+            ans.insert(0, "-");
         }
         return ans.toString();
     }
