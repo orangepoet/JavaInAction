@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import org.springframework.util.StringUtils;
+
 public class Solution {
 
     /**
@@ -65,8 +67,8 @@ public class Solution {
             return false;
         }
         return left.val == right.val
-            && isMirror(left.right, right.left)
-            && isMirror(left.left, right.right);
+                && isMirror(left.right, right.left)
+                && isMirror(left.left, right.right);
     }
 
     /**
@@ -173,8 +175,8 @@ public class Solution {
         int coinNum;
         if (amount > 9) {
             coinNum = Math.min(
-                1 + makeChanges4(amount - 9, resultMap),
-                1 + makeChanges4(amount - 7, resultMap)
+                    1 + makeChanges4(amount - 9, resultMap),
+                    1 + makeChanges4(amount - 7, resultMap)
             );
         } else if (amount > 7) {
             coinNum = amount / 7 + amount % 7;
@@ -383,9 +385,13 @@ public class Solution {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) { return true; }
-            if (o == null || getClass() != o.getClass()) { return false; }
-            ListNode listNode = (ListNode)o;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            ListNode listNode = (ListNode) o;
             if (val == listNode.val) {
                 if (this.next == null) {
                     if (listNode.next == null) {
@@ -474,7 +480,7 @@ public class Solution {
             }
         }
 
-        return new int[] {low, high};
+        return new int[]{low, high};
     }
 
     /**
@@ -777,17 +783,17 @@ public class Solution {
         int gY = j / 3 * 3;
         for (int m = 0; m < 3; m++) {
             for (int n = 0; n < 3; n++) {
-                if (!(i == (gX + m) && j == (gY + n)) && (int)board[gX + m][gY + n] == num) {
+                if (!(i == (gX + m) && j == (gY + n)) && (int) board[gX + m][gY + n] == num) {
                     return true;
                 }
             }
         }
 
         for (int k = 0; k < 9; k++) {
-            if (k != i && (int)board[k][j] == num) {
+            if (k != i && (int) board[k][j] == num) {
                 return true;
             }
-            if (k != j && (int)board[i][k] == num) {
+            if (k != j && (int) board[i][k] == num) {
                 return true;
             }
         }
@@ -813,9 +819,9 @@ public class Solution {
         for (int i = 0; i < S.length(); i++) {
             char c = S.charAt(i);
             if (i < shifts2.length) {
-                int index = (int)c - 97;
-                int newIndex = (int)((index + shifts2[i]) % 26);
-                c = (char)(newIndex + 97);
+                int index = (int) c - 97;
+                int newIndex = (int) ((index + shifts2[i]) % 26);
+                c = (char) (newIndex + 97);
             }
             ans.append(c);
         }
@@ -915,7 +921,9 @@ public class Solution {
         int ans = 0;
         for (int i = 0; i < nums.length; i++) {
             sum += nums[i];
-            if (map.containsKey(sum - k)) { ans += map.get(sum - k); }
+            if (map.containsKey(sum - k)) {
+                ans += map.get(sum - k);
+            }
             map.put(sum, map.getOrDefault(sum, 0) + 1);
         }
         return ans;
@@ -991,8 +999,12 @@ public class Solution {
 
             List<TreeNode> lst2 = new ArrayList<>();
             for (TreeNode treeNode : lst) {
-                if (treeNode.right != null) { lst2.add(treeNode.right); }
-                if (treeNode.left != null) { lst2.add(treeNode.left); }
+                if (treeNode.right != null) {
+                    lst2.add(treeNode.right);
+                }
+                if (treeNode.left != null) {
+                    lst2.add(treeNode.left);
+                }
             }
             lst = lst2;
         }
@@ -1158,8 +1170,8 @@ public class Solution {
         int rightHeight = height(root.right);
 
         return Math.abs(leftHeight - rightHeight) <= 1
-            && isBalanced(root.left)
-            && isBalanced(root.right);
+                && isBalanced(root.left)
+                && isBalanced(root.right);
     }
 
     private int height(TreeNode treeNode) {
@@ -1260,7 +1272,7 @@ public class Solution {
                 return "Neither";
             }
             Set<Character> cSet = new HashSet(Arrays.asList(
-                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'A', 'B', 'C', 'D', 'E', 'F'
+                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'A', 'B', 'C', 'D', 'E', 'F'
             ));
             for (int i = 0; i < segments.length; i++) {
                 String seg = segments[i];
@@ -1317,8 +1329,12 @@ public class Solution {
         int[][] dp = new int[nums.length][2001];
         for (int j = -1000; j <= 1000; j++) {
             int ans = 0;
-            if (nums[0] == j) { ans += 1; }
-            if (nums[0] == -j) { ans += 1; }
+            if (nums[0] == j) {
+                ans += 1;
+            }
+            if (nums[0] == -j) {
+                ans += 1;
+            }
             dp[0][j + 1000] = ans;
         }
         for (int i = 1; i < nums.length; i++) {
@@ -1369,5 +1385,42 @@ public class Solution {
             ans.add(matchedProducts);
         }
         return ans;
+    }
+
+
+    /**
+     * 给定两个整数，分别表示分数的分子 numerator 和分母 denominator，以字符串形式返回小数。
+     * <p>
+     * 如果小数部分为循环小数，则将循环的部分括在括号内。
+     *
+     * @param numerator
+     * @param denominator
+     * @return
+     */
+    public String fractionToDecimal(int numerator, int denominator) {
+        Map<Integer, Integer> numeratorMap = new HashMap<>();
+        StringBuilder ans = new StringBuilder();
+        boolean isFirst = true;
+        while (true) {
+            int ret = numerator / denominator;
+            ans.append(ret);
+            int mod = numerator % denominator;
+            if (mod == 0) {
+                break;
+            }
+            if (isFirst) {
+                ans.append(".");
+                isFirst = false;
+            }
+            if (numeratorMap.containsKey(mod)) {
+                int start = numeratorMap.get(mod);
+                ans.insert(start, "(");
+                ans.append(")");
+                break;
+            }
+            numeratorMap.put(mod, ans.length());
+            numerator = mod * 10;
+        }
+        return ans.toString();
     }
 }

@@ -9,9 +9,9 @@ import spock.lang.Specification
  * @author chengzhi* @date 2019/09/27
  */
 class SolutionTest extends Specification {
+    def solution = new Solution()
+
     def "最大连续子序列"() {
-        given:
-        def solution = new Solution()
         expect:
         solution.getMaxSubSet(sequence) == max
 
@@ -27,8 +27,6 @@ class SolutionTest extends Specification {
     }
 
     def "斐波那契数列 (非递归解法)"() {
-        given:
-        def solution = new Solution()
         expect:
         solution.fibonacci0(n) == arr
 
@@ -42,8 +40,6 @@ class SolutionTest extends Specification {
     }
 
     def "斐波那契数列(递归解法)"() {
-        given:
-        def solution = new Solution()
         expect:
         solution.fibonacci1(n) == arr
 
@@ -57,8 +53,7 @@ class SolutionTest extends Specification {
     }
 
     def "硬币找零"() {
-        given:
-        def solution = new Solution()
+
         expect:
         solution.makeChange(coins, n, new HashMap<>()) == cnt
         solution.makeChange2(coins, n) == cnt
@@ -79,8 +74,7 @@ class SolutionTest extends Specification {
     }
 
     def '查找目标数的范围'() {
-        given:
-        def solution = new Solution()
+
 
         expect:
         solution.searchRange(nums, target) == range
@@ -93,8 +87,7 @@ class SolutionTest extends Specification {
     }
 
     def '测试目标数解集'() {
-        given:
-        def solution = new Solution()
+
 
         expect:
         solution.combinationSum(candidates, target) == ans
@@ -105,8 +98,7 @@ class SolutionTest extends Specification {
     }
 
     def '三数之和'() {
-        given:
-        def solution = new Solution()
+
         expect:
         solution.threeSum(nums) == result
 
@@ -142,8 +134,7 @@ class SolutionTest extends Specification {
     }
 
     def '数组单调测试'() {
-        given:
-        def solution = new Solution()
+
 
         expect:
         solution.isMonotonic(arr) == ans
@@ -155,8 +146,7 @@ class SolutionTest extends Specification {
     }
 
     def '数独是否合理'() {
-        given:
-        def solution = new Solution()
+
         when:
 
         def board = [
@@ -189,8 +179,7 @@ class SolutionTest extends Specification {
     }
 
     def '字母移位'() {
-        given:
-        def solution = new Solution();
+        ;
 
         expect:
         solution.shiftingLetters(S, arr).equals(ans)
@@ -202,8 +191,7 @@ class SolutionTest extends Specification {
     }
 
     def "分组最大数"() {
-        given:
-        def solution = new Solution()
+
 
         expect:
         solution.maxSumAfterPartitioning(A, K) == ans
@@ -215,8 +203,7 @@ class SolutionTest extends Specification {
     }
 
     def "模式匹配"() {
-        given:
-        def solution = new Solution()
+
 
         expect:
         solution.wordPattern(pattern, str) == ans
@@ -228,8 +215,7 @@ class SolutionTest extends Specification {
     }
 
     def "优美子数组"() {
-        given:
-        def solution = new Solution()
+
 
         expect:
         solution.subArrayIsK(nums, k) == ans
@@ -241,8 +227,7 @@ class SolutionTest extends Specification {
     }
 
     def '大小为K且平均值大于等于阈值的子数组数目'() {
-        given:
-        def solution = new Solution()
+
 
         expect:
         solution.numOfSubarrays(arr, k, threshold) == nums
@@ -282,8 +267,7 @@ class SolutionTest extends Specification {
     }
 
     def '最大无重复子序列'() {
-        given:
-        def solution = new Solution()
+
 
         expect:
         solution.lengthOfLongestSubstring(s) == max
@@ -298,8 +282,7 @@ class SolutionTest extends Specification {
     }
 
     def '目标和'() {
-        given:
-        def solution = new Solution()
+
 
         expect:
 //        solution.findTargetSumWays(arr, S) == num
@@ -312,9 +295,6 @@ class SolutionTest extends Specification {
     }
 
     def '搜索词汇'() {
-        given:
-        def solution = new Solution()
-
         expect:
         solution.suggestedProducts(products, searchWord) == ans
 
@@ -327,6 +307,16 @@ class SolutionTest extends Specification {
                 ["mouse", "mousepad"],
                 ["mouse", "mousepad"] as List<List<String>>
         ]
+    }
 
+    def '验证分数到小数'() {
+        expect:
+        solution.fractionToDecimal(numerator, denominator) == ans
+
+        where:
+        numerator | denominator | ans
+        1         | 2           | "0.5"
+        2         | 1           | "2"
+        2         | 3           | "0.(6)"
     }
 }
