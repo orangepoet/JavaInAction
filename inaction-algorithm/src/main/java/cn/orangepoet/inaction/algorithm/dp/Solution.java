@@ -3,6 +3,7 @@ package cn.orangepoet.inaction.algorithm.dp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -11,9 +12,22 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import org.springframework.util.StringUtils;
-
 public class Solution {
+    public static class TreeNode {
+        int val;
+        public TreeNode left;
+        public TreeNode right;
+
+        public TreeNode(int x) {
+            val = x;
+        }
+
+        public TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
 
     /**
      * 合并两个有序数组
@@ -31,22 +45,6 @@ public class Solution {
             nums1[p--] = nums1[p1] > nums2[p2] ? nums1[p1--] : nums2[p2--];
         }
         System.arraycopy(nums2, 0, nums1, 0, p2 + 1);
-    }
-
-    public static class TreeNode {
-        int val;
-        public TreeNode left;
-        public TreeNode right;
-
-        public TreeNode(int x) {
-            val = x;
-        }
-
-        public TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
     }
 
     /**
@@ -67,8 +65,8 @@ public class Solution {
             return false;
         }
         return left.val == right.val
-                && isMirror(left.right, right.left)
-                && isMirror(left.left, right.right);
+            && isMirror(left.right, right.left)
+            && isMirror(left.left, right.right);
     }
 
     /**
@@ -175,8 +173,8 @@ public class Solution {
         int coinNum;
         if (amount > 9) {
             coinNum = Math.min(
-                    1 + makeChanges4(amount - 9, resultMap),
-                    1 + makeChanges4(amount - 7, resultMap)
+                1 + makeChanges4(amount - 9, resultMap),
+                1 + makeChanges4(amount - 7, resultMap)
             );
         } else if (amount > 7) {
             coinNum = amount / 7 + amount % 7;
@@ -391,7 +389,7 @@ public class Solution {
             if (o == null || getClass() != o.getClass()) {
                 return false;
             }
-            ListNode listNode = (ListNode) o;
+            ListNode listNode = (ListNode)o;
             if (val == listNode.val) {
                 if (this.next == null) {
                     if (listNode.next == null) {
@@ -480,7 +478,7 @@ public class Solution {
             }
         }
 
-        return new int[]{low, high};
+        return new int[] {low, high};
     }
 
     /**
@@ -783,17 +781,17 @@ public class Solution {
         int gY = j / 3 * 3;
         for (int m = 0; m < 3; m++) {
             for (int n = 0; n < 3; n++) {
-                if (!(i == (gX + m) && j == (gY + n)) && (int) board[gX + m][gY + n] == num) {
+                if (!(i == (gX + m) && j == (gY + n)) && (int)board[gX + m][gY + n] == num) {
                     return true;
                 }
             }
         }
 
         for (int k = 0; k < 9; k++) {
-            if (k != i && (int) board[k][j] == num) {
+            if (k != i && (int)board[k][j] == num) {
                 return true;
             }
-            if (k != j && (int) board[i][k] == num) {
+            if (k != j && (int)board[i][k] == num) {
                 return true;
             }
         }
@@ -819,9 +817,9 @@ public class Solution {
         for (int i = 0; i < S.length(); i++) {
             char c = S.charAt(i);
             if (i < shifts2.length) {
-                int index = (int) c - 97;
-                int newIndex = (int) ((index + shifts2[i]) % 26);
-                c = (char) (newIndex + 97);
+                int index = (int)c - 97;
+                int newIndex = (int)((index + shifts2[i]) % 26);
+                c = (char)(newIndex + 97);
             }
             ans.append(c);
         }
@@ -1170,8 +1168,8 @@ public class Solution {
         int rightHeight = height(root.right);
 
         return Math.abs(leftHeight - rightHeight) <= 1
-                && isBalanced(root.left)
-                && isBalanced(root.right);
+            && isBalanced(root.left)
+            && isBalanced(root.right);
     }
 
     private int height(TreeNode treeNode) {
@@ -1272,7 +1270,7 @@ public class Solution {
                 return "Neither";
             }
             Set<Character> cSet = new HashSet(Arrays.asList(
-                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'A', 'B', 'C', 'D', 'E', 'F'
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'A', 'B', 'C', 'D', 'E', 'F'
             ));
             for (int i = 0; i < segments.length; i++) {
                 String seg = segments[i];
@@ -1387,7 +1385,6 @@ public class Solution {
         return ans;
     }
 
-
     /**
      * 给定两个整数，分别表示分数的分子 numerator 和分母 denominator，以字符串形式返回小数。
      * <p>
@@ -1440,5 +1437,61 @@ public class Solution {
             ans.insert(0, "-");
         }
         return ans.toString();
+    }
+
+    /**
+     * 最长重复子字符串
+     *
+     * @param s
+     * @return
+     */
+    public String longestDupSubstring(String s) {
+        if (s == null || s.isEmpty()) {
+            return "";
+        }
+        Map<Character, List<Integer>> characterPositions = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (characterPositions.containsKey(c)) {
+                characterPositions.get(c).add(i);
+            } else {
+                List<Integer> positions = new ArrayList<>();
+                positions.add(i);
+                characterPositions.put(c, positions);
+            }
+        }
+
+        Set<String> dups = new HashSet<>();
+
+        for (Map.Entry<Character, List<Integer>> entry : characterPositions.entrySet()) {
+            if (entry.getValue() == null || entry.getValue().size() <= 1) {
+                continue;
+            }
+            String maxDup = findMaxDup(s, entry.getValue());
+            dups.add(maxDup);
+        }
+        return dups.stream().max(Comparator.comparingInt(String::length)).orElse("");
+    }
+
+    private String findMaxDup(String s, List<Integer> positions) {
+        if (positions == null || positions.size() <= 1) {
+            return "";
+        }
+        Set<String> dups = new HashSet<>();
+        for (int i = 0; i < positions.size() - 1; i++) {
+            for (int j = i + 1; j < positions.size(); j++) {
+                String dup = getMaxDupSubStr(s, positions.get(i), positions.get(j));
+                dups.add(dup);
+            }
+        }
+        return dups.stream().max(Comparator.comparingInt(String::length)).orElse("");
+    }
+
+    private String getMaxDupSubStr(String s, int left, int right) {
+        int dupOffset = 0;
+        while (right + dupOffset <= s.length() - 1 && s.charAt(left + dupOffset) == s.charAt(right + dupOffset)) {
+            dupOffset++;
+        }
+        return s.substring(left, left + dupOffset);
     }
 }
