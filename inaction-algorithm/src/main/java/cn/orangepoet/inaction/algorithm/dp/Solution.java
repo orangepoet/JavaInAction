@@ -129,63 +129,6 @@ public class Solution {
     }
 
     /**
-     * 按币种面值枚举, 面值高优先
-     *
-     * @param money
-     */
-    private static int makeChanges3(int money) {
-        int range = money / 9;
-        int minCount = Integer.MAX_VALUE;
-        int count;
-
-        int thisA = 0;
-        int thisB = 0;
-        int thisC = 0;
-        for (int i = 0; i < range; i++) {
-            int j = (money - 9 * i) / 7;
-            int k = money - 9 * i - 7 * j;
-
-            count = i + j + k;
-            System.out.println("calcuate count>>");
-            if (minCount > count) {
-                minCount = count;
-                //                System.out.println(String.format("This Best>> A: %d, B: %d, C: %d, Count: %d", i,
-                //                j, k, count));
-                thisA = i;
-                thisB = j;
-                thisC = k;
-            }
-        }
-        System.out.println(String.format("Best>> A: %d, B: %d, C: %d, Count: %d", thisA, thisB, thisC, minCount));
-        return minCount;
-    }
-
-    /**
-     * 使用动态规则
-     *
-     * @param amount
-     */
-    private static int makeChanges4(int amount, Map<Integer, Integer> resultMap) {
-
-        if (resultMap.containsKey(amount)) {
-            return resultMap.get(amount);
-        }
-        int coinNum;
-        if (amount > 9) {
-            coinNum = Math.min(
-                1 + makeChanges4(amount - 9, resultMap),
-                1 + makeChanges4(amount - 7, resultMap)
-            );
-        } else if (amount > 7) {
-            coinNum = amount / 7 + amount % 7;
-        } else {
-            coinNum = amount;
-        }
-        resultMap.put(amount, coinNum);
-        return coinNum;
-    }
-
-    /**
      * 组合数 和为n, 数量为k
      *
      * @param k
@@ -228,6 +171,13 @@ public class Solution {
         return climbStairs0(n, new HashMap<>());
     }
 
+    /**
+     * 爬楼算法, 1阶1种(1步), 2阶2种(1步或2步), n>2 可分解为先1阶或先2阶的策略合
+     *
+     * @param n
+     * @param stairCnt
+     * @return
+     */
     private int climbStairs0(int n, Map<Integer, Integer> stairCnt) {
         if (n <= 0) {
             throw new IllegalArgumentException("n is invalid");
@@ -409,46 +359,13 @@ public class Solution {
     }
 
     /**
-     * 链表反转
-     *
-     * @param head
-     * @param m
-     * @param n
-     * @return
-     */
-    public ListNode reverseBetween(ListNode head, int m, int n) {
-        if (head == null || m < 1 || n < 1 || m > n) {
-            return head;
-        }
-
-        ListNode left = null;
-        ListNode right = null;
-        ListNode cur = head;
-        int t = 0;
-        while (cur != null) {
-            t += 1;
-            if (t == m - 1) {
-                left = cur;
-            }
-            if (t == n + 1) {
-                right = cur;
-            }
-            cur = cur.next;
-        }
-
-        int len = n - m;
-        left = left == null ? head : left;
-        ListNode next = null;
-        while (len > 0) {
-            len--;
-        }
-        //TODO: 未完待续
-
-        return head;
-    }
-
-    /**
      * 查找目标数的开始和结束位置
+     *
+     * <p>
+     * 1. 折半查找 找到目标数
+     *
+     * <p>
+     * 2. 通过滑动窗口, 判断目标数位置的左右是否相同
      *
      * @param nums   升序的数组
      * @param target 目标数值
@@ -925,28 +842,6 @@ public class Solution {
             map.put(sum, map.getOrDefault(sum, 0) + 1);
         }
         return ans;
-    }
-
-    public int hammingWeight(int n) {
-        String binary = Integer.toBinaryString(n);
-        int ans = 0;
-        for (int i = 0; i < binary.length(); i++) {
-            if (binary.charAt(i) == '1') {
-                ans++;
-            }
-        }
-        return ans;
-        //        int ans = 0;
-        //        for (int i = 0; ; i++) {
-        //            int m = 1 << i;
-        //            if (m > n) {
-        //                break;
-        //            }
-        //            if ((n & m) == m) {
-        //                ans++;
-        //            }
-        //        }
-        //        return ans;
     }
 
     public boolean repeatedSubstringPattern(String s) {
@@ -1493,5 +1388,34 @@ public class Solution {
             dupOffset++;
         }
         return s.substring(left, left + dupOffset);
+    }
+
+    /**
+     * 删列造序
+     *
+     * @param A
+     * @return
+     */
+    public int minDeletionSize(String[] A) {
+        if (A == null || A.length <= 0) { return 0; }
+
+        int ans = 0;
+        int[] weight = new int[A.length];
+        for (int i = 0; i < A[0].length(); i++) {
+            boolean isSorted = true;
+            for (int j = 1; j < A.length; j++) {
+                if (weight[j] == weight[j - 1] && A[j].charAt(i) < A[j - 1].charAt(i)) {
+                    ans++;
+                    isSorted = false;
+                    break;
+                }
+            }
+            if (isSorted) {
+                for (int j = 0; j < A.length; j++) {
+                    weight[j] = weight[j] * 26 + (int)A[j].charAt(i);
+                }
+            }
+        }
+        return ans;
     }
 }
