@@ -336,7 +336,7 @@ class SolutionTest extends Specification {
 
     def "删列造序"() {
         expect:
-        solution.minDeletionSize(A) == N;
+        solution.minDeletionSize(A) == N
 
         where:
         A | N

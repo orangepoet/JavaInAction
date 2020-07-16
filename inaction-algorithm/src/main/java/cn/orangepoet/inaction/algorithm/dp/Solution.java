@@ -1,9 +1,11 @@
 package cn.orangepoet.inaction.algorithm.dp;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -1414,6 +1416,52 @@ public class Solution {
                 for (int j = 0; j < A.length; j++) {
                     weight[j] = weight[j] * 26 + (int)A[j].charAt(i);
                 }
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 后续遍历 (递归算法)
+     *
+     * @param root
+     * @return
+     */
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+
+        if (root.left != null) {
+            ans.addAll(postorderTraversal(root.left));
+        }
+        if (root.right != null) {
+            ans.addAll(postorderTraversal(root.right));
+        }
+        ans.add(root.val);
+        return ans;
+    }
+
+    /**
+     * 后续遍历 (非递归算法)
+     *
+     * @param root
+     * @return
+     */
+    public List<Integer> postorderTraversal1(TreeNode root) {
+        List<Integer> ans = new LinkedList<>();
+        if (root == null) {
+            return ans;
+        }
+
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode treeNode = stack.pop();
+            ans.add(0, treeNode.val);
+            if (treeNode.left != null) {
+                stack.push(treeNode.left);
+            }
+            if (treeNode.right != null) {
+                stack.push(treeNode.right);
             }
         }
         return ans;
