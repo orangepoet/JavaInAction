@@ -55,7 +55,7 @@ public class Solution {
      * @param root
      * @return
      */
-    public boolean isSymmetric(TreeNode root) {
+    public boolean isSymmetricœ(TreeNode root) {
         return isMirror(root, root);
     }
 
@@ -1465,5 +1465,101 @@ public class Solution {
             }
         }
         return ans;
+    }
+
+    public boolean splitArraySameAverage(int[] A) {
+        Arrays.sort(A);
+
+        int sum = 0;
+        for (int i = 0; i < A.length; i++) {
+            sum += A[i];
+        }
+
+        double avg = sum * 1.0 / A.length;
+
+        int mid = 0;
+        int left = 0;
+        int right = A.length - 1;
+        for (; mid < A.length; mid++) {
+            if (A[mid] == avg) {
+                left = mid - 1;
+                right = mid + 1;
+                break;
+            } else if (A[mid] > avg) {
+                left = mid - 1;
+                right = mid;
+                break;
+            }
+
+        }
+        List<Integer> subSet = new ArrayList<>();
+        while (left > 0 && right < A.length - 1) {
+            if (!subSet.isEmpty()) {
+                double avg0 = getAvg(subSet);
+                if (avg0 < avg) {
+                    subSet.add(A[right++]);
+                } else if (avg0 > avg) {
+                    subSet.add(A[left--]);
+                } else {
+                    subSet.clear();
+                }
+            } else {
+                subSet.add(A[left--]);
+                subSet.add(A[right++]);
+            }
+        }
+        while (left > 0) {
+            subSet.add(A[left--]);
+        }
+        while (right < A.length - 1) {
+            subSet.add(A[right++]);
+        }
+        return subSet.isEmpty() || getAvg(subSet) == avg;
+    }
+
+    private double getAvg(List<Integer> lst) {
+        if (lst.isEmpty()) {
+            return 0;
+        }
+        int sum = 0;
+        for (int i : lst) {
+            sum += i;
+        }
+        return sum * 1.0 / lst.size();
+    }
+
+    /**
+     * 计算四因数, 返回该数组中恰有四个因数的这些整数的各因数之和。
+     *
+     * @param nums
+     * @return
+     */
+    public int sumFourDivisors(int[] nums) {
+        int sum = 0;
+
+        for (int num : nums) {
+
+            int factorNum = 0;
+            int factorSum = 0;
+            for (int i = 1; i * i <= num; i++) {
+                if (num % i == 0) {
+                    factorNum++;
+                    factorSum += i;
+
+                    if (i * i != num) {
+                        factorNum++;
+                        factorSum += num / i;
+                    }
+                    if (factorNum > 4) {
+                        break;
+                    }
+                }
+            }
+            if (factorNum == 4) {
+                sum += factorSum;
+            }
+
+        }
+        return sum;
     }
 }
