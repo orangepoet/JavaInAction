@@ -67,8 +67,8 @@ public class Solution {
             return false;
         }
         return left.val == right.val
-            && isMirror(left.right, right.left)
-            && isMirror(left.left, right.right);
+                && isMirror(left.right, right.left)
+                && isMirror(left.left, right.right);
     }
 
     /**
@@ -341,7 +341,7 @@ public class Solution {
             if (o == null || getClass() != o.getClass()) {
                 return false;
             }
-            ListNode listNode = (ListNode)o;
+            ListNode listNode = (ListNode) o;
             if (val == listNode.val) {
                 if (this.next == null) {
                     if (listNode.next == null) {
@@ -397,7 +397,7 @@ public class Solution {
             }
         }
 
-        return new int[] {low, high};
+        return new int[]{low, high};
     }
 
     /**
@@ -700,17 +700,17 @@ public class Solution {
         int gY = j / 3 * 3;
         for (int m = 0; m < 3; m++) {
             for (int n = 0; n < 3; n++) {
-                if (!(i == (gX + m) && j == (gY + n)) && (int)board[gX + m][gY + n] == num) {
+                if (!(i == (gX + m) && j == (gY + n)) && (int) board[gX + m][gY + n] == num) {
                     return true;
                 }
             }
         }
 
         for (int k = 0; k < 9; k++) {
-            if (k != i && (int)board[k][j] == num) {
+            if (k != i && (int) board[k][j] == num) {
                 return true;
             }
-            if (k != j && (int)board[i][k] == num) {
+            if (k != j && (int) board[i][k] == num) {
                 return true;
             }
         }
@@ -736,9 +736,9 @@ public class Solution {
         for (int i = 0; i < S.length(); i++) {
             char c = S.charAt(i);
             if (i < shifts2.length) {
-                int index = (int)c - 97;
-                int newIndex = (int)((index + shifts2[i]) % 26);
-                c = (char)(newIndex + 97);
+                int index = (int) c - 97;
+                int newIndex = (int) ((index + shifts2[i]) % 26);
+                c = (char) (newIndex + 97);
             }
             ans.append(c);
         }
@@ -1065,8 +1065,8 @@ public class Solution {
         int rightHeight = height(root.right);
 
         return Math.abs(leftHeight - rightHeight) <= 1
-            && isBalanced(root.left)
-            && isBalanced(root.right);
+                && isBalanced(root.left)
+                && isBalanced(root.right);
     }
 
     private int height(TreeNode treeNode) {
@@ -1167,7 +1167,7 @@ public class Solution {
                 return "Neither";
             }
             Set<Character> cSet = new HashSet(Arrays.asList(
-                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'A', 'B', 'C', 'D', 'E', 'F'
+                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'A', 'B', 'C', 'D', 'E', 'F'
             ));
             for (int i = 0; i < segments.length; i++) {
                 String seg = segments[i];
@@ -1399,7 +1399,9 @@ public class Solution {
      * @return
      */
     public int minDeletionSize(String[] A) {
-        if (A == null || A.length <= 0) { return 0; }
+        if (A == null || A.length <= 0) {
+            return 0;
+        }
 
         int ans = 0;
         int[] weight = new int[A.length];
@@ -1414,7 +1416,7 @@ public class Solution {
             }
             if (isSorted) {
                 for (int j = 0; j < A.length; j++) {
-                    weight[j] = weight[j] * 26 + (int)A[j].charAt(i);
+                    weight[j] = weight[j] * 26 + (int) A[j].charAt(i);
                 }
             }
         }
@@ -1561,5 +1563,96 @@ public class Solution {
 
         }
         return sum;
+    public int[][] merge(int[][] intervals) {
+        if (intervals == null) {
+            return null;
+        }
+        if (intervals.length == 1) {
+            return intervals;
+        }
+
+        int m = -1;
+        int[][] ans = new int[intervals.length][2];
+
+        int[] lastRange = null;
+        for (int i = 0; i < intervals.length; i++) {
+            if (lastRange == null) {
+                lastRange = intervals[i];
+                ans[++m] = lastRange;
+            } else {
+                int[] current = intervals[i];
+                if ((current[0] <= lastRange[1] && current[1] >= lastRange[1])
+                        || (current[0] <= lastRange[0] && current[1] >= lastRange[0])) {
+                    lastRange[1] = Math.max(current[1], lastRange[1]);
+                    lastRange[0] = Math.min(current[0], lastRange[0]);
+                } else {
+                    lastRange = current;
+                    ans[++m] = lastRange;
+                }
+            }
+        }
+
+        int[][] ans0 = new int[m + 1][2];
+        System.arraycopy(ans, 0, ans0, 0, m + 1);
+        return ans0;
+    }
+
+    public int[][] generateMatrix(int n) {
+        int[][] ans = new int[n][n];
+        int left = 0;
+        int right = n - 1;
+        int top = 0;
+        int bottom = n - 1;
+
+        int num = 1;
+        int max = n * n;
+
+        while (num <= max) {
+            for (int x = left; x <= right; x++) {
+                ans[top][x] = num++;
+            }
+            top++;
+            for (int y = top; y <= bottom; y++) {
+                ans[y][right] = num++;
+            }
+            right--;
+            for (int x = right; x >= left; x--) {
+                ans[bottom][x] = num++;
+            }
+            bottom--;
+            for (int y = bottom; y >= top; y--) {
+                ans[y][left] = num++;
+            }
+            left++;
+
+        }
+
+        return ans;
+    }
+
+    /**
+     * 数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+     *
+     * @param n
+     * @return
+     */
+    public List<String> generateParenthesis(int n) {
+        List<String> ans = new ArrayList<>();
+        String path = "";
+        appendBrack(ans, n, n, path);
+        return ans;
+    }
+
+    private void appendBrack(List<String> ans, int left, int right, String path) {
+        if (left == 0 && right == 0) {
+            ans.add(path);
+            return;
+        }
+        if (left > 0) {
+            appendBrack(ans, left - 1, right, path + "(");
+        }
+        if (left < right) {
+            appendBrack(ans, left, right - 1, path + ")");
+        }
     }
 }

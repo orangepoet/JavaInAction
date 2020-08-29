@@ -12,6 +12,13 @@
 
     <artifactId>inaction-algorithm</artifactId>
     <dependencies>
+        <!--groovy -->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.4.8</version>
+        </dependency>
+
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>

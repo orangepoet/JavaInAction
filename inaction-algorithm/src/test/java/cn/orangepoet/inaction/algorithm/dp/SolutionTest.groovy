@@ -366,5 +366,32 @@ class SolutionTest extends Specification {
         where:
         nums                | ans
         [21, 4, 7] as int[] | 32
+    def '合并区间'() {
+        expect:
+        solution.merge(intervals) == ans
+
+        where:
+        intervals                                      | ans
+        [[1, 3], [2, 6], [8, 10], [15, 18]] as int[][] | [[1, 6], [8, 10], [15, 18]] as int[][]
+        [[1, 4], [0, 1]] as int[][]                    | [[0, 4]] as int[][]
+    }
+
+    def '生成螺旋'() {
+        expect:
+        solution.generateMatrix(n) == matrix
+
+        where:
+        n | matrix
+        3 | [[1, 2, 3], [8, 9, 4], [7, 6, 5]] as int[][]
+    }
+
+    def '生成所有括号的组合'() {
+        expect:
+        solution.generateParenthesis(n) == brack
+
+        where:
+        n | brack
+        3 | ["((()))", "(()())", "(())()", "()(())", "()()()"] as ArrayList<String>
+
     }
 }
