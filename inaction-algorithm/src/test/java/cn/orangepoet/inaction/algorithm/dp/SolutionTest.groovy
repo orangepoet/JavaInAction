@@ -366,6 +366,8 @@ class SolutionTest extends Specification {
         where:
         nums                | ans
         [21, 4, 7] as int[] | 32
+    }
+
     def '合并区间'() {
         expect:
         solution.merge(intervals) == ans
