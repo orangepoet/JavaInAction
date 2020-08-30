@@ -1563,7 +1563,15 @@ public class Solution {
 
         }
         return sum;
-    public int[][] merge(int[][] intervals) {
+    }
+
+    /**
+     * 合并区间
+     *
+     * @param intervals
+     * @return
+     */
+    public int[][] merge0(int[][] intervals) {
         if (intervals == null) {
             return null;
         }

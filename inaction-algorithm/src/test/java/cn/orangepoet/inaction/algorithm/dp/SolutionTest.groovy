@@ -370,7 +370,7 @@ class SolutionTest extends Specification {
 
     def '合并区间'() {
         expect:
-        solution.merge(intervals) == ans
+        solution.merge0(intervals) == ans
 
         where:
         intervals                                      | ans
