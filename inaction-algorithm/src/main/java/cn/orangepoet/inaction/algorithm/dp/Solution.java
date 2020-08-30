@@ -1663,4 +1663,31 @@ public class Solution {
             appendBrack(ans, left, right - 1, path + ")");
         }
     }
+
+    /**
+     * 交换链表中的元素
+     *
+     * @param head
+     * @return
+     */
+    public ListNode swapPairs(ListNode head) {
+        //  swap dummy  prev
+
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode prev = dummy;
+
+        while (head != null && head.next != null) {
+            ListNode first = head;
+            ListNode second = head.next;
+
+            prev.next = second;
+            first.next = second.next;
+            second.next = first;
+
+            prev = first;
+            head = first.next;
+        }
+        return dummy.next;
+    }
 }
