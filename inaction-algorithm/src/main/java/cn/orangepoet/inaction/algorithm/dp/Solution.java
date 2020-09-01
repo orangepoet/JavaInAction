@@ -1,5 +1,6 @@
 package cn.orangepoet.inaction.algorithm.dp;
 
+import java.security.PublicKey;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1689,5 +1690,28 @@ public class Solution {
             head = first.next;
         }
         return dummy.next;
+    }
+
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> list = new LinkedList<>();
+        Arrays.sort(candidates);//先排序
+        backtrack(list, new ArrayList<>(), candidates, target, 0);
+        return list;
+    }
+
+    private void backtrack(List<List<Integer>> list, List<Integer> cur, int[] candidates, int target, int start) {
+        if (target == 0) {
+            list.add(new ArrayList<>(cur));
+            return;
+        }
+        for (int i = start; i < candidates.length; i++) {
+            if (target < candidates[i])
+                break;
+            if (i > start && candidates[i] == candidates[i - 1])
+                continue; //去掉重复的
+            cur.add(candidates[i]);
+            backtrack(list, cur, candidates, target - candidates[i], i + 1);
+            cur.remove(cur.size() - 1);
+        }
     }
 }

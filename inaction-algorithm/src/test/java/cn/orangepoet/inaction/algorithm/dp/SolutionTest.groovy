@@ -396,4 +396,18 @@ class SolutionTest extends Specification {
         3 | ["((()))", "(()())", "(())()", "()(())", "()()()"] as ArrayList<String>
 
     }
+
+    def '组合和2'() {
+        expect:
+        solution.combinationSum2(candidates, target) == ans
+
+        where:
+        candidates                      | target | ans
+        [10, 1, 2, 7, 6, 1, 5] as int[] | 8      | [
+                [1, 7],
+                [1, 2, 5],
+                [2, 6],
+                [1, 1, 6]
+        ] as List<List<Integer>>
+    }
 }
