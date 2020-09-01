@@ -410,4 +410,15 @@ class SolutionTest extends Specification {
                 [1, 1, 6]
         ] as List<List<Integer>>
     }
+
+    def '缺失的第一个正数'() {
+        expect:
+        solution.firstMissingPositive(nums) == ans
+
+        where:
+        nums                       | ans
+        [1, 2, 0] as int[]         | 3
+        [3, 4, -1, 1] as int[]     | 2
+        [7, 8, 9, 11, 12] as int[] | 1
+    }
 }

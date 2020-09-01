@@ -1692,6 +1692,7 @@ public class Solution {
         return dummy.next;
     }
 
+
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         List<List<Integer>> list = new LinkedList<>();
         Arrays.sort(candidates);//先排序
@@ -1713,5 +1714,28 @@ public class Solution {
             backtrack(list, cur, candidates, target - candidates[i], i + 1);
             cur.remove(cur.size() - 1);
         }
+    }
+
+    public int firstMissingPositive(int[] nums) {
+        int max = 0;
+        Set<Integer> numSet = new HashSet<>();
+        for (int i : nums) {
+            if (i <= 0) {
+                continue;
+            }
+
+            if (i > max) {
+                max = i;
+            }
+
+            numSet.add(i);
+        }
+
+        for (int i = 1; i < max; i++) {
+            if (!numSet.contains(i)) {
+                return i;
+            }
+        }
+        return max + 1;
     }
 }
