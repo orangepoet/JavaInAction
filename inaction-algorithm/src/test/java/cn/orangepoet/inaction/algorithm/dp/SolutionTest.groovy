@@ -421,4 +421,21 @@ class SolutionTest extends Specification {
         [3, 4, -1, 1] as int[]     | 2
         [7, 8, 9, 11, 12] as int[] | 1
     }
+
+    def '外观数列'() {
+        expect:
+        solution.countAndSay(n) == str
+        where:
+        n | str
+        4 | "1211"
+    }
+
+    def '判断包含位置'() {
+        expect:
+        solution.strStr(haystack, needle) == n
+
+        where:
+        haystack | needle | n
+        "mississippi"  | "issip"   | 4
+    }
 }

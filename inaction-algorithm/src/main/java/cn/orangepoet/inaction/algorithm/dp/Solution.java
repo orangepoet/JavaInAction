@@ -1738,4 +1738,63 @@ public class Solution {
         }
         return max + 1;
     }
+
+    public String countAndSay(int n) {
+        String str = "1";
+        for (int i = 0; i < n - 1; i++) {
+            int lastP = -1;
+            char p = '0';
+
+            StringBuilder sb = new StringBuilder();
+
+            int j = 0;
+            for (; j < str.length(); j++) {
+                char c = str.charAt(j);
+
+                if (p != c) {
+                    if (p != '0') {
+                        sb.append(j - lastP).append(p);
+                    }
+
+                    p = c;
+                    lastP = j;
+                }
+            }
+            if (lastP < j) {
+                sb.append(j - lastP).append(p);
+            }
+            str = sb.toString();
+            System.out.println(str);
+        }
+        return str;
+    }
+
+    public int strStr(String haystack, String needle) {
+        if (needle.isEmpty()) {
+            return 0;
+        }
+
+        char first = needle.charAt(0);
+        for (int i = 0; i < haystack.length(); i++) {
+            if (haystack.charAt(i) == first) {
+                boolean isMatched = true;
+                int p = i;
+                for (int j = 0; j < needle.length(); j++) {
+                    if (p >= haystack.length()) {
+                        isMatched = false;
+                        break;
+                    }
+                    if (haystack.charAt(p) != needle.charAt(j)) {
+                        isMatched = false;
+                        break;
+                    }
+                    p++;
+                }
+                if (isMatched) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
 }
