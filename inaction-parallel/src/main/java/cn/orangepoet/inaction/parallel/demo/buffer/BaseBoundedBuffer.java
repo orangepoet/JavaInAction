@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.parallel.app.buffer;
+package cn.orangepoet.inaction.parallel.demo.buffer;
 
 public abstract class BaseBoundedBuffer<V> implements Buffer<V> {
     private final V[] buf;

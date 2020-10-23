@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.parallel.app.distibutedratelimit;
+package cn.orangepoet.inaction.parallel.demo.distibutedratelimit;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;

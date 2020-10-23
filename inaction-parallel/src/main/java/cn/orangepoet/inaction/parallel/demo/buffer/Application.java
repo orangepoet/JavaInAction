@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.parallel.app.buffer;
+package cn.orangepoet.inaction.parallel.demo.buffer;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;

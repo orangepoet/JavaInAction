@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.parallel.app.buffer;
+package cn.orangepoet.inaction.parallel.demo.buffer;
 
 /**
  * 基于休眠的阻塞操作实现

@@ -1,14 +1,33 @@
 package cn.orangepoet.inaction.parallel.task;
 
-import java.util.concurrent.CompletableFuture;
+import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
+@Slf4j
 public class CompletableFutureDemo {
     public static void main(String[] args) {
-        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> 1)
-                .thenCombine(CompletableFuture.supplyAsync(() -> 2),
-                        (i, j) -> i + j)
-//                .thenApply(i -> String.valueOf(i));
-                .thenCompose(r -> CompletableFuture.supplyAsync(() -> String.valueOf(r)));
+        CompletableFuture<String> future = CompletableFuture
+            .supplyAsync(() -> {
+                log.info("supplyAsync");
+                return 1;
+            })
+            .thenCombine(CompletableFuture.supplyAsync(() -> {
+                log.info("thenCombine");
+                return 2;
+            }), (i, j) -> i + j)
+            .thenCompose(r -> CompletableFuture.supplyAsync(() -> {
+                log.info("thenCompose");
+                return String.valueOf(r);
+            }));
+        try {
+            future.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     @Deprecated

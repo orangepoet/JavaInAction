@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.parallel.app.crawl;
+package cn.orangepoet.inaction.parallel.demo.crawl;
 
 import java.io.File;
 import java.io.FileFilter;

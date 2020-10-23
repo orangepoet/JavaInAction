@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.parallel.app.buffer;
+package cn.orangepoet.inaction.parallel.demo.buffer;
 
 public class ConditionBoundedBuffer<V> extends BaseBoundedBuffer<V> {
 

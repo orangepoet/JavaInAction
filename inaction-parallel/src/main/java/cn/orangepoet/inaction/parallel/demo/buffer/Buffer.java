@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.parallel.app.buffer;
+package cn.orangepoet.inaction.parallel.demo.buffer;
 
 /**
  * Buffer接口演示了 限界队列带有put & take 操作;

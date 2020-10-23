@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.parallel.app.producerconsumer;
+package cn.orangepoet.inaction.parallel.demo.producerconsumer;
 
 import java.util.Queue;
 import java.util.Random;
