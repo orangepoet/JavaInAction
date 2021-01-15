@@ -1,0 +1,32 @@
+package cn.orangepoet.inaction.function;
+
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+/**
+ * @author chengzhi
+ * @date 2021/01/15
+ */
+public class VavrDemoTest {
+
+    @Test
+    public void listEx() {
+        VavrDemo.listEx();
+    }
+
+    @Test
+    public void tryEx() {
+        VavrDemo.tryEx();
+    }
+
+    @Test
+    public void matchEx() {
+        VavrDemo.matchEx();
+    }
+
+    @Test
+    public void memorizeEx() {
+        VavrDemo.memorizeEx();
+    }
+}
