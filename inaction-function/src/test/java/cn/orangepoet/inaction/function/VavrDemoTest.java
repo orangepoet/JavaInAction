@@ -2,8 +2,6 @@ package cn.orangepoet.inaction.function;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * @author chengzhi
  * @date 2021/01/15
@@ -28,5 +26,10 @@ public class VavrDemoTest {
     @Test
     public void memorizeEx() {
         VavrDemo.memorizeEx();
+    }
+
+    @Test
+    public void eitherEx() {
+        VavrDemo.eitherEx();
     }
 }

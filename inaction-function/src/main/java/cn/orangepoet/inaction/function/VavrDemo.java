@@ -2,8 +2,11 @@ package cn.orangepoet.inaction.function;
 
 import io.vavr.Function0;
 import io.vavr.collection.List;
+import io.vavr.control.Either;
 import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.function.Function;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -81,5 +84,28 @@ public class VavrDemo {
 
         log.info("randomValue1: {}", randomValue1);
         log.info("randomValue2: {}", randomValue2);
+    }
+
+    public static void eitherEx() {
+        Function<Integer, Either<String, Integer>> eitherFunction = x -> {
+            if (x % 2 == 0) {
+                return Either.right(x * x);
+            }
+            return Either.left("not a even");
+        };
+
+        Either<String, Integer> either1 = eitherFunction.apply(4);
+        if (either1.isRight()) {
+            System.out.println(either1.get());
+        } else {
+            System.out.println(either1.getLeft());
+        }
+
+        Either<String, Integer> either2 = eitherFunction.apply(5);
+        if (either2.isRight()) {
+            System.out.println(either2.get());
+        } else {
+            System.out.println(either2.getLeft());
+        }
     }
 }
