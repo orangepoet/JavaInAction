@@ -8,6 +8,6 @@ import lombok.Data;
  */
 @Data
 public class Foo {
-    private String name;
-    private Integer count;
+    String name;
+    Integer count;
 }

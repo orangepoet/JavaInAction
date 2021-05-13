@@ -1,5 +1,6 @@
 package cn.orangepoet.inaction.parallel.lock;
 
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
@@ -11,6 +12,13 @@ public class ReentrantLockDemo {
     private static ExecutorService service = Executors.newFixedThreadPool(5);
 
     public static void main(String[] args) {
+        Long l1 = null;
+        long l2 = 1;
+
+        if (Objects.equals(l1, l2)) {
+            System.out.println("l1==l2");
+        }
+
         for (int i = 0; i < 100; i++) {
             service.submit(new MyTask(i));
         }

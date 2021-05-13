@@ -4,6 +4,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 /**
  * @author chengzhi
  * @date 2019/03/08
@@ -37,4 +40,18 @@ public abstract class Handler {
         private String p2;
     }
 
+    public static void main(String[] args) {
+        Date d = new Date();
+        LocalDateTime now = LocalDateTime.now();
+
+        long time = d.getTime();
+        System.out.println(time);
+
+        getMyCard();
+
+    }
+
+    private static void getMyCard() {
+        throw new UnsupportedOperationException("orange");
+    }
 }
