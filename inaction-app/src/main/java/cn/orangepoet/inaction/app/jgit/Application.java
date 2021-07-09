@@ -2,7 +2,9 @@ package cn.orangepoet.inaction.app.jgit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.MergeCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -27,6 +29,8 @@ public class Application {
         createBranch();
 
         checkBranch();
+
+        merge();
     }
 
     private static void listBranches() {
@@ -76,5 +80,26 @@ public class Application {
 
     private static Repository getLocalRepository() throws IOException {
         return new FileRepositoryBuilder().readEnvironment().findGitDir().build();
+    }
+
+    private static void merge() {
+        try (Repository repository = getLocalRepository()) {
+            try (Git git = new Git(repository)) {
+                git.checkout()
+                    .setName("master")
+                    .setCreateBranch(true)
+                    .setName("release/release2").call();
+
+                ObjectId mergeBase = repository.resolve("testBranch");
+
+                git.merge()
+                    .include(mergeBase)
+                    .setCommit(true)
+                    .setFastForward(MergeCommand.FastForwardMode.NO_FF)
+                    .call();
+            }
+        } catch (IOException | GitAPIException e) {
+            e.printStackTrace();
+        }
     }
 }
