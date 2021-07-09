@@ -24,11 +24,11 @@ public class Application {
     private static final String LOCAL_URL = "/Users/orangecheng/codes/JavaInAction/inaction";
 
     public static void main(String[] args) {
-        listBranches();
-
-        createBranch();
-
-        checkBranch();
+        //listBranches();
+        //
+        //createBranch();
+        //
+        //checkBranch();
 
         merge();
     }
@@ -85,10 +85,13 @@ public class Application {
     private static void merge() {
         try (Repository repository = getLocalRepository()) {
             try (Git git = new Git(repository)) {
-                git.checkout()
-                    .setName("master")
-                    .setCreateBranch(true)
-                    .setName("release/release2").call();
+                git.branchCreate()
+                    .setForce(true)
+                    .setStartPoint("master")
+                    .setName("release/release3")
+                    .call();
+
+                git.checkout().setName("release/release3").call();
 
                 ObjectId mergeBase = repository.resolve("testBranch");
 
