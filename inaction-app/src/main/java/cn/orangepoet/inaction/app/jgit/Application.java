@@ -31,6 +31,8 @@ public class Application {
         checkBranch();
 
         merge();
+
+        System.out.println("hello, world");
     }
 
     private static void listBranches() {
