@@ -20,17 +20,17 @@ import java.util.Map;
  * @date 2021/07/09
  */
 public class Application {
-    private static final String REMOTE_URL = "https://github.com/orangepoet/JavaInAction.git";
-    private static final String LOCAL_URL = "/Users/orangecheng/codes/JavaInAction/inaction";
+    private static final String REMOTE_URL = "ssh://git@gitlab.jiawa.online:9922/once/once-devops.git";
+    private static final String LOCAL_URL = "/Users/Orange/Codes/once-devops";
 
     public static void main(String[] args) {
-        //listBranches();
+        listBranches();
         //
         //createBranch();
         //
         //checkBranch();
 
-        merge();
+        //merge();
     }
 
     private static void listBranches() {
