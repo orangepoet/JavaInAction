@@ -1,9 +1,5 @@
 package cn.orangepoet.inaction.algorithm.dp;
 
-import javafx.collections.transformation.SortedList;
-
-import java.lang.reflect.Array;
-import java.security.PublicKey;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -345,7 +341,7 @@ public class Solution {
             if (o == null || getClass() != o.getClass()) {
                 return false;
             }
-            ListNode listNode = (ListNode)o;
+            ListNode listNode = (ListNode) o;
             if (val == listNode.val) {
                 if (this.next == null) {
                     if (listNode.next == null) {
@@ -1828,5 +1824,89 @@ public class Solution {
             }
         }
         return -1;
+    }
+
+    /**
+     * 回文字
+     */
+    public String longestPalindrome(String s) {
+        Map<Character, List<Integer>> charMap = new HashMap<>();
+        int maxLength = Integer.MIN_VALUE;
+        int start = 0;
+        int end = 0;
+        for (int j = 0; j < s.length(); j++) {
+            char c = s.charAt(j);
+            List<Integer> idx = charMap.get(c);
+            if (idx == null) {
+                idx = new ArrayList<>();
+                idx.add(j);
+                charMap.put(c, idx);
+            } else {
+                for (int i : idx) {
+                    if (longestPalindrome0(i, j, s)) {
+                        int length0 = j - i;
+                        if (length0 > maxLength) {
+                            start = i;
+                            end = j;
+                            maxLength = length0;
+                            break;
+                        }
+                    }
+                }
+                idx.add(j);
+            }
+        }
+        return s.substring(start, end + 1);
+    }
+
+    private boolean longestPalindrome0(int start, int end, String s) {
+        for (int i = start, j = end; i <= j; i++, j--) {
+            if (s.charAt(i) != s.charAt(j)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode first = head;
+        ListNode p = null;
+        ListNode prev = null;
+        for (int i = 0; i < n; i++) {
+            prev = p;
+            p = head.next;
+        }
+        if (p != null && prev != null) {
+            prev.next = p.next;
+        }
+        return first;
+    }
+
+    public int numDecodings(String s) {
+        if (s.length() == 0 || s.charAt(0) == '0') {
+            return 0;
+        }
+        return comb(s);
+
+    }
+
+    private int comb(String s) {
+        if (s == null || s.length() == 0) {
+            return 1;
+        }
+        if (s.charAt(0) == '0') {
+            return 0;
+        }
+
+        if (s.length() >= 2) {
+            char first = s.charAt(0);
+            char second = s.charAt(1);
+            if (first > '2' || (first == '2' && second > '6')) {
+                return comb(s.substring(1));
+            } else {
+                return comb(s.substring(1)) + comb(s.substring(2));
+            }
+        }
+        return comb(s.substring(1));
     }
 }

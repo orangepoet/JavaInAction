@@ -442,4 +442,35 @@ class SolutionTest extends Specification {
         "mississippi" | "mississippi" | 0
         "mississippi" | "issipi"      | -1
     }
+
+    def '判断回文字'() {
+        expect:
+        solution.longestPalindrome(s) == s1
+
+        where:
+        s             | s1
+        "babad"       | "bab"
+        "aacabdkacaa" | "aca"
+    }
+
+    def '删除链表节点'() {
+        expect:
+        solution.removeNthFromEnd(head, n) == res
+
+        where:
+        res | head | n
+    }
+
+    def '测试编码组合'() {
+        expect:
+        solution.numDecodings(s) == ret
+
+        where:
+        s      | ret
+        "06"   | 0
+        "12"   | 2
+        "226"  | 3
+        "2101" | 1
+        "1123" | 5
+    }
 }
