@@ -435,7 +435,11 @@ class SolutionTest extends Specification {
         solution.strStr(haystack, needle) == n
 
         where:
-        haystack | needle | n
-        "mississippi"  | "issip"   | 4
+        haystack      | needle        | n
+        "hello"       | "ll"          | 2
+        "aaaaa"       | "bba"         | -1
+        "a"           | "a"           | 0
+        "mississippi" | "mississippi" | 0
+        "mississippi" | "issipi"      | -1
     }
 }

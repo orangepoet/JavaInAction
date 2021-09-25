@@ -1,5 +1,8 @@
 package cn.orangepoet.inaction.algorithm.dp;
 
+import javafx.collections.transformation.SortedList;
+
+import java.lang.reflect.Array;
 import java.security.PublicKey;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -68,8 +71,8 @@ public class Solution {
             return false;
         }
         return left.val == right.val
-                && isMirror(left.right, right.left)
-                && isMirror(left.left, right.right);
+            && isMirror(left.right, right.left)
+            && isMirror(left.left, right.right);
     }
 
     /**
@@ -342,7 +345,7 @@ public class Solution {
             if (o == null || getClass() != o.getClass()) {
                 return false;
             }
-            ListNode listNode = (ListNode) o;
+            ListNode listNode = (ListNode)o;
             if (val == listNode.val) {
                 if (this.next == null) {
                     if (listNode.next == null) {
@@ -398,7 +401,7 @@ public class Solution {
             }
         }
 
-        return new int[]{low, high};
+        return new int[] {low, high};
     }
 
     /**
@@ -701,17 +704,17 @@ public class Solution {
         int gY = j / 3 * 3;
         for (int m = 0; m < 3; m++) {
             for (int n = 0; n < 3; n++) {
-                if (!(i == (gX + m) && j == (gY + n)) && (int) board[gX + m][gY + n] == num) {
+                if (!(i == (gX + m) && j == (gY + n)) && (int)board[gX + m][gY + n] == num) {
                     return true;
                 }
             }
         }
 
         for (int k = 0; k < 9; k++) {
-            if (k != i && (int) board[k][j] == num) {
+            if (k != i && (int)board[k][j] == num) {
                 return true;
             }
-            if (k != j && (int) board[i][k] == num) {
+            if (k != j && (int)board[i][k] == num) {
                 return true;
             }
         }
@@ -737,9 +740,9 @@ public class Solution {
         for (int i = 0; i < S.length(); i++) {
             char c = S.charAt(i);
             if (i < shifts2.length) {
-                int index = (int) c - 97;
-                int newIndex = (int) ((index + shifts2[i]) % 26);
-                c = (char) (newIndex + 97);
+                int index = (int)c - 97;
+                int newIndex = (int)((index + shifts2[i]) % 26);
+                c = (char)(newIndex + 97);
             }
             ans.append(c);
         }
@@ -1066,8 +1069,8 @@ public class Solution {
         int rightHeight = height(root.right);
 
         return Math.abs(leftHeight - rightHeight) <= 1
-                && isBalanced(root.left)
-                && isBalanced(root.right);
+            && isBalanced(root.left)
+            && isBalanced(root.right);
     }
 
     private int height(TreeNode treeNode) {
@@ -1168,7 +1171,7 @@ public class Solution {
                 return "Neither";
             }
             Set<Character> cSet = new HashSet(Arrays.asList(
-                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'A', 'B', 'C', 'D', 'E', 'F'
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'A', 'B', 'C', 'D', 'E', 'F'
             ));
             for (int i = 0; i < segments.length; i++) {
                 String seg = segments[i];
@@ -1417,7 +1420,7 @@ public class Solution {
             }
             if (isSorted) {
                 for (int j = 0; j < A.length; j++) {
-                    weight[j] = weight[j] * 26 + (int) A[j].charAt(i);
+                    weight[j] = weight[j] * 26 + (int)A[j].charAt(i);
                 }
             }
         }
@@ -1591,7 +1594,7 @@ public class Solution {
             } else {
                 int[] current = intervals[i];
                 if ((current[0] <= lastRange[1] && current[1] >= lastRange[1])
-                        || (current[0] <= lastRange[0] && current[1] >= lastRange[0])) {
+                    || (current[0] <= lastRange[0] && current[1] >= lastRange[0])) {
                     lastRange[1] = Math.max(current[1], lastRange[1]);
                     lastRange[0] = Math.min(current[0], lastRange[0]);
                 } else {
@@ -1692,7 +1695,6 @@ public class Solution {
         return dummy.next;
     }
 
-
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         List<List<Integer>> list = new LinkedList<>();
         Arrays.sort(candidates);//先排序
@@ -1706,10 +1708,10 @@ public class Solution {
             return;
         }
         for (int i = start; i < candidates.length; i++) {
-            if (target < candidates[i])
-                break;
-            if (i > start && candidates[i] == candidates[i - 1])
+            if (target < candidates[i]) { break; }
+            if (i > start && candidates[i] == candidates[i - 1]) {
                 continue; //去掉重复的
+            }
             cur.add(candidates[i]);
             backtrack(list, cur, candidates, target - candidates[i], i + 1);
             cur.remove(cur.size() - 1);
@@ -1769,30 +1771,60 @@ public class Solution {
         return str;
     }
 
+    //public int strStr(String haystack, String needle) {
+    //    if (needle.isEmpty()) {
+    //        return 0;
+    //    }
+    //
+    //    char first = needle.charAt(0);
+    //    for (int i = 0; i < haystack.length(); i++) {
+    //        if (haystack.charAt(i) == first) {
+    //            boolean isMatched = true;
+    //            int p = i;
+    //            for (int j = 0; j < needle.length(); j++) {
+    //                if (p >= haystack.length()) {
+    //                    isMatched = false;
+    //                    break;
+    //                }
+    //                if (haystack.charAt(p) != needle.charAt(j)) {
+    //                    isMatched = false;
+    //                    break;
+    //                }
+    //                p++;
+    //            }
+    //            if (isMatched) {
+    //                return i;
+    //            }
+    //        }
+    //    }
+    //    return -1;
+    //}
+
     public int strStr(String haystack, String needle) {
-        if (needle.isEmpty()) {
+        int needleLength = needle.length();
+        int haystackLength = haystack.length();
+
+        if (needleLength > haystackLength) {
+            return -1;
+        }
+
+        if (needleLength == 0 && haystackLength == 0) {
             return 0;
         }
 
-        char first = needle.charAt(0);
-        for (int i = 0; i < haystack.length(); i++) {
-            if (haystack.charAt(i) == first) {
-                boolean isMatched = true;
-                int p = i;
-                for (int j = 0; j < needle.length(); j++) {
-                    if (p >= haystack.length()) {
-                        isMatched = false;
-                        break;
-                    }
-                    if (haystack.charAt(p) != needle.charAt(j)) {
-                        isMatched = false;
-                        break;
-                    }
-                    p++;
+        for (int i = 0; i < haystackLength; i++) {
+            int scanIdx = 0;
+
+            boolean matched = true;
+            while (scanIdx < needleLength) {
+                if (haystack.charAt(i + scanIdx) != needle.charAt(scanIdx)) {
+                    matched = false;
+                    break;
                 }
-                if (isMatched) {
-                    return i;
-                }
+                scanIdx++;
+            }
+            if (matched) {
+                return i;
             }
         }
         return -1;

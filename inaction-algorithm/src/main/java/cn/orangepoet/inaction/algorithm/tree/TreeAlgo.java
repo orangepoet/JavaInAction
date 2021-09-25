@@ -1,5 +1,6 @@
 package cn.orangepoet.inaction.algorithm.tree;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -154,7 +155,7 @@ public class TreeAlgo {
      *
      * @param node
      */
-    public static void DeepFirst(TreeNode node) {
+    public static void dfs(TreeNode node) {
         Stack<TreeNode> stack = new Stack<TreeNode>();
 
         stack.push(node);
@@ -167,6 +168,8 @@ public class TreeAlgo {
             if (node1.left != null)
                 stack.push(node1.left);
         }
+
+        BigDecimal x = new BigDecimal("");
     }
 
     /**
