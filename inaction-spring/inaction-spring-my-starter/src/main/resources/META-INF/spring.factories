@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.orangepoet.inaction.spring.my.stater.MyConfiguration
