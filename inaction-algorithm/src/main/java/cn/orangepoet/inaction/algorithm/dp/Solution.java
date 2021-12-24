@@ -257,9 +257,9 @@ public class Solution {
     }
 
     /**
-     * 给定一个非空且只包含非负数的整数数组 nums, 数组的度的定义是指数组里任一元素出现频数的最大值。
+     * 给定一个非空且只包含非负数的整数数组nums, 数组的度的定义是指数组里任一元素出现频数的最大值。
      * <p>
-     * 你的任务是找到与 nums 拥有相同大小的度的最短连续子数组，返回其长度
+     * 你的任务是找到与nums拥有相同大小的度的最短连续子数组，返回其长度
      *
      * @param nums
      * @return
@@ -341,7 +341,7 @@ public class Solution {
             if (o == null || getClass() != o.getClass()) {
                 return false;
             }
-            ListNode listNode = (ListNode) o;
+            ListNode listNode = (ListNode)o;
             if (val == listNode.val) {
                 if (this.next == null) {
                     if (listNode.next == null) {
@@ -1704,7 +1704,7 @@ public class Solution {
             return;
         }
         for (int i = start; i < candidates.length; i++) {
-            if (target < candidates[i]) { break; }
+            if (target < candidates[i]) {break;}
             if (i > start && candidates[i] == candidates[i - 1]) {
                 continue; //去掉重复的
             }
