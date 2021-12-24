@@ -55,7 +55,7 @@ public class Solution {
      * @param root
      * @return
      */
-    public boolean isSymmetricœ(TreeNode root) {
+    public boolean isSymmetric(TreeNode root) {
         return isMirror(root, root);
     }
 
