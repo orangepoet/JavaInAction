@@ -125,6 +125,7 @@ public class Solution {
                     minChange = Math.min(minChange, subRet + 1);
                 }
             }
+            minChange = minChange == Integer.MAX_VALUE ? -1 : minChange;
             changeRet.put(amount, minChange);
         }
         return changeRet.get(n);
@@ -174,7 +175,7 @@ public class Solution {
     }
 
     /**
-     * 爬楼算法, 1阶1种(1步), 2阶2种(1步或2步), n>2 可分解为先1阶或先2阶的策略合
+     * 爬楼算法, 1阶1种(1步), 2阶2种(1步或2步), n>2 可分解为先1阶或先2阶的策略合, 等同于斐波那契数
      *
      * @param n
      * @param stairCnt
@@ -455,7 +456,7 @@ public class Solution {
     }
 
     /**
-     * 给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。
+     * 给定一个包含 n 个整数的数组nums，判断nums中是否存在三个元素 a，b，c ，使得a + b + c = 0 ？找出所有满足条件且不重复的三元组。
      * <p>
      * 答案中不可以包含重复的三元组。
      *
@@ -824,14 +825,14 @@ public class Solution {
     }
 
     /**
-     * 求解数组nums的子数组, 要求满足和为K的, 给出子数组的个数。
+     * 给你一个整数数组 nums 和一个整数 k ，请你统计并返回该数组中和为 k 的连续子数组的个数。
      * <p>
      *
      * @param nums 原始数组
      * @param k    子数组的和
      * @return 子数组的个数
      */
-    public int subArrayIsK(int[] nums, int k) {
+    public int subarraySum(int[] nums, int k) {
         Map<Integer, Integer> map = new HashMap<>();
         map.put(0, 1);
         int sum = 0;
@@ -872,7 +873,7 @@ public class Solution {
      * <p>
      * 示例:
      * <p>
-     * 输入: [1,2,3,null,5,null,4] 输出: [1, 3, 4] 解释:
+     * 输入:[1,2,3,null,5,null,4] 输出:[1, 3, 4] 解释:
      * <p>
      * 1            <--- /   \ 2     3         <--- \     \ 5     4       <---
      * <p>

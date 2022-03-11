@@ -218,12 +218,13 @@ class SolutionTest extends Specification {
 
 
         expect:
-        solution.subArrayIsK(nums, k) == ans
+        solution.subarraySum(nums, k) == ans
 
         where:
         nums                     | k | ans
         [1, 1, 2, 1, 1] as int[] | 3 | 2
         [2, 4, 6] as int[]       | 1 | 0
+        [1, 100, 1] as int[]     | 2 | 1
     }
 
     def '大小为K且平均值大于等于阈值的子数组数目'() {
