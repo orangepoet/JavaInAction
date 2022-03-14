@@ -1,5 +1,9 @@
 package cn.orangepoet.inaction.parallel.ttl;
 
+import com.google.common.collect.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,18 +14,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 
-import com.google.common.collect.Lists;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * @author chengzhi
  * @date 2019/09/14
  */
-public class MutipleThread {
+public class ThreadIssueDemo {
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(4);
 
-    private static Logger log = LoggerFactory.getLogger(MutipleThread.class);
+    private static Logger log = LoggerFactory.getLogger(ThreadIssueDemo.class);
     private static ThreadLocal<Map<Integer, String>> mapThreadLocal = new ThreadLocal<>();
 
     public static void main(String[] args) {
