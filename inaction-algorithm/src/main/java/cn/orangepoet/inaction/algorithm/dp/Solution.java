@@ -1,5 +1,6 @@
 package cn.orangepoet.inaction.algorithm.dp;
 
+import javax.swing.plaf.metal.MetalIconFactory;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -866,6 +867,106 @@ public class Solution {
             }
         }
         return false;
+    }
+
+    public String intToRoman(int num) {
+        return resolve(num, 0);
+    }
+
+    private String resolve(int num, int position) {
+        if (num < 10) {
+            if (num == 0) {
+                return "";
+            }
+            if (position == 0) {
+                switch (num) {
+                    case 1:
+                        return "I";
+                    case 2:
+                        return "II";
+                    case 3:
+                        return "III";
+                    case 4:
+                        return "IV";
+                    case 5:
+                        return "V";
+                    case 6:
+                        return "VI";
+                    case 7:
+                        return "VII";
+                    case 8:
+                        return "VIIII";
+                    case 9:
+                        return "IX";
+                    default:
+                        return "";
+                }
+            } else if (position == 1) {
+                switch (num) {
+                    case 1:
+                        return "X";
+                    case 2:
+                        return "XX";
+                    case 3:
+                        return "XXX";
+                    case 4:
+                        return "XL";
+                    case 5:
+                        return "L";
+                    case 6:
+                        return "LX";
+                    case 7:
+                        return "LXX";
+                    case 8:
+                        return "LXXX";
+                    case 9:
+                        return "XC";
+                    default:
+                        return "";
+                }
+            } else if (position == 2) {
+                switch (num) {
+                    case 1:
+                        return "C";
+                    case 2:
+                        return "CC";
+                    case 3:
+                        return "CCC";
+                    case 4:
+                        return "CD";
+                    case 5:
+                        return "D";
+                    case 6:
+                        return "DC";
+                    case 7:
+                        return "DCC";
+                    case 8:
+                        return "DCCC";
+                    case 9:
+                        return "CM";
+                    default:
+                        return "";
+                }
+            } else if (position == 3) {
+                switch (num) {
+                    case 1:
+                        return "M";
+                    case 2:
+                        return "MM";
+                    case 3:
+                        return "MMM";
+                    case 4:
+                        return "MMMM";
+                    default:
+                        return "";
+                }
+            } else {
+                return "";
+            }
+        } else {
+            int rest = num % 10;
+            return resolve(num / 10, position + 1) + resolve(rest, position);
+        }
     }
 
     /**
@@ -1909,5 +2010,56 @@ public class Solution {
             }
         }
         return comb(s.substring(1));
+    }
+
+    /**
+     * 螺旋矩阵
+     * <p>
+     * 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。
+     * <p>
+     * <p>
+     * 输入：matrix = [[1,2,3],[4,5,6],[7,8,9]] 输出：[1,2,3,6,9,8,7,4,5]
+     *
+     * @param matrix
+     * @return
+     */
+    public List<Integer> spiralOrder(int[][] matrix) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return new ArrayList<>();
+        }
+
+        int left = 0, right = matrix[0].length - 1;
+        int top = 0, bottom = matrix.length - 1;
+
+        List<Integer> ans = new ArrayList<>();
+        while (left < right && top < bottom) {
+            for (int i = left; i < right; i++) {
+                ans.add(matrix[top][i]);
+            }
+            for (int i = top; i < bottom; i++) {
+                ans.add(matrix[i][right]);
+            }
+            for (int i = right; i > left; i--) {
+                ans.add(matrix[bottom][i]);
+            }
+            for (int i = bottom; i > top; i--) {
+                ans.add(matrix[i][left]);
+            }
+            left++;
+            right--;
+            top++;
+            bottom--;
+        }
+
+        if (top == bottom) {
+            for (int i = left; i <= right; i++) {
+                ans.add(matrix[top][i]);
+            }
+        } else if (left == right) {
+            for (int i = top; i <= bottom; i++) {
+                ans.add(matrix[i][top]);
+            }
+        }
+        return ans;
     }
 }

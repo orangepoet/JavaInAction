@@ -474,4 +474,23 @@ class SolutionTest extends Specification {
         "2101" | 1
         "1123" | 5
     }
+
+    def '罗马数字'() {
+        expect:
+        ret == solution.intToRoman(num)
+
+        where:
+        ret       | num
+        "MCMXCIV" | 1994
+    }
+
+    def '螺旋矩阵'() {
+        expect:
+        ans == solution.spiralOrder(matrix)
+
+        where:
+        matrix                                                   | ans
+        [[1, 2, 3], [4, 5, 6], [7, 8, 9]] as int[][]             | [1, 2, 3, 6, 9, 8, 7, 4, 5]
+        [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]] as int[][] | [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]
+    }
 }
