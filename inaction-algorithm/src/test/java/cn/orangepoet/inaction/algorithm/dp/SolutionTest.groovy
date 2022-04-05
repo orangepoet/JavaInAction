@@ -3,6 +3,8 @@ package cn.orangepoet.inaction.algorithm.dp
 
 import spock.lang.Specification
 
+import java.awt.font.NumericShaper
+
 /**
  * 使用Spock示例
  *
@@ -492,5 +494,27 @@ class SolutionTest extends Specification {
         matrix                                                   | ans
         [[1, 2, 3], [4, 5, 6], [7, 8, 9]] as int[][]             | [1, 2, 3, 6, 9, 8, 7, 4, 5]
         [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]] as int[][] | [1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]
+    }
+
+    def '搜索旋转排序数组 II'() {
+        expect:
+        solution.search(nums, target) == ans
+
+        where:
+        nums                                                               | target | ans
+        [2, 5, 6, 0, 0, 1, 2] as int[]                                     | 0      | true
+        [2, 5, 6, 0, 0, 1, 2] as int[]                                     | 3      | false
+        [1, 0, 1, 1, 1] as int[]                                           | 0      | true
+        [1] as int[]                                                       | 1      | true
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1] as int[] | 2      | true
+    }
+
+    def '下一个排列'() {
+        given:
+        int[] nums = [1, 3, 2]
+        when:
+        solution.nextPermutation(nums)
+        then:
+        nums == [2, 1, 3] as int[]
     }
 }
