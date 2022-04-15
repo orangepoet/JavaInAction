@@ -517,4 +517,13 @@ class SolutionTest extends Specification {
         then:
         nums == [2, 1, 3] as int[]
     }
+
+    def '跳跃游戏'() {
+        expect:
+        solution.canJump(nums) == canJump
+        where:
+        nums                     | canJump
+        [2, 3, 1, 1, 4] as int[] | true
+        [3, 2, 1, 0, 4] as int[] | false
+    }
 }

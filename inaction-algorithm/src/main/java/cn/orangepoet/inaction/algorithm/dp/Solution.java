@@ -2187,4 +2187,39 @@ public class Solution {
             j--;
         }
     }
+
+    /**
+     * 给定一个非负整数数组 nums ，你最初位于数组的 第一个下标 。
+     * <p>
+     * 数组中的每个元素代表你在该位置可以跳跃的最大长度。
+     * <p>
+     * 判断你是否能够到达最后一个下标。
+     *
+     * @param nums
+     * @return
+     */
+    public boolean canJump(int[] nums) {
+        Map<Integer, Map<Integer, Boolean>> memorize = new HashMap<>();
+        return canJump0(nums, nums.length - 1, memorize);
+
+    }
+
+    private boolean canJump0(int[] nums, int target,
+                             Map<Integer, Map<Integer, Boolean>> memorize) {
+        if (target == 0) {
+            return true;
+        }
+        Map<Integer, Boolean> reachableMap = memorize.computeIfAbsent(target, t -> new HashMap<>());
+        for (int i = target - 1; i >= 0; i--) {
+            Boolean canJump = reachableMap.get(i);
+            if (canJump == null) {
+                canJump = nums[i] >= (target - i) && canJump0(nums, i, memorize);
+                reachableMap.put(i, canJump);
+            }
+            if (canJump) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
