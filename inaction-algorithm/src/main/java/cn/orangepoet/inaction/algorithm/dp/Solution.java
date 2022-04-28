@@ -868,6 +868,106 @@ public class Solution {
         return false;
     }
 
+    public String intToRoman(int num) {
+        return resolve(num, 0);
+    }
+
+    private String resolve(int num, int position) {
+        if (num < 10) {
+            if (num == 0) {
+                return "";
+            }
+            if (position == 0) {
+                switch (num) {
+                    case 1:
+                        return "I";
+                    case 2:
+                        return "II";
+                    case 3:
+                        return "III";
+                    case 4:
+                        return "IV";
+                    case 5:
+                        return "V";
+                    case 6:
+                        return "VI";
+                    case 7:
+                        return "VII";
+                    case 8:
+                        return "VIIII";
+                    case 9:
+                        return "IX";
+                    default:
+                        return "";
+                }
+            } else if (position == 1) {
+                switch (num) {
+                    case 1:
+                        return "X";
+                    case 2:
+                        return "XX";
+                    case 3:
+                        return "XXX";
+                    case 4:
+                        return "XL";
+                    case 5:
+                        return "L";
+                    case 6:
+                        return "LX";
+                    case 7:
+                        return "LXX";
+                    case 8:
+                        return "LXXX";
+                    case 9:
+                        return "XC";
+                    default:
+                        return "";
+                }
+            } else if (position == 2) {
+                switch (num) {
+                    case 1:
+                        return "C";
+                    case 2:
+                        return "CC";
+                    case 3:
+                        return "CCC";
+                    case 4:
+                        return "CD";
+                    case 5:
+                        return "D";
+                    case 6:
+                        return "DC";
+                    case 7:
+                        return "DCC";
+                    case 8:
+                        return "DCCC";
+                    case 9:
+                        return "CM";
+                    default:
+                        return "";
+                }
+            } else if (position == 3) {
+                switch (num) {
+                    case 1:
+                        return "M";
+                    case 2:
+                        return "MM";
+                    case 3:
+                        return "MMM";
+                    case 4:
+                        return "MMMM";
+                    default:
+                        return "";
+                }
+            } else {
+                return "";
+            }
+        } else {
+            int rest = num % 10;
+            return resolve(num / 10, position + 1) + resolve(rest, position);
+        }
+    }
+
     /**
      * 给定一棵二叉树，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
      * <p>
@@ -1909,5 +2009,217 @@ public class Solution {
             }
         }
         return comb(s.substring(1));
+    }
+
+    /**
+     * 螺旋矩阵
+     * <p>
+     * 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。
+     * <p>
+     * <p>
+     * 输入：matrix = [[1,2,3],[4,5,6],[7,8,9]] 输出：[1,2,3,6,9,8,7,4,5]
+     *
+     * @param matrix
+     * @return
+     */
+    public List<Integer> spiralOrder(int[][] matrix) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return new ArrayList<>();
+        }
+
+        int left = 0, right = matrix[0].length - 1;
+        int top = 0, bottom = matrix.length - 1;
+
+        List<Integer> ans = new ArrayList<>();
+        while (left < right && top < bottom) {
+            for (int i = left; i < right; i++) {
+                ans.add(matrix[top][i]);
+            }
+            for (int i = top; i < bottom; i++) {
+                ans.add(matrix[i][right]);
+            }
+            for (int i = right; i > left; i--) {
+                ans.add(matrix[bottom][i]);
+            }
+            for (int i = bottom; i > top; i--) {
+                ans.add(matrix[i][left]);
+            }
+            left++;
+            right--;
+            top++;
+            bottom--;
+        }
+
+        if (top == bottom) {
+            for (int i = left; i <= right; i++) {
+                ans.add(matrix[top][i]);
+            }
+        } else if (left == right) {
+            for (int i = top; i <= bottom; i++) {
+                ans.add(matrix[i][top]);
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 已知存在一个按非降序排列的整数数组 nums ，数组中的值不必互不相同。
+     * <p>
+     * 在传递给函数之前，nums 在预先未知的某个下标 k（0 <= k < nums.length）上进行了 旋转 ，使数组变为 [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ...,
+     * nums[k-1]]（下标 从 0 开始 计数）。例如， [0,1,2,4,4,4,5,6,6,7] 在下标 5 处经旋转后可能变为 [4,5,6,6,7,0,1,2,4,4] 。
+     * <p>
+     * 给你 旋转后 的数组 nums 和一个整数 target ，请你编写一个函数来判断给定的目标值是否存在于数组中。如果 nums 中存在这个目标值 target ，则返回 true ，否则返回 false 。
+     * <p>
+     * 你必须尽可能减少整个操作步骤。
+     * <p>
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public boolean search(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return false;
+        }
+        if (nums.length == 1) {
+            return nums[0] == target;
+        }
+        int low = 0;
+        int high = nums.length - 1;
+
+        int p0 = nums[0];
+
+        int middle = 0;
+        while (low <= high) {
+            middle = (low + high) >> 1;
+            if (nums[middle] < p0) {
+                // middle在第二段，向前找
+                high = middle - 1;
+            } else if (nums[middle] > p0) {
+                // middle还在第一段，继续向后找
+                low = middle + 1;
+            } else {
+
+            }
+        }
+        int rotate = nums[middle] < p0 ? middle : middle + 1;
+
+        if (target < p0) {
+            // 第二段
+            low = rotate;
+            high = nums.length - 1;
+            while (low <= high) {
+                middle = (low + high) >> 1;
+                if (target > nums[middle]) {
+                    low = middle + 1;
+                } else if (target < nums[middle]) {
+                    high = middle - 1;
+                } else {
+                    return true;
+                }
+            }
+        } else if (target > p0) {
+            // 第一段
+            low = 0;
+            high = rotate - 1;
+            while (low <= high) {
+                middle = (low + high) >> 1;
+                if (target > nums[middle]) {
+                    low = middle + 1;
+                } else if (target < nums[middle]) {
+                    high = middle - 1;
+                } else {
+                    return true;
+                }
+            }
+        } else {
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * 整数数组的一个 排列 就是将其所有成员以序列或线性顺序排列。
+     * <p>
+     * 例如，arr = [1,2,3] ，以下这些都可以视作 arr 的排列：[1,2,3]、[1,3,2]、[3,1,2]、[2,3,1] 。 整数数组的 下一个排列
+     * 是指其整数的下一个字典序更大的排列。更正式地，如果数组的所有排列根据其字典顺序从小到大排列在一个容器中，那么数组的
+     * 下一个排列 就是在这个有序容器中排在它后面的那个排列。如果不存在下一个更大的排列，那么这个数组必须重排为字典序最小的排列（即，其元素按升序排列）。
+     * <p>
+     * 例如，arr = [1,2,3] 的下一个排列是 [1,3,2] 。 类似地，arr = [2,3,1] 的下一个排列是 [3,1,2] 。 而 arr = [3,2,1] 的下一个排列是 [1,2,3] ，因为 [3,2,1] 不存在一个字典序更大的排列。
+     * 给你一个整数数组 nums ，找出 nums 的下一个排列。
+     *
+     * @param nums
+     */
+    public void nextPermutation(int[] nums) {
+        if (nums == null || nums.length == 0 || nums.length == 1) {
+            return;
+        }
+        int last = nums.length - 1;
+        boolean matched = false;
+        for (int i = last - 1; i >= 0; i--) {
+            for (int j = last; j > i; j--) {
+                if (nums[j] > nums[i]) {
+                    int p = nums[i];
+                    nums[i] = nums[j];
+                    nums[j] = p;
+                    if (i + 1 < last) {
+                        reverse(nums, i + 1, last);
+                    }
+                    matched = true;
+                    break;
+                }
+            }
+            if (matched) {
+                break;
+            }
+        }
+        if (!matched) {
+            reverse(nums, 0, nums.length - 1);
+        }
+    }
+
+    private void reverse(int[] nums, int i, int j) {
+        while (i < j) {
+            int p = nums[i];
+            nums[i] = nums[j];
+            nums[j] = p;
+            i++;
+            j--;
+        }
+    }
+
+    /**
+     * 给定一个非负整数数组 nums ，你最初位于数组的 第一个下标 。
+     * <p>
+     * 数组中的每个元素代表你在该位置可以跳跃的最大长度。
+     * <p>
+     * 判断你是否能够到达最后一个下标。
+     *
+     * @param nums
+     * @return
+     */
+    public boolean canJump(int[] nums) {
+        Map<Integer, Map<Integer, Boolean>> memorize = new HashMap<>();
+        return canJump0(nums, nums.length - 1, memorize);
+
+    }
+
+    private boolean canJump0(int[] nums, int target,
+                             Map<Integer, Map<Integer, Boolean>> memorize) {
+        if (target == 0) {
+            return true;
+        }
+        Map<Integer, Boolean> reachableMap = memorize.computeIfAbsent(target, t -> new HashMap<>());
+        for (int i = target - 1; i >= 0; i--) {
+            Boolean canJump = reachableMap.get(i);
+            if (canJump == null) {
+                canJump = nums[i] >= (target - i) && canJump0(nums, i, memorize);
+                reachableMap.put(i, canJump);
+            }
+            if (canJump) {
+                return true;
+            }
+        }
+        return false;
     }
 }
