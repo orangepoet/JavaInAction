@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.function.memoize;
+package cn.orangepoet.inaction.function;
 
 import io.vavr.Function1;
 import io.vavr.Function2;
@@ -9,14 +9,31 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2021/01/15
  */
 @Slf4j
-public class Application {
+public class Memorize {
+
+    public interface RemoteClient {
+        /**
+         * 远端调用
+         *
+         * @param i
+         * @return
+         */
+        String callRemote(Integer i);
+    }
+
+    public static class RemoteClientImpl implements RemoteClient {
+        @Override
+        public String callRemote(Integer i) {
+            return String.valueOf(i * 2);
+        }
+    }
 
     public static void main(String[] args) {
         Function1<Integer, String> getRemote =
-            ((Function1<Integer, String>)Application::getRemoteValue).memoized();
+            ((Function1<Integer, String>)Memorize::getRemoteValue).memoized();
 
         Function2<Integer, Integer, String> getRemoteValue2 =
-            ((Function2<Integer, Integer, String>)Application::getRemoteValue).memoized();
+            ((Function2<Integer, Integer, String>)Memorize::getRemoteValue).memoized();
 
         String output = getRemote.apply(1);
         log.info("output:{}", output);
