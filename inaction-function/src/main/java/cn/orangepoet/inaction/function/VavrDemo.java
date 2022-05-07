@@ -1,12 +1,13 @@
 package cn.orangepoet.inaction.function;
 
+import java.util.function.Function;
+
 import io.vavr.Function0;
+import io.vavr.Lazy;
 import io.vavr.collection.List;
 import io.vavr.control.Either;
 import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.function.Function;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -107,5 +108,13 @@ public class VavrDemo {
         } else {
             System.out.println(either2.getLeft());
         }
+    }
+
+    public static void lazy() {
+        Lazy<Double> lazy = Lazy.of(Math::random);
+        Double d1 = lazy.get();
+        log.info("get1: {}", d1);
+        Double d2 = lazy.get();
+        log.info("get2: {}", d2);
     }
 }

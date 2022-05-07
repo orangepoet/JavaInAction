@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.app.rxjava;
+package cn.orangepoet.inaction.function.rxjava;
 
 import java.util.concurrent.TimeUnit;
 

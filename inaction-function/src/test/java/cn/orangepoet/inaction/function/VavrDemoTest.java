@@ -32,4 +32,9 @@ public class VavrDemoTest {
     public void eitherEx() {
         VavrDemo.eitherEx();
     }
+
+    @Test
+    public void lazyEx() {
+        VavrDemo.lazy();
+    }
 }
