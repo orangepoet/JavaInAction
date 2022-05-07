@@ -14,7 +14,6 @@
     <artifactId>inaction</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>../inaction-app</module>
         <module>../inaction-spring</module>
         <module>../inaction-desginpattern</module>
         <module>../inaction-algorithm</module>
