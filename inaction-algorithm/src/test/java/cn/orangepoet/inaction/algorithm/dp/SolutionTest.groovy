@@ -526,4 +526,16 @@ class SolutionTest extends Specification {
         [2, 3, 1, 1, 4] as int[] | true
         [3, 2, 1, 0, 4] as int[] | false
     }
+
+    def '等式逻辑判断'() {
+        expect:
+        solution.equationsPossible(equations) == result
+
+        where:
+        equations                                                                                            | result
+        ["g==c", "f!=e", "e==b", "j==b", "g!=a", "e==c", "b!=f", "d!=a", "j==g", "f!=i", "a==e"] as String[] | false
+        ["a!=a"] as String[]                                                                                 | false
+        ["a==b", "b==c", "a==c"] as String[]                                                                 | true
+        ["a==b", "b==c", "a==c", "b!=c"] as String[]                                                         | false
+    }
 }
