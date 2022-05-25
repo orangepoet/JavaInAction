@@ -4,6 +4,7 @@ package cn.orangepoet.inaction.algorithm.dp
 import spock.lang.Specification
 
 import java.awt.font.NumericShaper
+import java.rmi.server.ExportException
 
 /**
  * 使用Spock示例
@@ -489,6 +490,7 @@ class SolutionTest extends Specification {
     def '螺旋矩阵'() {
         expect:
         ans == solution.spiralOrder(matrix)
+        ans == solution.spiralOrder2(matrix)
 
         where:
         matrix                                                   | ans
@@ -537,5 +539,15 @@ class SolutionTest extends Specification {
         ["a!=a"] as String[]                                                                                 | false
         ["a==b", "b==c", "a==c"] as String[]                                                                 | true
         ["a==b", "b==c", "a==c", "b!=c"] as String[]                                                         | false
+    }
+
+    def '判断字符串子数组满足K长最大长度'() {
+        expect:
+        solution.longestSubstring(s, k) == n
+
+        where:
+        s        | k | n
+        "aaabb"  | 3 | 3
+        "ababbc" | 2 | 5
     }
 }

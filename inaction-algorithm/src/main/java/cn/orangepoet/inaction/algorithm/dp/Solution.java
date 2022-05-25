@@ -2062,6 +2062,30 @@ public class Solution {
         return ans;
     }
 
+    public List<Integer> spiralOrder2(int[][] matrix) {
+        List<Integer> result = new ArrayList<>();
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return result;
+        }
+        int rows = matrix.length, columns = matrix[0].length;
+        boolean[][] visited = new boolean[rows][columns];
+        int total = rows * columns;
+        int row = 0, column = 0;
+        int directionIndex = 0;
+        int[][] directions = new int[][] {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        for (int i = 0; i < total; i++) {
+            result.add(matrix[row][column]);
+            visited[row][column] = true;
+            int nextRow = row + directions[directionIndex][0], nextColumn = column + directions[directionIndex][1];
+            if (nextRow < 0 || nextRow >= rows || nextColumn < 0 || nextColumn >= columns || visited[nextRow][nextColumn]) {
+                directionIndex = (directionIndex + 1) % 4;
+            }
+            row += directions[directionIndex][0];
+            column += directions[directionIndex][1];
+        }
+        return result;
+    }
+
     /**
      * 已知存在一个按非降序排列的整数数组 nums ，数组中的值不必互不相同。
      * <p>
@@ -2268,5 +2292,44 @@ public class Solution {
             }
         }
         return true;
+    }
+
+    public int longestSubstring(String s, int k) {
+        if (s == null || s.length() == 0 || k > s.length()) {
+            return 0;
+        }
+        Map<Integer, Map<Character, Integer>> posCharCnt = new HashMap<>();
+        posCharCnt.put(0, new HashMap<>());
+        int pos = 1;
+        for (char c : s.toCharArray()) {
+            Map<Character, Integer> charCnt0 = posCharCnt.get(pos - 1);
+            Map<Character, Integer> charCnt1 = new HashMap<>(charCnt0);
+            charCnt1.compute(c, (key, v) -> v == null ? 1 : v + 1);
+            posCharCnt.put(pos, charCnt1);
+            pos++;
+        }
+
+        for (int len = s.length(); len >= k; len--) {
+            for (int left = 0; left <= s.length() - len; left++) {
+                int right = left + len;
+
+                boolean matched = true;
+                Map<Character, Integer> characterIntegerMap = posCharCnt.get(right);
+                for (Map.Entry<Character, Integer> entry : characterIntegerMap.entrySet()) {
+                    char c = entry.getKey();
+                    int rCnt = entry.getValue();
+                    int lCnt = posCharCnt.get(left).getOrDefault(c, 0);
+                    int cnt = rCnt - lCnt;
+                    if (cnt > 0 && cnt < k) {
+                        matched = false;
+                        break;
+                    }
+                }
+                if (matched) {
+                    return right - left;
+                }
+            }
+        }
+        return 0;
     }
 }
