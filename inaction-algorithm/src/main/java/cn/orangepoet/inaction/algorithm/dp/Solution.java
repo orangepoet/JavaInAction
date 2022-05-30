@@ -15,6 +15,8 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Solution {
+    private int[][] matrix;
+
     public static class TreeNode {
         int val;
         public TreeNode left;
@@ -110,7 +112,7 @@ public class Solution {
      *
      * @param coins
      * @param n
-     * @return
+     * @retutrn
      */
     public int makeChange2(int[] coins, int n) {
         // n -> ret mapping, 找零 n=0 需要0个硬币
@@ -2063,6 +2065,7 @@ public class Solution {
     }
 
     public List<Integer> spiralOrder2(int[][] matrix) {
+        this.matrix = matrix;
         List<Integer> result = new ArrayList<>();
         if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
             return result;

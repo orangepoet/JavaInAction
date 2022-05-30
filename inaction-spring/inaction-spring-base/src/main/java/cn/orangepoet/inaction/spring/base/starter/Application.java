@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.spring.base.starter.ussage;
+package cn.orangepoet.inaction.spring.base.starter;
 
 import cn.orangepoet.inaction.spring.my.stater.Command;
 import lombok.extern.slf4j.Slf4j;
