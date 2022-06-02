@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class Solution {
     private int[][] matrix;
@@ -847,6 +848,62 @@ public class Solution {
             map.put(sum, map.getOrDefault(sum, 0) + 1);
         }
         return ans;
+    }
+
+    /**
+     * 给定一个含有n个正整数的数组和一个正整数 target 。
+     * <p>
+     * 找出该数组中满足其和 ≥ target 的长度最小的 连续子数组 [numsl, numsl+1, ..., numsr-1, numsr] ，并返回其长度。如果不存在符合条件的子数组，返回 0 。
+     *
+     * @param target
+     * @param nums
+     * @return
+     */
+    public int minSubArrayLen(int target, int[] nums) {
+        if (nums.length == 0) {
+            return 0;
+        }
+        int ans = Integer.MAX_VALUE;
+        int sum = 0;
+        int start = 0;
+        for (int end = 0; end < nums.length; end++) {
+            sum += nums[end];
+            while (sum >= target) {
+                ans = Math.min(ans, end - start + 1);
+                sum -= nums[start];
+                start++;
+            }
+        }
+        return ans == Integer.MAX_VALUE ? 0 : ans;
+    }
+
+    /**
+     * 同minSubArrayLen， 自己用TreeMap实现
+     *
+     * @param target
+     * @param nums
+     * @return
+     */
+    public int minSubArrayLen2(int target, int[] nums) {
+        int sum = 0;
+        TreeMap<Integer, Integer> sumIndexMap = new TreeMap<>();
+        sumIndexMap.put(0, 0);
+        int min = Integer.MAX_VALUE;
+        for (int j = 0; j < nums.length; j++) {
+            sum += nums[j];
+            int rest = sum - target;
+            if (rest >= 0) {
+                int i;
+                if (sumIndexMap.containsKey(rest)) {
+                    i = sumIndexMap.get(rest);
+                } else {
+                    i = sumIndexMap.get(sumIndexMap.lowerKey(rest));
+                }
+                min = Math.min(j + 1 - i, min);
+            }
+            sumIndexMap.put(sum, j + 1);
+        }
+        return min == Integer.MAX_VALUE ? 0 : min;
     }
 
     public boolean repeatedSubstringPattern(String s) {
@@ -2334,5 +2391,27 @@ public class Solution {
             }
         }
         return 0;
+    }
+
+    public int pivotIndex(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        int len = nums.length;
+        Map<Integer, Integer> sums = new HashMap<>();
+        sums.put(0, 0);
+        int sum = 0;
+        for (int i = 0; i < len; i++) {
+            sum += nums[i];
+            sums.put(i + 1, sum);
+        }
+        for (int i = 0; i < len; i++) {
+            int left = sums.get(i);
+            int right = sum - left - nums[i];
+            if (right == left) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

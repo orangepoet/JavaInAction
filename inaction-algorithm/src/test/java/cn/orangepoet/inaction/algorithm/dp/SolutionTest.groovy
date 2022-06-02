@@ -225,9 +225,20 @@ class SolutionTest extends Specification {
 
         where:
         nums                     | k | ans
+        [100, 99, 2, 1] as int[] | 3 | 1
         [1, 1, 2, 1, 1] as int[] | 3 | 2
         [2, 4, 6] as int[]       | 1 | 0
         [1, 100, 1] as int[]     | 2 | 1
+    }
+
+    def '和大于等于target的最短子数组'() {
+        expect:
+        solution.minSubArrayLen(k, nums) == ans
+        solution.minSubArrayLen2(k, nums) == ans
+        where:
+        nums                        | k  | ans
+        [2, 3, 1, 2, 4, 3] as int[] | 7  | 2
+        [1, 2, 3, 4, 5] as int[]    | 15 | 5
     }
 
     def '大小为K且平均值大于等于阈值的子数组数目'() {
