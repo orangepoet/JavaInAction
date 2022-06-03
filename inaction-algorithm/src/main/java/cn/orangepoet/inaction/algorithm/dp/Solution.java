@@ -878,6 +878,29 @@ public class Solution {
     }
 
     /**
+     * 乘积小于 K 的子数组
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        int len = nums.length;
+        int ans = 0;
+        int i = 0;
+        int total = 1;
+        for (int j = 0; j < len; j++) {
+            total *= nums[j];
+            while (i <= j && total >= k) {
+                total /= nums[i];
+                i++;
+            }
+            ans += j - i + 1;
+        }
+        return ans;
+    }
+
+    /**
      * 同minSubArrayLen， 自己用TreeMap实现
      *
      * @param target

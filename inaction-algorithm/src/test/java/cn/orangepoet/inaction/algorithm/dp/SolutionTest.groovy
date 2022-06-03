@@ -561,4 +561,13 @@ class SolutionTest extends Specification {
         "aaabb"  | 3 | 3
         "ababbc" | 2 | 5
     }
+
+    def "乘积小于 K 的子数组"() {
+        expect:
+        solution.numSubarrayProductLessThanK(nums, k) == ans
+
+        where:
+        nums                   | k   | ans
+        [10, 5, 2, 6] as int[] | 100 | 8
+    }
 }
