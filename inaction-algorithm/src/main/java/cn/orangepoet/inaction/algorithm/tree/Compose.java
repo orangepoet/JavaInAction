@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.algorithm.dp;
+package cn.orangepoet.inaction.algorithm.tree;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.algorithm;
+package cn.orangepoet.inaction.algorithm.sort;
 
 /**
  * Created by Orange on 16/8/25.

@@ -1,18 +1,15 @@
 package cn.orangepoet.inaction.algorithm.dp
 
-
+import cn.orangepoet.inaction.algorithm.LeetCode
 import spock.lang.Specification
-
-import java.awt.font.NumericShaper
-import java.rmi.server.ExportException
 
 /**
  * 使用Spock示例
  *
  * @author chengzhi* @date 2019/09/27
  */
-class SolutionTest extends Specification {
-    def solution = new Solution()
+class LeetCodeTest extends Specification {
+    def solution = new LeetCode()
 
     def "最大连续子序列"() {
         expect:
@@ -113,21 +110,21 @@ class SolutionTest extends Specification {
 
     def '树的路径总和'() {
         given:
-        Solution.TreeNode n6 = new Solution.TreeNode(2)
-        Solution.TreeNode n5 = new Solution.TreeNode(7)
-        Solution.TreeNode n4 = new Solution.TreeNode(11, n5, n6)
-        Solution.TreeNode n2 = new Solution.TreeNode(4, n4, null)
+        LeetCode.TreeNode n6 = new LeetCode.TreeNode(2)
+        LeetCode.TreeNode n5 = new LeetCode.TreeNode(7)
+        LeetCode.TreeNode n4 = new LeetCode.TreeNode(11, n5, n6)
+        LeetCode.TreeNode n2 = new LeetCode.TreeNode(4, n4, null)
 
-        Solution.TreeNode n10 = new Solution.TreeNode(1)
-        Solution.TreeNode n9 = new Solution.TreeNode(5)
-        Solution.TreeNode n8 = new Solution.TreeNode(4, n9, n10)
-        Solution.TreeNode n7 = new Solution.TreeNode(13)
-        Solution.TreeNode n3 = new Solution.TreeNode(8, n7, n8)
+        LeetCode.TreeNode n10 = new LeetCode.TreeNode(1)
+        LeetCode.TreeNode n9 = new LeetCode.TreeNode(5)
+        LeetCode.TreeNode n8 = new LeetCode.TreeNode(4, n9, n10)
+        LeetCode.TreeNode n7 = new LeetCode.TreeNode(13)
+        LeetCode.TreeNode n3 = new LeetCode.TreeNode(8, n7, n8)
 
-        Solution.TreeNode n1 = new Solution.TreeNode(5, n2, n3)
+        LeetCode.TreeNode n1 = new LeetCode.TreeNode(5, n2, n3)
 
         n1.left
-        def solution = new Solution()
+        def solution = new LeetCode()
         expect:
         solution.pathSum(root, sum) == ret
 
@@ -259,22 +256,22 @@ class SolutionTest extends Specification {
 
     def '两数相加'() {
         given:
-        def p1 = new Solution.ListNode(2)
-        def p2 = new Solution.ListNode(4)
-        def p3 = new Solution.ListNode(3)
+        def p1 = new LeetCode.ListNode(2)
+        def p2 = new LeetCode.ListNode(4)
+        def p3 = new LeetCode.ListNode(3)
         p1.next = p2
         p2.next = p3
-        def r1 = new Solution.ListNode(5)
-        def r2 = new Solution.ListNode(6)
-        def r3 = new Solution.ListNode(4)
+        def r1 = new LeetCode.ListNode(5)
+        def r2 = new LeetCode.ListNode(6)
+        def r3 = new LeetCode.ListNode(4)
         r1.next = r2
         r2.next = r3
-        def t1 = new Solution.ListNode(7)
-        def t2 = new Solution.ListNode(0)
-        def t3 = new Solution.ListNode(8)
+        def t1 = new LeetCode.ListNode(7)
+        def t2 = new LeetCode.ListNode(0)
+        def t3 = new LeetCode.ListNode(8)
         t1.next = t2
         t2.next = t3
-        def solution = new Solution()
+        def solution = new LeetCode()
 
 
         expect:

@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.algorithm.dp;
+package cn.orangepoet.inaction.algorithm;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class Solution {
+public class LeetCode {
     private int[][] matrix;
 
     public static class TreeNode {

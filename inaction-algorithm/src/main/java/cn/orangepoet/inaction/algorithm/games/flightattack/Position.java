@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.algorithm.flightattack;
+package cn.orangepoet.inaction.algorithm.games.flightattack;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
