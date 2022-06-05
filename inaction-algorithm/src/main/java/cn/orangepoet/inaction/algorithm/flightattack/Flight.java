@@ -10,17 +10,14 @@ import java.util.Set;
  * @date 2019/10/24
  */
 public class Flight implements FlightJudge {
-    //private final Direction direction;
     private final Position head;
 
     private final Set<Position> allPosSet = new HashSet<>();
 
     private static final Map<String, Flight> FLIGHT_CACHE = new HashMap<>();
 
-    private Flight(Direction direction,
-                   Position head,
+    private Flight(Position head,
                    Set<Position> body) {
-        //this.direction = direction;
         this.head = head;
 
         allPosSet.addAll(body);
@@ -31,7 +28,7 @@ public class Flight implements FlightJudge {
         String key = String.format("%s-%s", direction, head.toString());
         Flight flight = FLIGHT_CACHE.get(key);
         if (flight == null) {
-            flight = new Flight(direction, head, getBody(head, direction));
+            flight = new Flight(head, getBody(head, direction));
             FLIGHT_CACHE.put(key, flight);
         }
         return flight;

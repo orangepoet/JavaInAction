@@ -24,10 +24,6 @@ public class FlightUnit implements FlightJudge {
         return new ArrayList<>(flights);
     }
 
-    public List<Position> getAllPos() {
-        return this.flights.stream().flatMap(f -> f.allPosSet().stream()).collect(Collectors.toList());
-    }
-
     @Override
     public boolean isHead(Position position) {
         return this.flights.stream()

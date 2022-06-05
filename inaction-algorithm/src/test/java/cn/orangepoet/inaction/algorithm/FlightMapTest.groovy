@@ -5,7 +5,7 @@ import cn.orangepoet.inaction.algorithm.flightattack.FlightMap
 import cn.orangepoet.inaction.algorithm.flightattack.FlightUnit
 import cn.orangepoet.inaction.algorithm.flightattack.MatchResult
 import cn.orangepoet.inaction.algorithm.flightattack.Position
-import cn.orangepoet.inaction.algorithm.flightattack.Starter
+import cn.orangepoet.inaction.algorithm.flightattack.Application
 import spock.lang.Specification
 
 /**
@@ -16,7 +16,7 @@ class FlightMapTest extends Specification {
 
     def "TestGuess"() {
         given:
-        def starter = new Starter()
+        def starter = new Application()
         def flightMap = FlightMap.create(10)
         def flightUnits = flightMap.listFlightUnits()
 
