@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.algorithm.games;
+package cn.orangepoet.inaction.algorithm;
 
 import java.util.ArrayList;
 import java.util.Arrays;

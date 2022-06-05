@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.algorithm.tree
+package cn.orangepoet.inaction.algorithm
 
 
 import spock.lang.Specification
@@ -18,7 +18,7 @@ class TreeAlgoTest extends Specification {
 
     def "节点移除"() {
         when:
-        TreeNode removedItem = TreeAlgo.remove(root, 4)
+        TreeAlgo.Node removedItem = TreeAlgo.remove(root, 4)
 
         then:
         removedItem != null
@@ -29,13 +29,13 @@ class TreeAlgoTest extends Specification {
     }
 
     def "新增节点"() {
-        TreeNode newItem = TreeAlgo.add(7, root)
+        TreeAlgo.Node newItem = TreeAlgo.add(7, root)
         root.print(0)
     }
 
     def "广度遍历"() {
         given:
-        def node = TreeNode.parse([1, 2, 3, 4, 5, 6, 7] as Integer[])
+        def node = TreeAlgo.Node.parse([1, 2, 3, 4, 5, 6, 7] as Integer[])
         when:
         def ret = TreeAlgo.wideFirst(node)
         then:

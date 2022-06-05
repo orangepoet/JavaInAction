@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.algorithm.games.flightattack;
+package cn.orangepoet.inaction.algorithm.flightattack;
 
 import java.io.BufferedReader;
 import java.io.IOException;

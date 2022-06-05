@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.algorithm.dp
+package cn.orangepoet.inaction.algorithm
 
 import cn.orangepoet.inaction.algorithm.LeetCode
 import spock.lang.Specification
