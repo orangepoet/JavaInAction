@@ -567,4 +567,16 @@ class LeetCodeTest extends Specification {
         nums                   | k   | ans
         [10, 5, 2, 6] as int[] | 100 | 8
     }
+
+    def "质因数分解"() {
+        expect:
+        solution.resolvePrime(num) == ans
+
+        where:
+        num        | ans
+        10         | [2, 5] as List
+        20         | [2, 2, 5] as List
+        2083497593 | [67, 271, 114749] as List
+    }
+
 }

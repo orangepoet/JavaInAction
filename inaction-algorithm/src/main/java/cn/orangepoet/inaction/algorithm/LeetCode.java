@@ -2437,4 +2437,25 @@ public class LeetCode {
         }
         return -1;
     }
+
+    /**
+     * 质因数分解
+     *
+     * @param num
+     */
+    public List<Integer> resolvePrime(int num) {
+        List<Integer> ans = new ArrayList<>();
+
+        int i = 2;
+        while (i <= num) {
+            if (num % i == 0) {
+                ans.add(i);
+                num = num / i;
+                i = 2;
+            } else {
+                i++;
+            }
+        }
+        return ans;
+    }
 }
