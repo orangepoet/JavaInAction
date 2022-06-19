@@ -91,10 +91,11 @@ class LeetCodeTest extends Specification {
 
         expect:
         solution.combinationSum(candidates, target) == ans
+        solution.combinationSumOfDfs(candidates, target) == ans1
 
         where:
-        candidates            | target | ans
-        [2, 3, 6, 7] as int[] | 7      | [[2, 2, 3], [7]]
+        candidates            | target | ans              | ans1
+        [2, 3, 6, 7] as int[] | 7      | [[2, 2, 3], [7]] | [[7], [2, 2, 3]]
     }
 
     def '三数之和'() {

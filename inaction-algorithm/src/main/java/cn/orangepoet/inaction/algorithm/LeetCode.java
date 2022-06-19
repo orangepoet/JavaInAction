@@ -420,42 +420,48 @@ public class LeetCode {
      * @return
      */
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        if (target <= 0) {
-            return Collections.emptyList();
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(candidates);
+        backtrack0(candidates, target, ans, new ArrayList<>(), 0);
+        return ans;
+    }
+
+    private void backtrack0(int[] candidates, int target, List<List<Integer>> ans, List<Integer> combination, int start) {
+        if (target == 0) {
+            ans.add(combination);
+            return;
         }
-        Map<Integer, List<List<Integer>>> targetMap = new HashMap<>();
-        targetMap.put(0, Collections.emptyList());
-
-        for (int num = 1; num <= target; num++) {
-            Set<List<Integer>> targetAns = new HashSet<>();
-
-            for (int c : candidates) {
-                int subNum = num - c;
-                if (subNum >= 0 && targetMap.containsKey(subNum)) {
-                    List<List<Integer>> subAns = targetMap.get(subNum);
-
-                    List<Integer> integers;
-                    if (subAns.isEmpty()) {
-                        integers = new ArrayList<>();
-                        integers.add(c);
-                        targetAns.add(integers);
-                    } else {
-                        for (List<Integer> each : subAns) {
-                            integers = new ArrayList<>();
-                            integers.addAll(each);
-                            integers.add(c);
-                            Collections.sort(integers);
-                            targetAns.add(integers);
-                        }
-                    }
-                }
+        for (int i = start; i < candidates.length; i++) {
+            if (target < candidates[i]) {
+                break;
             }
-            if (!targetAns.isEmpty()) {
-                targetMap.put(num, new ArrayList<>(targetAns));
-            }
+            List<Integer> copy = new ArrayList<>(combination);
+            copy.add(candidates[i]);
+            backtrack0(candidates, target - candidates[i], ans, copy, i);
         }
-        //TODO: 时间复杂度高, 需要优化
-        return targetMap.getOrDefault(target, Collections.emptyList());
+    }
+
+    public List<List<Integer>> combinationSumOfDfs(int[] candidates, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        dfs0(candidates, target, ans, new ArrayList<>(), 0);
+        return ans;
+    }
+
+    private void dfs0(int[] candidates, int target, List<List<Integer>> ans, List<Integer> combination, int idx) {
+        if (idx == candidates.length) {
+            return;
+        }
+        if (target == 0) {
+            ans.add(new ArrayList<>(combination));
+            return;
+        }
+
+        dfs0(candidates, target, ans, combination, idx + 1);
+        if (target >= candidates[idx]) {
+            combination.add(candidates[idx]);
+            dfs0(candidates, target - candidates[idx], ans, combination, idx);
+            combination.remove(combination.size() - 1);
+        }
     }
 
     /**
@@ -1874,6 +1880,13 @@ public class LeetCode {
         return dummy.next;
     }
 
+    /**
+     * 数组中不重复的子序列， 和为target
+     *
+     * @param candidates
+     * @param target
+     * @return
+     */
     public List<List<Integer>> combinationSum2(int[] candidates, int target) {
         List<List<Integer>> list = new LinkedList<>();
         Arrays.sort(candidates);//先排序
@@ -2013,42 +2026,28 @@ public class LeetCode {
      * 回文字
      */
     public String longestPalindrome(String s) {
-        Map<Character, List<Integer>> charMap = new HashMap<>();
-        int maxLength = Integer.MIN_VALUE;
-        int start = 0;
-        int end = 0;
-        for (int j = 0; j < s.length(); j++) {
-            char c = s.charAt(j);
-            List<Integer> idx = charMap.get(c);
-            if (idx == null) {
-                idx = new ArrayList<>();
-                idx.add(j);
-                charMap.put(c, idx);
-            } else {
-                for (int i : idx) {
-                    if (longestPalindrome0(i, j, s)) {
-                        int length0 = j - i;
-                        if (length0 > maxLength) {
-                            start = i;
-                            end = j;
-                            maxLength = length0;
-                            break;
-                        }
-                    }
-                }
-                idx.add(j);
+        if (s == null || s.length() < 1) {
+            return "";
+        }
+        int start = 0, end = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int len1 = expandAroundCenter(s, i, i);
+            int len2 = expandAroundCenter(s, i, i + 1);
+            int len = Math.max(len1, len2);
+            if (len > end - start) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
             }
         }
         return s.substring(start, end + 1);
     }
 
-    private boolean longestPalindrome0(int start, int end, String s) {
-        for (int i = start, j = end; i <= j; i++, j--) {
-            if (s.charAt(i) != s.charAt(j)) {
-                return false;
-            }
+    public int expandAroundCenter(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            --left;
+            ++right;
         }
-        return true;
+        return right - left - 1;
     }
 
     public ListNode removeNthFromEnd(ListNode head, int n) {
