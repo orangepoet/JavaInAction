@@ -2461,4 +2461,38 @@ public class LeetCode {
         }
         return ans[m - 1][n - 1];
     }
+
+    public void mergeSort(int[] arr) {
+        if (arr == null || arr.length == 0) {
+            return;
+        }
+        mergeSort0(arr, 0, arr.length - 1);
+    }
+
+    public void mergeSort0(int[] arr, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) >> 1;
+            mergeSort0(arr, left, mid);
+            mergeSort0(arr, mid + 1, right);
+            merge0(arr, left, mid, right);
+        }
+    }
+
+    private void merge0(int[] arr, int left, int mid, int right) {
+        int[] L = new int[mid - left + 2];
+        for (int i = 0; i < L.length - 1; i++) {
+            L[i] = arr[left + i];
+        }
+        L[L.length - 1] = Integer.MAX_VALUE;
+        int[] R = new int[right - mid + 1];
+        for (int i = 0; i < R.length - 1; i++) {
+            R[i] = arr[mid + 1 + i];
+        }
+        R[L.length - 1] = Integer.MAX_VALUE;
+        int l = 0;
+        int r = 0;
+        for (int k = left; k <= right; k++) {
+            arr[k] = L[l] < R[r] ? L[l++] : R[r++];
+        }
+    }
 }

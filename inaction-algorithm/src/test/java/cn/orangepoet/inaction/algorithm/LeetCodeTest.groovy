@@ -1,7 +1,7 @@
 package cn.orangepoet.inaction.algorithm
 
-import cn.orangepoet.inaction.algorithm.LeetCode
 import spock.lang.Specification
+
 
 /**
  * 使用Spock示例
@@ -599,5 +599,17 @@ class LeetCodeTest extends Specification {
         where:
         grid                                         | ans
         [[1, 3, 1], [1, 5, 1], [4, 2, 1]] as int[][] | 7
+    }
+
+    def '合并排序'() {
+        given:
+        def arr = [3, 5, 2, 1, 4, 7, 6] as int[]
+        when:
+        solution.mergeSort(arr)
+
+        then:
+        for (i in 1..<arr.length) {
+            assert arr[i] >= arr[i - 1]
+        }
     }
 }
