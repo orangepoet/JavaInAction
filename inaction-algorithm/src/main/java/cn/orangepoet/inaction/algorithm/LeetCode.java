@@ -2527,4 +2527,20 @@ public class LeetCode {
         arr[end] = tmp;
         return i + 1;
     }
+
+    public boolean wordBreak(String s, List<String> wordDict) {
+        Set<String> dict = new HashSet<>(wordDict);
+        int n = s.length();
+        boolean[] ans = new boolean[n + 1];
+        ans[0] = true;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (ans[j] && dict.contains(s.substring(j, i))) {
+                    ans[i] = true;
+                    break;
+                }
+            }
+        }
+        return ans[n];
+    }
 }

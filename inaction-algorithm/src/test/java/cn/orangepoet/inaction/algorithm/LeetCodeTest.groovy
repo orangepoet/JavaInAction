@@ -625,4 +625,13 @@ class LeetCodeTest extends Specification {
         }
     }
 
+    def '单词拆分'() {
+        expect:
+        solution.wordBreak(s, wordDict) == ans
+
+        where:
+        s          | wordDict         | ans
+        "leetcode" | ["leet", "code"] | true
+    }
+
 }
