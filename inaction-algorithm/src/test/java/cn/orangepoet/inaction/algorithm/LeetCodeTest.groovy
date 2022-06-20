@@ -383,7 +383,7 @@ class LeetCodeTest extends Specification {
 
     def '合并区间'() {
         expect:
-        solution.merge0(intervals) == ans
+        solution.merge2(intervals) == ans
 
         where:
         intervals                                      | ans
@@ -536,6 +536,9 @@ class LeetCodeTest extends Specification {
         nums                     | canJump
         [2, 3, 1, 1, 4] as int[] | true
         [3, 2, 1, 0, 4] as int[] | false
+        [1, 2, 3] as int[]       | true
+        [3, 2, 1, 0, 4] as int[] | false
+        [2, 5, 0, 0] as int[]    | true
     }
 
     def '等式逻辑判断'() {
@@ -579,5 +582,4 @@ class LeetCodeTest extends Specification {
         20         | [2, 2, 5] as List
         2083497593 | [67, 271, 114749] as List
     }
-
 }

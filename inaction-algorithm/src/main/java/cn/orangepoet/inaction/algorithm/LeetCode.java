@@ -1754,46 +1754,6 @@ public class LeetCode {
         return sum;
     }
 
-    /**
-     * 合并区间
-     *
-     * @param intervals
-     * @return
-     */
-    public int[][] merge0(int[][] intervals) {
-        if (intervals == null) {
-            return null;
-        }
-        if (intervals.length == 1) {
-            return intervals;
-        }
-
-        int m = -1;
-        int[][] ans = new int[intervals.length][2];
-
-        int[] lastRange = null;
-        for (int i = 0; i < intervals.length; i++) {
-            if (lastRange == null) {
-                lastRange = intervals[i];
-                ans[++m] = lastRange;
-            } else {
-                int[] current = intervals[i];
-                if ((current[0] <= lastRange[1] && current[1] >= lastRange[1])
-                    || (current[0] <= lastRange[0] && current[1] >= lastRange[0])) {
-                    lastRange[1] = Math.max(current[1], lastRange[1]);
-                    lastRange[0] = Math.min(current[0], lastRange[0]);
-                } else {
-                    lastRange = current;
-                    ans[++m] = lastRange;
-                }
-            }
-        }
-
-        int[][] ans0 = new int[m + 1][2];
-        System.arraycopy(ans, 0, ans0, 0, m + 1);
-        return ans0;
-    }
-
     public int[][] generateMatrix(int n) {
         int[][] ans = new int[n][n];
         int left = 0;
@@ -2304,24 +2264,13 @@ public class LeetCode {
      * @return
      */
     public boolean canJump(int[] nums) {
-        Map<Integer, Map<Integer, Boolean>> memorize = new HashMap<>();
-        return canJump0(nums, nums.length - 1, memorize);
-
-    }
-
-    private boolean canJump0(int[] nums, int target,
-                             Map<Integer, Map<Integer, Boolean>> memorize) {
-        if (target == 0) {
-            return true;
-        }
-        Map<Integer, Boolean> reachableMap = memorize.computeIfAbsent(target, t -> new HashMap<>());
-        for (int i = target - 1; i >= 0; i--) {
-            Boolean canJump = reachableMap.get(i);
-            if (canJump == null) {
-                canJump = nums[i] >= (target - i) && canJump0(nums, i, memorize);
-                reachableMap.put(i, canJump);
+        int max = 0;
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            if (i <= max) {
+                max = Math.max(nums[i] + i, max);
             }
-            if (canJump) {
+            if (max >= n - 1) {
                 return true;
             }
         }
@@ -2456,5 +2405,54 @@ public class LeetCode {
             }
         }
         return ans;
+    }
+
+    /**
+     * @param intervals
+     * @return
+     */
+    public int[][] merge2(int[][] intervals) {
+        int[][] ans = new int[intervals.length][2];
+
+        Arrays.sort(intervals, Comparator.comparingInt(x -> x[0]));
+        int i = 0, n = intervals.length, mergeTimes = 0;
+        ans[0][0] = intervals[0][0];
+        ans[0][1] = intervals[0][1];
+        for (int j = 1; j < n; j++) {
+            if (intervals[j][0] <= ans[i][1]) {
+                ans[i][1] = Math.max(intervals[j][1], ans[i][1]);
+                mergeTimes++;
+            } else {
+                ++i;
+                ans[i][0] = intervals[j][0];
+                ans[i][1] = intervals[j][1];
+            }
+        }
+        return Arrays.copyOfRange(ans, 0, n - mergeTimes);
+    }
+
+    /**
+     * 路径规划
+     * <p>
+     * https://leetcode.cn/problems/unique-paths/
+     *
+     * @param m
+     * @param n
+     * @return
+     */
+    public int uniquePaths(int m, int n) {
+        int[][] ans = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            ans[i][0] = 1;
+        }
+        for (int j = 0; j < n; j++) {
+            ans[0][j] = 1;
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                ans[i][j] = ans[i - 1][j] + ans[i][j - 1];
+            }
+        }
+        return ans[m - 1][n - 1];
     }
 }
