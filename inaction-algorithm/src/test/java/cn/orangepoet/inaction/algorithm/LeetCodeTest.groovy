@@ -612,4 +612,17 @@ class LeetCodeTest extends Specification {
             assert arr[i] >= arr[i - 1]
         }
     }
+
+    def '快排'() {
+        given:
+        def arr = [3, 5, 2, 1, 4, 7, 6] as int[]
+        when:
+        solution.quickSort(arr)
+
+        then:
+        for (i in 1..<arr.length) {
+            assert arr[i] >= arr[i - 1]
+        }
+    }
+
 }
