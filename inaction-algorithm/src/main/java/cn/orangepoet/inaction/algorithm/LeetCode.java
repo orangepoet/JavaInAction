@@ -169,38 +169,22 @@ public class LeetCode {
 
     /**
      * 爬楼算法
+     * <p>
+     * 爬楼算法, 1阶1种(1步), 2阶2种(1步或2步), n>2 可分解为先1阶或先2阶的策略合, 等同于斐波那契数
      *
      * @param n
      * @return
      */
     public int climbStairs(int n) {
-        return climbStairs0(n, new HashMap<>());
-    }
-
-    /**
-     * 爬楼算法, 1阶1种(1步), 2阶2种(1步或2步), n>2 可分解为先1阶或先2阶的策略合, 等同于斐波那契数
-     *
-     * @param n
-     * @param stairCnt
-     * @return
-     */
-    private int climbStairs0(int n, Map<Integer, Integer> stairCnt) {
-        if (n <= 0) {
-            throw new IllegalArgumentException("n is invalid");
+        int[] ans = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            if (i == 1 || i == 2) {
+                ans[i] = i;
+            } else {
+                ans[i] = ans[i - 1] + ans[i - 2];
+            }
         }
-        if (stairCnt.containsKey(n)) {
-            return stairCnt.get(n);
-        }
-        if (n == 1) {
-            stairCnt.put(n, 1);
-            return 1;
-        } else if (n == 2) {
-            stairCnt.put(n, 2);
-            return 2;
-        }
-        int cnt = climbStairs0(n - 1, stairCnt) + climbStairs0(n - 2, stairCnt);
-        stairCnt.put(n, cnt);
-        return cnt;
+        return ans[n];
     }
 
     /**
@@ -2451,6 +2435,28 @@ public class LeetCode {
         for (int i = 1; i < m; i++) {
             for (int j = 1; j < n; j++) {
                 ans[i][j] = ans[i - 1][j] + ans[i][j - 1];
+            }
+        }
+        return ans[m - 1][n - 1];
+    }
+
+    public int minPathSum(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+        int[][] ans = new int[m][n];
+
+        int sum = 0;
+        for (int i = 0; i < m; i++) {
+            sum += grid[i][0];
+            ans[i][0] = sum;
+        }
+        sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum += grid[0][i];
+            ans[0][i] = sum;
+        }
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                ans[i][j] = Math.min(ans[i - 1][j], ans[i][j - 1]) + grid[i][j];
             }
         }
         return ans[m - 1][n - 1];

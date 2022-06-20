@@ -582,4 +582,22 @@ class LeetCodeTest extends Specification {
         20         | [2, 2, 5] as List
         2083497593 | [67, 271, 114749] as List
     }
+
+    def '路径种类'() {
+        expect:
+        solution.uniquePaths(m, n) == ans
+
+        where:
+        m | n | ans
+        3 | 2 | 3
+    }
+
+    def '最小路径'() {
+        expect:
+        solution.minPathSum(grid) == ans
+
+        where:
+        grid                                         | ans
+        [[1, 3, 1], [1, 5, 1], [4, 2, 1]] as int[][] | 7
+    }
 }
