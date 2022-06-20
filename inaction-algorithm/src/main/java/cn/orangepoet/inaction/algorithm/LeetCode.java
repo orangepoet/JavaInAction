@@ -2488,7 +2488,7 @@ public class LeetCode {
         for (int i = 0; i < R.length - 1; i++) {
             R[i] = arr[mid + 1 + i];
         }
-        R[L.length - 1] = Integer.MAX_VALUE;
+        R[R.length - 1] = Integer.MAX_VALUE;
         int l = 0;
         int r = 0;
         for (int k = left; k <= right; k++) {
