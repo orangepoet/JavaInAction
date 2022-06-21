@@ -634,4 +634,22 @@ class LeetCodeTest extends Specification {
         "leetcode" | ["leet", "code"] | true
     }
 
+    def '测试LRU'() {
+        given:
+        LRU2 lru = new LRU2(2);
+
+        when:
+        lru.put(2, 1)
+        lru.put(1, 1)
+        lru.put(2, 3)
+        lru.put(4, 1)
+        def val = lru.get(1)
+        def val2 = lru.get(2)
+
+        then:
+        val == -1
+        val2 == 3
+
+    }
+
 }

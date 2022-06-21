@@ -1,5 +1,6 @@
 package cn.orangepoet.inaction.algorithm;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -9,10 +10,8 @@ import java.util.Map;
  */
 public class LRU {
     private final Map<String, String> map;
-    private int capacity;
 
     public LRU(int capacity) {
-        this.capacity = capacity;
         this.map = new LinkedHashMap<String, String>(capacity, 0.75f, true) {
             @Override
             protected boolean removeEldestEntry(Map.Entry eldest) {
