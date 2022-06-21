@@ -116,22 +116,19 @@ public class LeetCode {
      * @retutrn
      */
     public int makeChange2(int[] coins, int n) {
-        // n -> ret mapping, 找零 n=0 需要0个硬币
-        Map<Integer, Integer> changeRet = new HashMap<>();
-        changeRet.put(0, 0);
+        int[] dp = new int[n + 1];
+        dp[0] = 0;
 
-        for (int amount = 1; amount <= n; amount++) {
-            int minChange = Integer.MAX_VALUE;
+        for (int i = 1; i <= n; i++) {
+            int min = n + 1;
             for (int coin : coins) {
-                if (amount >= coin) {
-                    int subRet = changeRet.get(amount - coin);
-                    minChange = Math.min(minChange, subRet + 1);
+                if (i >= coin) {
+                    min = Math.min(min, dp[i - coin] + 1);
                 }
             }
-            minChange = minChange == Integer.MAX_VALUE ? -1 : minChange;
-            changeRet.put(amount, minChange);
+            dp[i] = min;
         }
-        return changeRet.get(n);
+        return dp[n] > n ? -1 : dp[n];
     }
 
     /**
