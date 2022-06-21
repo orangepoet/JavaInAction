@@ -2543,4 +2543,52 @@ public class LeetCode {
         }
         return ans[n];
     }
+
+    public int numIslands(char[][] grid) {
+        if (grid == null || grid.length == 0 || grid[0].length == 0) {
+            return 0;
+        }
+        int count = 0;
+        int row = grid.length;
+        int col = grid[0].length;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (grid[i][j] == '1') {
+                    ++count;
+                    dfs(grid, i, j, row, col);
+                }
+            }
+        }
+        return count;
+    }
+
+    private void dfs(char[][] grid, int r, int c, int row, int col) {
+        if (r < 0 || c < 0 || r > row - 1 || c > col - 1 || grid[r][c] == '0') {
+            return;
+        }
+        grid[r][c] = '0';
+        dfs(grid, r - 1, c, row, col);
+        dfs(grid, r + 1, c, row, col);
+        dfs(grid, r, c - 1, row, col);
+        dfs(grid, r, c + 1, row, col);
+    }
+
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[] f = new int[n];
+        f[0] = 0;
+        for (int i = 1; i < n; i++) {
+            f[i] = f[i - 1];
+            for (int j = 0; j < i; j++) {
+                if (prices[i] > prices[j]) {
+                    int tmp = prices[i] - prices[j];
+                    if (j > 1) {
+                        tmp += f[j - 2];
+                    }
+                    f[i] = Math.max(f[i], tmp);
+                }
+            }
+        }
+        return f[n - 1];
+    }
 }

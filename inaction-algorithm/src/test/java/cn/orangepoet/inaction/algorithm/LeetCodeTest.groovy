@@ -649,7 +649,26 @@ class LeetCodeTest extends Specification {
         then:
         val == -1
         val2 == 3
+    }
 
+    def '岛屿数量'() {
+        expect:
+        solution.numIslands(grid) == count
+
+        where:
+        grid                                    | count
+        [["1", "1", "0", "0", "0"],
+         ["1", "1", "0", "0", "0"],
+         ["0", "0", "1", "0", "0"],
+         ["0", "0", "0", "1", "1"]] as char[][] | 3
+    }
+
+    def "股票买卖最佳时间（带冻结）"() {
+        expect:
+        solution.maxProfit(prices) == ans
+        where:
+        prices                   | ans
+        [1, 2, 3, 0, 2] as int[] | 3
     }
 
 }
