@@ -13,6 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -2641,5 +2642,78 @@ public class LeetCode {
             return rightPath;
         }
         return null;
+    }
+
+    public int numSquares(int n) {
+        int[] ans = new int[n + 1];
+        ans[0] = 0;
+        for (int i = 1; i <= n; i++) {
+            int min = i;
+            for (int j = 1; j < i; j++) {
+                int k = j * j;
+                if (k > i) {
+                    break;
+                }
+                min = Math.min(min, ans[i - k] + 1);
+            }
+            ans[i] = min;
+        }
+        return ans[n];
+    }
+
+    public boolean canPartition(int[] nums) {
+        int total = 0;
+        for (int num : nums) {
+            total += num;
+        }
+        if (total % 2 != 0) {
+            return false;
+        }
+        return canPartition0(nums, 0, total / 2);
+    }
+
+    private boolean canPartition0(int[] nums, int start, int sum) {
+        if (sum == 0) {
+            return true;
+        }
+        if (sum < 0) {
+            return false;
+        }
+        if (start >= nums.length) {
+            return false;
+        }
+        return canPartition0(nums, start + 1, sum) || canPartition0(nums, start + 1, sum - nums[start]);
+    }
+
+    /**
+     * 前K个最高频数字
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> occ = new HashMap<>();
+        for (int num : nums) {
+            occ.put(num, occ.getOrDefault(num, 0) + 1);
+        }
+        PriorityQueue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+        for (Integer num : occ.keySet()) {
+            int cnt = occ.get(num);
+
+            if (queue.size() == k) {
+                if (queue.peek()[1] < cnt) {
+                    queue.poll();
+                    queue.offer(new int[] {num, cnt});
+                }
+            } else {
+                queue.offer(new int[] {num, cnt});
+            }
+        }
+        int[] kq = new int[k];
+        for (int i = 0; i < kq.length; i++) {
+            kq[i] = queue.poll()[0];
+        }
+        return kq;
     }
 }
