@@ -511,37 +511,31 @@ public class LeetCode {
      * @param sum
      * @return
      */
-    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+    public int pathSum(TreeNode root, int targetSum) {
         if (root == null) {
-            return null;
-        }
-        if (root.val == sum) {
-            return Collections.singletonList(Collections.singletonList(root.val));
-        }
-        if (root.left == null || root.right == null) {
-            return null;
-        }
-        if (root.val > sum) {
-            return null;
+            return 0;
         }
 
-        List<List<Integer>> result = new ArrayList<>();
-        List<List<Integer>> subAns = pathSum(root.left, sum - root.val);
-        if (subAns != null) {
-            for (List<Integer> subAn : subAns) {
-                subAn.add(root.val);
-            }
-            result.addAll(subAns);
+        int ret = rootSum(root, targetSum);
+        ret += pathSum(root.left, targetSum);
+        ret += pathSum(root.right, targetSum);
+        return ret;
+    }
+
+    private int rootSum(TreeNode root, int targetSum) {
+        int ret = 0;
+
+        if (root == null) {
+            return 0;
         }
-        List<List<Integer>> subAns2 = pathSum(root.right, sum - root.val);
-        if (subAns2 != null) {
-            for (List<Integer> each : subAns2) {
-                each.add(root.val);
-            }
-            result.addAll(subAns2);
+        int val = root.val;
+        if (val == targetSum) {
+            ret++;
         }
 
-        return result;
+        ret += rootSum(root.left, targetSum - val);
+        ret += rootSum(root.right, targetSum - val);
+        return ret;
     }
 
     /**

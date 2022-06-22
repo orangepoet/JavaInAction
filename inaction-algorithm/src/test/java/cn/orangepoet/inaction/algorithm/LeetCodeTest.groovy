@@ -111,27 +111,15 @@ class LeetCodeTest extends Specification {
 
     def '树的路径总和'() {
         given:
-        LeetCode.TreeNode n6 = new LeetCode.TreeNode(2)
-        LeetCode.TreeNode n5 = new LeetCode.TreeNode(7)
-        LeetCode.TreeNode n4 = new LeetCode.TreeNode(11, n5, n6)
-        LeetCode.TreeNode n2 = new LeetCode.TreeNode(4, n4, null)
+        LeetCode.TreeNode n2 = new LeetCode.TreeNode(2)
+        LeetCode.TreeNode n3 = new LeetCode.TreeNode(3)
+        LeetCode.TreeNode n1 = new LeetCode.TreeNode(1, n2, n3)
 
-        LeetCode.TreeNode n10 = new LeetCode.TreeNode(1)
-        LeetCode.TreeNode n9 = new LeetCode.TreeNode(5)
-        LeetCode.TreeNode n8 = new LeetCode.TreeNode(4, n9, n10)
-        LeetCode.TreeNode n7 = new LeetCode.TreeNode(13)
-        LeetCode.TreeNode n3 = new LeetCode.TreeNode(8, n7, n8)
+        when:
+        def ans = solution.pathSum(n1, 4)
 
-        LeetCode.TreeNode n1 = new LeetCode.TreeNode(5, n2, n3)
-
-        n1.left
-        def solution = new LeetCode()
-        expect:
-        solution.pathSum(root, sum) == ret
-
-        where:
-        root                           | sum | ret
-        [-1, 0, 1, 2, -1, -4] as int[] | 22  | [[5, 4, 11, 2] as int[], [5, 8, 4, 5] as int[]] as int[]
+        then:
+        ans == 1
     }
 
     def '数组单调测试'() {
