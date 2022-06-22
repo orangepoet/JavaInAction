@@ -8,12 +8,14 @@ import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class LeetCode {
     private int[][] matrix;
@@ -31,6 +33,16 @@ public class LeetCode {
             this.val = val;
             this.left = left;
             this.right = right;
+        }
+
+        @Override
+        public String toString() {
+            return this.val
+                + "["
+                + (this.left != null ? left.val : "null")
+                + ", "
+                + (this.right != null ? this.right.val : "null")
+                + "]";
         }
     }
 
@@ -2587,5 +2599,47 @@ public class LeetCode {
             }
         }
         return f[n - 1];
+    }
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        List<TreeNode> path1 = dps(root, p, new ArrayList<>());
+        List<TreeNode> path2 = dps(root, q, new ArrayList<>());
+
+        List<TreeNode> path;
+        Set<TreeNode> search;
+        if (path1.size() > path2.size()) {
+            path = path1;
+            search = new HashSet<>(path2);
+        } else {
+            path = path2;
+            search = new HashSet<>(path1);
+        }
+        for (TreeNode node : path) {
+            if (search.contains(node)) {
+                return node;
+            }
+        }
+        return null;
+    }
+
+    private List<TreeNode> dps(TreeNode node, TreeNode t, List<TreeNode> path) {
+        if (node == null) {
+            return null;
+        }
+        if (node == t) {
+            path.add(node);
+            return path;
+        }
+        List<TreeNode> leftPath = dps(node.left, t, path);
+        if (leftPath != null) {
+            leftPath.add(node);
+            return leftPath;
+        }
+        List<TreeNode> rightPath = dps(node.right, t, path);
+        if (rightPath != null) {
+            rightPath.add(node);
+            return rightPath;
+        }
+        return null;
     }
 }

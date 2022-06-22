@@ -671,4 +671,35 @@ class LeetCodeTest extends Specification {
         [1, 2, 3, 0, 2] as int[] | 3
     }
 
+    def "二叉树的最近公共祖先"() {
+        given:
+        def three = new LeetCode.TreeNode(3)
+
+        def five = new LeetCode.TreeNode(5)
+        def one = new LeetCode.TreeNode(1)
+        three.left = five
+        three.right = one
+
+        def six = new LeetCode.TreeNode(6)
+        def two = new LeetCode.TreeNode(2)
+        five.left = six
+        five.right = two
+
+        def zero = new LeetCode.TreeNode(0)
+        def eight = new LeetCode.TreeNode(8)
+        one.left = zero
+        one.right = eight
+
+        def seven = new LeetCode.TreeNode(7)
+        def four = new LeetCode.TreeNode(4)
+        two.left = seven
+        two.right = four
+
+
+        when:
+        def parent = solution.lowestCommonAncestor(three, five, four)
+
+        then:
+        parent == five
+    }
 }
