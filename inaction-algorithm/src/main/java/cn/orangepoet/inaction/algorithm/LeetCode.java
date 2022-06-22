@@ -508,7 +508,7 @@ public class LeetCode {
      * 给定一个二叉树和一个目标和，找到所有从根节点到叶子节点路径总和等于给定目标和的路径。
      *
      * @param root
-     * @param sum
+     * @param targetSum
      * @return
      */
     public int pathSum(TreeNode root, int targetSum) {
