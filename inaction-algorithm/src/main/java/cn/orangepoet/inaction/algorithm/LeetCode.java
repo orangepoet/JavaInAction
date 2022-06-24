@@ -8,7 +8,6 @@ import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class LeetCode {
     private int[][] matrix;
@@ -2655,30 +2653,6 @@ public class LeetCode {
         return ans[n];
     }
 
-    public boolean canPartition(int[] nums) {
-        int total = 0;
-        for (int num : nums) {
-            total += num;
-        }
-        if (total % 2 != 0) {
-            return false;
-        }
-        return canPartition0(nums, 0, total / 2);
-    }
-
-    private boolean canPartition0(int[] nums, int start, int sum) {
-        if (sum == 0) {
-            return true;
-        }
-        if (sum < 0) {
-            return false;
-        }
-        if (start >= nums.length) {
-            return false;
-        }
-        return canPartition0(nums, start + 1, sum) || canPartition0(nums, start + 1, sum - nums[start]);
-    }
-
     /**
      * 前K个最高频数字
      *
@@ -2709,5 +2683,33 @@ public class LeetCode {
             kq[i] = queue.poll()[0];
         }
         return kq;
+    }
+
+    public boolean canPartition(int[] nums) {
+        int sum = 0;
+        for (int n : nums) {
+            sum += n;
+        }
+        if (sum % 2 != 0) {
+            return false;
+        }
+        int target = sum / 2;
+        boolean[][] f = new boolean[nums.length][target + 1];
+        f[0][0] = true;
+        if (nums[0] < target) {
+            f[0][nums[0]] = true;
+        }
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = 0; j <= target; j++) {
+                f[i][j] = f[i - 1][j];
+                if (nums[i] <= j) {
+                    f[i][j] |= f[i - 1][j - nums[i]];
+                }
+            }
+            if (f[i][target]) {
+                return true;
+            }
+        }
+        return f[nums.length - 1][target];
     }
 }

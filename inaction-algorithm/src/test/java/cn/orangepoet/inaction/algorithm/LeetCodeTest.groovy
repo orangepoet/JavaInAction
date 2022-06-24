@@ -690,4 +690,12 @@ class LeetCodeTest extends Specification {
         then:
         parent == five
     }
+
+    def "分割等和子集"() {
+        expect:
+        solution.canPartition(nums) == ans
+        where:
+        nums                     | ans
+        [3, 3, 3, 4, 5] as int[] | true
+    }
 }

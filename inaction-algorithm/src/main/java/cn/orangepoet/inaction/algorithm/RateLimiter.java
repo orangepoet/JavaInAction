@@ -3,6 +3,7 @@ package cn.orangepoet.inaction.algorithm;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 简易 自实现令牌桶
@@ -49,26 +50,39 @@ public class RateLimiter {
         long now = System.currentTimeMillis();
         Random rnd = new Random();
         RateLimiter rateLimiter = new RateLimiter(100, 10.0 / 1000);
-        int total = 0;
+
+        AtomicInteger total = new AtomicInteger();
+        new Thread(() -> mockManyTimes(now, rnd, rateLimiter, total)).start();
+        new Thread(() -> mockManyTimes(now, rnd, rateLimiter, total)).start();
+        new Thread(() -> mockManyTimes(now, rnd, rateLimiter, total)).start();
+        new Thread(() -> mockManyTimes(now, rnd, rateLimiter, total)).start();
+        new Thread(() -> mockManyTimes(now, rnd, rateLimiter, total)).start();
+    }
+
+    private static void mockManyTimes(long now, Random rnd, RateLimiter rateLimiter, AtomicInteger total) {
         while (true) {
-            int count = rnd.nextInt(3) + 1;
-            boolean allowed = rateLimiter.isAllowed(count);
-            if (allowed) {
-                total += count;
-            }
-            log.info("invoke... count: {}, total: {}, allowed: {}", count, total, allowed);
-
-            rnd.nextInt(5);
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            long t = System.currentTimeMillis();
-            if (t - now > 10000) {
+            invoke(rateLimiter, rnd.nextInt(3) + 1, total);
+            interval();
+            if (System.currentTimeMillis() - now > 10000) {
+                log.info("stop");
                 break;
             }
+        }
+    }
+
+    private static void invoke(RateLimiter rateLimiter, int count, AtomicInteger total) {
+        boolean allowed = rateLimiter.isAllowed(count);
+        for (int i = 0; i < count; i++) {
+            total.incrementAndGet();
+        }
+        log.info("invoke... count: {}, total: {}, allowed: {}", count, total.get(), allowed);
+    }
+
+    private static void interval() {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 }
