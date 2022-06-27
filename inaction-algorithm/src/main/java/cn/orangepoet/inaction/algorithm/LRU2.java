@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 使用双向链表和Map实现LRU
+ *
  * @author chengzhi
  * @date 2022/06/05
  */

@@ -639,6 +639,29 @@ class LeetCodeTest extends Specification {
         val2 == 3
     }
 
+    def '测试LFU'() {
+        given:
+        LFU lfu = new LFU(2);
+
+        when:
+        lfu.put(1, 1)
+        lfu.put(2, 2)
+        lfu.get(1)
+        lfu.get(1)
+
+        lfu.put(3, 3)
+        lfu.get(3)
+
+        def val = lfu.get(1)
+        def val2 = lfu.get(2)
+        def val3 = lfu.get(3)
+
+        then:
+        val == 1
+        val2 == -1
+        val3 == 3
+    }
+
     def '岛屿数量'() {
         expect:
         solution.numIslands(grid) == count

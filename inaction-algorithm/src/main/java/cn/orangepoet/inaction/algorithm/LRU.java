@@ -1,10 +1,11 @@
 package cn.orangepoet.inaction.algorithm;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * Java的LinkedHashMap内部支持LRU, 简单实现参考 {@link LRU2}
+ *
  * @author chengzhi
  * @date 2022/06/05
  */
