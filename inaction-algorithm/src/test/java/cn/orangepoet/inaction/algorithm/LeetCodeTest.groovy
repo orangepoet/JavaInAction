@@ -720,5 +720,26 @@ class LeetCodeTest extends Specification {
         where:
         nums                     | ans
         [3, 3, 3, 4, 5] as int[] | true
+        [1, 1, 1, 1] as int[]    | true
+    }
+
+    def '接雨点'() {
+        expect:
+        solution.trap(heights) == ans
+        where:
+        heights                     | ans
+        [4, 2, 0, 3, 2, 5] as int[] | 9
+        [2, 0, 2] as int[]          | 2
+        [5, 4, 1, 2] as int[]       | 1
+    }
+
+    def '柱状最大矩形'() {
+        expect:
+        solution.largestRectangleArea(heights) == ans
+        where:
+        heights                     | ans
+        [2, 1, 5, 6, 2, 3] as int[] | 10
+        [2, 1, 2] as int[]          | 3
+        [0] as int[]                | 0
     }
 }

@@ -1,5 +1,7 @@
 package cn.orangepoet.inaction.algorithm;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -2685,24 +2687,24 @@ public class LeetCode {
         return kq;
     }
 
-    public boolean canPartition(int[] nums) {
+    public boolean canPartition(@NotNull int[] nums) {
         int sum = 0;
-        for (int n : nums) {
-            sum += n;
+        for (int num : nums) {
+            sum += num;
         }
         if (sum % 2 != 0) {
             return false;
         }
         int target = sum / 2;
         boolean[][] f = new boolean[nums.length][target + 1];
-        f[0][0] = true;
-        if (nums[0] < target) {
+        if (nums[0] <= target) {
             f[0][nums[0]] = true;
         }
+        f[0][0] = true;
         for (int i = 1; i < nums.length; i++) {
-            for (int j = 0; j <= target; j++) {
+            for (int j = 1; j <= target; j++) {
                 f[i][j] = f[i - 1][j];
-                if (nums[i] <= j) {
+                if (j >= nums[i]) {
                     f[i][j] |= f[i - 1][j - nums[i]];
                 }
             }
@@ -2711,5 +2713,51 @@ public class LeetCode {
             }
         }
         return f[nums.length - 1][target];
+    }
+
+    public int trap(int[] height) {
+        int ans = 0;
+        Deque<Integer> stack = new LinkedList<>();
+        int n = height.length;
+        for (int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && height[i] > height[stack.peek()]) {
+                int top = stack.pop();
+                if (stack.isEmpty()) {
+                    break;
+                }
+                int h = Math.min(height[stack.peek()], height[i]) - height[top];
+                int w = i - stack.peek() - 1;
+                int area = h * w;
+                ans += area;
+            }
+            stack.push(i);
+        }
+        return ans;
+    }
+
+    public int largestRectangleArea(int[] heights) {
+        Deque<Integer> stack = new LinkedList<>();
+        int[] copy = new int[heights.length + 2];
+        for (int i = 0; i < heights.length; i++) {
+            copy[i + 1] = heights[i];
+        }
+        heights = copy;
+
+        int max = 0;
+        stack.push(heights[0]);
+        for (int i = 1; i < heights.length; i++) {
+            while (heights[i] < heights[stack.peek()]) {
+                int idx = stack.pop();
+                if (stack.isEmpty()) {
+                    break;
+                }
+                int left = stack.peek();
+                int w = i - left - 1;
+                int area = heights[idx] * w;
+                max = Math.max(max, area);
+            }
+            stack.push(i);
+        }
+        return max;
     }
 }
