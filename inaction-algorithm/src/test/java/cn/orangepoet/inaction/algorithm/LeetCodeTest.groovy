@@ -415,12 +415,14 @@ class LeetCodeTest extends Specification {
     def '缺失的第一个正数'() {
         expect:
         solution.firstMissingPositive(nums) == ans
+        solution.firstMissingPositive2(nums) == ans
 
         where:
         nums                       | ans
         [1, 2, 0] as int[]         | 3
         [3, 4, -1, 1] as int[]     | 2
         [7, 8, 9, 11, 12] as int[] | 1
+        [1, 1] as int[]            | 2
     }
 
     def '外观数列'() {

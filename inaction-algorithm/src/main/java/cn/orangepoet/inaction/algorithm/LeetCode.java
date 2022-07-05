@@ -1858,6 +1858,12 @@ public class LeetCode {
         }
     }
 
+    /**
+     * 缺失的正整数
+     *
+     * @param nums
+     * @return
+     */
     public int firstMissingPositive(int[] nums) {
         int max = 0;
         Set<Integer> numSet = new HashSet<>();
@@ -1879,6 +1885,30 @@ public class LeetCode {
             }
         }
         return max + 1;
+    }
+
+    public int firstMissingPositive2(int[] nums) {
+        int n = nums.length;
+        int j = 0;
+        while (j < n) {
+            if (nums[j] > 0 && nums[j] <= n && nums[j] != nums[nums[j] - 1]) {
+                swap(nums, j, nums[j] - 1);
+            } else {
+                j++;
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] != i + 1) {
+                return i + 1;
+            }
+        }
+        return n + 1;
+    }
+
+    private static void swap(int[] arr, int i, int j) {
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
     }
 
     public String countAndSay(int n) {
