@@ -744,4 +744,15 @@ class LeetCodeTest extends Specification {
         [2, 1, 2] as int[]          | 3
         [0] as int[]                | 0
     }
+
+    def '数字组成的最大数'() {
+        expect:
+        solution.largestNum(arr, high) == ans
+        where:
+        arr                           | high | ans
+        ["1", "3", "5", "7"] as int[] | 102  | 77
+        ["1", "3", "5", "7"] as int[] | 145  | 137
+        ["1", "3", "5", "7"] as int[] | 155  | 153
+        ["1", "3", "5", "7"] as int[] | 165  | 157
+    }
 }

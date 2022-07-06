@@ -2790,4 +2790,40 @@ public class LeetCode {
         }
         return max;
     }
+
+    public int largestNum(int[] arr, int high) {
+        int tmp = high;
+        List<Integer> high0 = new ArrayList<>();
+        while (tmp > 0) {
+            int rest = tmp % 10;
+            high0.add(rest);
+            tmp = tmp / 10;
+        }
+        int tmp1 = largestNum0(arr, high0, high0.size() - 1, 0, 0);
+        if (tmp1 > 0 && tmp1 < high) {
+            return tmp1;
+        }
+        int tmp2 = 0;
+        for (int i = 0; i < high0.size() - 1; i++) {
+            tmp2 = tmp2 * 10 + arr[arr.length - 1];
+        }
+        return tmp2;
+    }
+
+    private int largestNum0(int[] arr, List<Integer> high0, int right, int rightNum, int high) {
+        if (right < 0) {
+            return rightNum < high ? rightNum : 0;
+        }
+        int high1 = high * 10 + high0.get(right);
+        for (int i = arr.length - 1; i >= 0; i--) {
+            int rightNum1 = rightNum * 10 + arr[i];
+            if (rightNum1 <= high1) {
+                int tmp = largestNum0(arr, high0, right - 1, rightNum * 10 + arr[i], high1);
+                if (tmp > 0) {
+                    return tmp;
+                }
+            }
+        }
+        return 0;
+    }
 }
