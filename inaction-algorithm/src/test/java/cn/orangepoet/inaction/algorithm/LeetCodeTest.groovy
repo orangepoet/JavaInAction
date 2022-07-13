@@ -755,4 +755,42 @@ class LeetCodeTest extends Specification {
         ["1", "3", "5", "7"] as int[] | 155  | 153
         ["1", "3", "5", "7"] as int[] | 165  | 157
     }
+
+    def '测试区间合并'() {
+        given:
+        def rl = new RangeList()
+        when:
+        rl.add(1, 5)
+        rl.print()
+
+        rl.add(10, 20)
+        rl.print()
+
+        rl.add(20, 20)
+        rl.print()
+
+        rl.add(20, 21)
+        rl.print()
+
+        rl.add(2, 4)
+        rl.print()
+
+        rl.add(3, 8)
+        rl.print()
+
+        rl.remove(10, 10)
+        rl.print()
+
+        rl.remove(10, 11)
+        rl.print()
+
+        rl.remove(15, 17)
+        rl.print()
+
+        rl.remove(3, 19)
+        rl.print()
+
+        then:
+        true
+    }
 }
