@@ -48,9 +48,6 @@ public class ZeroEvenOdd {
         while (true) {
             try {
                 lock1.lock();
-                if (i > n) {
-                    break;
-                }
                 printNumber.accept(0);
                 if (i == 0) {
                     i = 1;
@@ -59,6 +56,9 @@ public class ZeroEvenOdd {
                     oddCondition.signal();
                 } else {
                     evenCondition.signal();
+                }
+                if (i >= n) {
+                    break;
                 }
                 zeroCondition.await();
             } finally {
@@ -71,12 +71,11 @@ public class ZeroEvenOdd {
         while (true) {
             try {
                 lock1.lock();
-                if (i % 2 == 0) {
-                    printNumber.accept(i);
-                    i++;
+                if (i > 0 && i % 2 == 0) {
+                    printNumber.accept(i++);
                     zeroCondition.signal();
                 }
-                if (i > n) {
+                if (i >= n) {
                     break;
                 }
                 evenCondition.await();
@@ -90,9 +89,8 @@ public class ZeroEvenOdd {
         while (true) {
             try {
                 lock1.lock();
-                if (i % 2 == 1) {
-                    printNumber.accept(i);
-                    i++;
+                if (i > 0 && i % 2 == 1) {
+                    printNumber.accept(i++);
                     zeroCondition.signal();
                 }
                 if (i >= n) {
@@ -106,7 +104,7 @@ public class ZeroEvenOdd {
     }
 
     public static void main(String[] args) {
-        IntConsumer consumer = (int i) -> log.info("printNumber: {}", i);
+        IntConsumer consumer = (int i) -> log.info("print: {}", i);
         ZeroEvenOdd zeroEvenOdd = new ZeroEvenOdd(8);
 
         new Thread(() -> {
