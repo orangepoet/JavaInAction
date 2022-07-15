@@ -21,45 +21,28 @@ public class JerryAI {
         List<Integer> list = new ArrayList<>();
         Set<Integer> unique = new HashSet<>();
 
+        int ans = Integer.MAX_VALUE;
         while (!queue.isEmpty()) {
             int qn = queue.size();
-            int min = Integer.MAX_VALUE;
+            boolean added = false;
             for (int i = 0; i < qn; i++) {
                 int item = queue.poll();
-                if (unique.add(item)) {
+                if (item < ans && unique.add(item)) {
                     list.add(item);
+                    added = true;
                 }
-                min = Math.min(item, min);
                 queue.offer(item * 2 + 1);
                 queue.offer(item * 3 + 1);
             }
-            if (reachEnd(list, list.size() - qn - 1, n, min)) {
+            if (list.size() >= n && !added) {
                 break;
             }
             Collections.sort(list);
-        }
-        return list.get(n);
-    }
-
-    /**
-     * 是否达到终点，如果min插入数组中的位置超过N，说明新增加的数不影响数组前N排列，可以停止；
-     *
-     * @param list
-     * @param high
-     * @param n
-     * @param min  新增最小的数
-     * @return true：表示满足
-     */
-    private static boolean reachEnd(List<Integer> list, int high, int n, int min) {
-        while (0 <= high) {
-            int mid = high >> 1;
-            if (list.get(mid) > min) {
-                high = mid - 1;
-            } else {
-                return mid >= n;
+            if (list.size() > n) {
+                ans = list.get(n);
             }
         }
-        return false;
+        return list.get(n);
     }
 
     public static void main(String[] args) {
