@@ -42,7 +42,7 @@ public class JerryAI {
                 ans = list.get(n);
             }
         }
-        return list.get(n);
+        return ans;
     }
 
     public static void main(String[] args) {
