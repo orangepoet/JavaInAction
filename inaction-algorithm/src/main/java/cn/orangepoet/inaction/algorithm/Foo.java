@@ -18,33 +18,52 @@ public class Foo {
         ArrayDeque<Integer> queue = new ArrayDeque<>();
         queue.push(1);
 
-        List<Integer> lst = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
         Set<Integer> unique = new HashSet<>();
 
-        int t = 0;
         while (!queue.isEmpty()) {
-            int size = queue.size();
-            for (int i = 0; i < size; i++) {
+            int qn = queue.size();
+            int min = Integer.MAX_VALUE;
+            for (int i = 0; i < qn; i++) {
                 int item = queue.poll();
                 if (unique.add(item)) {
-                    lst.add(item);
+                    list.add(item);
                 }
-                int item1 = item * 3 + 1;
-                int item2 = item * 2 + 1;
-                queue.offer(item1);
-                queue.offer(item2);
+                min = Math.min(item, min);
+                queue.offer(item * 2 + 1);
+                queue.offer(item * 3 + 1);
             }
-            if (lst.size() >= n) {
+            if (reachEnd(list, list.size() - qn - 1, n, min)) {
                 break;
             }
+            Collections.sort(list);
         }
-        Collections.sort(lst);
-        return lst.get(n);
+        return list.get(n);
+    }
+
+    /**
+     * 是否达到终点，如果min插入数组中的位置超过N，说明新增加的数不影响数组前N排列，可以停止；
+     *
+     * @param list
+     * @param high
+     * @param n
+     * @param min  新增最小的数
+     * @return true：表示满足
+     */
+    private static boolean reachEnd(List<Integer> list, int high, int n, int min) {
+        while (0 <= high) {
+            int mid = high >> 1;
+            if (list.get(mid) > min) {
+                high = mid - 1;
+            } else {
+                return mid >= n;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {
-        int ans = findN(10);
+        int ans = findN(100);
         System.out.println(ans);
-        //
     }
 }
