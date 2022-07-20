@@ -2826,4 +2826,22 @@ public class LeetCode {
         }
         return 0;
     }
+
+    public List<Integer> findDuplicates(int[] nums) {
+        List<Integer> ans = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            while (nums[i] != 0 && i != (nums[i] - 1)) {
+                int j = nums[i] - 1;
+                if (nums[i] == nums[j]) {
+                    ans.add(nums[i]);
+                    nums[i] = 0;
+                    break;
+                } else {
+                    swap(nums, i, j);
+                }
+            }
+
+        }
+        return ans;
+    }
 }
