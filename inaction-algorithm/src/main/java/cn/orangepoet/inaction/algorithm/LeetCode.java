@@ -2844,4 +2844,74 @@ public class LeetCode {
         }
         return ans;
     }
+
+    public String decodeString(String s) {
+        LinkedList<Character> stack = new LinkedList<>();
+
+        for (char c : s.toCharArray()) {
+            if (c != ']') {
+                stack.push(c);
+            } else {
+                StringBuilder chars = new StringBuilder();
+                while (stack.peek() != '[') {
+                    chars.insert(0, stack.pop());
+                }
+                stack.pop();
+                StringBuilder nums = new StringBuilder();
+                while (!stack.isEmpty() && Character.isDigit(stack.peek())) {
+                    char curr = stack.pop();
+                    nums.insert(0, curr);
+                }
+                int nums0 = Integer.parseInt(nums.toString());
+
+                StringBuilder repeat = new StringBuilder();
+                for (int i = 0; i < nums0; i++) {
+                    repeat.append(chars);
+                }
+                for (char each : repeat.toString().toCharArray()) {
+                    stack.push(each);
+                }
+            }
+        }
+        StringBuilder ans = new StringBuilder();
+        while (!stack.isEmpty()) {
+            ans.insert(0, stack.pop());
+        }
+        return ans.toString();
+    }
+
+    public boolean search0(int[] nums, int target) {
+        int low = 0, high = nums.length - 1;
+        while (low <= high) {
+            int mid = (low + high) >> 1;
+            if (nums[mid] == target) {
+                return true;
+            } else if (nums[mid] == nums[low] && nums[mid] == nums[high]) {
+                if (low == high) {
+                    break;
+                }
+                while (low < nums.length - 1 && nums[low] == nums[low + 1]) {
+                    low++;
+                }
+                while (high > 0 && nums[high] == nums[high - 1]) {
+                    high--;
+                }
+            } else if (nums[mid] >= nums[low]) {
+                // 左边有序
+                if (target < nums[mid] && target >= nums[low]) {
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            } else {
+                // 右边有序
+                if (target > nums[mid] && target <= nums[high]) {
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
+        }
+        return false;
+    }
 }
