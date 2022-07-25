@@ -847,4 +847,15 @@ class LeetCodeTest extends Specification {
         [2, 5, 6, 0, 0, 1, 2] as int[] | 3      | false
         [3, 1] as int[]                | 1      | true
     }
+
+    def '查找数组最大i~j元素'() {
+        expect:
+        solution.findTopIJ(arr, i, j) == ans
+
+        where:
+        arr                                      | i | j | ans
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as int[] | 8 | 9 | [8, 9]
+        [10, 2, 3, 1, 5, 8, 6, 7, 9, 4] as int[] | 8 | 9 | [8, 9]
+        [10, 2, 3, 10, 3, 8, 6, 9, 9, 2] as int[] | 8 | 9 | [9, 10]
+    }
 }

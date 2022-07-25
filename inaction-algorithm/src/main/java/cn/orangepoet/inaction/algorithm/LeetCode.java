@@ -2915,4 +2915,21 @@ public class LeetCode {
         }
         return false;
     }
+
+    public List<Integer> findTopIJ(int[] arr, int i, int j) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        int size = arr.length - i + 1;
+        for (int item : arr) {
+            pq.add(item);
+            if (pq.size() > size) {
+                pq.poll();
+            }
+        }
+        int range = j - i + 1;
+        List<Integer> ans = new ArrayList<>(range);
+        for (int k = 0; k < range; k++) {
+            ans.add(pq.poll());
+        }
+        return ans;
+    }
 }
