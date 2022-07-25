@@ -2537,29 +2537,30 @@ public class LeetCode {
         quickSort0(arr, 0, arr.length - 1);
     }
 
-    private void quickSort0(int[] arr, int start, int end) {
-        if (start < end) {
-            int p = partition(arr, start, end);
-            quickSort0(arr, start, p - 1);
-            quickSort0(arr, p + 1, end);
+    private void quickSort0(int[] arr, int l, int r) {
+        if (l < r) {
+            int p = partition(arr, l, r);
+            quickSort0(arr, l, p - 1);
+            quickSort0(arr, p + 1, r);
         }
     }
 
-    private int partition(int[] arr, int start, int end) {
-        int pivot = arr[end];
-        int i = start - 1;
-        for (int j = start; j < end; j++) {
-            if (arr[j] <= pivot) {
-                ++i;
-                int tmp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = tmp;
+    private int partition(int[] arr, int left, int right) {
+        int p = left;
+        int l = left, r = right;
+        while (l < r) {
+            while (l < r && arr[r] >= arr[p]) {
+                r--;
             }
+            swap(arr, p, r);
+            p = r;
+            while (l < r && arr[l] <= arr[p]) {
+                l++;
+            }
+            swap(arr, l, p);
+            p = l;
         }
-        int tmp = arr[i + 1];
-        arr[i + 1] = arr[end];
-        arr[end] = tmp;
-        return i + 1;
+        return p;
     }
 
     public boolean wordBreak(String s, List<String> wordDict) {

@@ -606,6 +606,33 @@ class LeetCodeTest extends Specification {
     def '快排'() {
         given:
         def arr = [3, 5, 2, 1, 4, 7, 6] as int[]
+
+        when:
+        solution.quickSort(arr)
+
+        then:
+        for (i in 1..<arr.length) {
+            assert arr[i] >= arr[i - 1]
+        }
+    }
+
+    def '快排2'() {
+        given:
+        def arr = [7, 6, 5, 4, 3, 2, 1] as int[]
+
+        when:
+        solution.quickSort(arr)
+
+        then:
+        for (i in 1..<arr.length) {
+            assert arr[i] >= arr[i - 1]
+        }
+    }
+
+    def '快排3'() {
+        given:
+        def arr = [1, 2, 3, 4, 5, 6, 7] as int[]
+
         when:
         solution.quickSort(arr)
 
