@@ -1,5 +1,6 @@
 package cn.orangepoet.inaction.algorithm
 
+import cn.orangepoet.inaction.algorithm.model.TreeNode
 import spock.lang.Specification
 
 
@@ -10,6 +11,7 @@ import spock.lang.Specification
  */
 class LeetCodeTest extends Specification {
     def solution = new LeetCode()
+    def solution2 = new LeetCode2()
 
     def "最大连续子序列"() {
         expect:
@@ -111,9 +113,9 @@ class LeetCodeTest extends Specification {
 
     def '树的路径总和'() {
         given:
-        LeetCode.TreeNode n2 = new LeetCode.TreeNode(2)
-        LeetCode.TreeNode n3 = new LeetCode.TreeNode(3)
-        LeetCode.TreeNode n1 = new LeetCode.TreeNode(1, n2, n3)
+        TreeNode n2 = new TreeNode(2)
+        TreeNode n3 = new TreeNode(3)
+        TreeNode n1 = new TreeNode(1, n2, n3)
 
         when:
         def ans = solution.pathSum(n1, 4)
@@ -713,25 +715,25 @@ class LeetCodeTest extends Specification {
 
     def "二叉树的最近公共祖先"() {
         given:
-        def three = new LeetCode.TreeNode(3)
+        def three = new TreeNode(3)
 
-        def five = new LeetCode.TreeNode(5)
-        def one = new LeetCode.TreeNode(1)
+        def five = new TreeNode(5)
+        def one = new TreeNode(1)
         three.left = five
         three.right = one
 
-        def six = new LeetCode.TreeNode(6)
-        def two = new LeetCode.TreeNode(2)
+        def six = new TreeNode(6)
+        def two = new TreeNode(2)
         five.left = six
         five.right = two
 
-        def zero = new LeetCode.TreeNode(0)
-        def eight = new LeetCode.TreeNode(8)
+        def zero = new TreeNode(0)
+        def eight = new TreeNode(8)
         one.left = zero
         one.right = eight
 
-        def seven = new LeetCode.TreeNode(7)
-        def four = new LeetCode.TreeNode(4)
+        def seven = new TreeNode(7)
+        def four = new TreeNode(4)
         two.left = seven
         two.right = four
 
@@ -853,9 +855,57 @@ class LeetCodeTest extends Specification {
         solution.findTopIJ(arr, i, j) == ans
 
         where:
-        arr                                      | i | j | ans
-        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as int[] | 8 | 9 | [8, 9]
-        [10, 2, 3, 1, 5, 8, 6, 7, 9, 4] as int[] | 8 | 9 | [8, 9]
+        arr                                       | i | j | ans
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as int[]  | 8 | 9 | [8, 9]
+        [10, 2, 3, 1, 5, 8, 6, 7, 9, 4] as int[]  | 8 | 9 | [8, 9]
         [10, 2, 3, 10, 3, 8, 6, 9, 9, 2] as int[] | 8 | 9 | [9, 10]
+    }
+
+    def '上下翻转二叉树'() {
+        given:
+        def root = makeTree([1, 2] as int[])
+
+        when:
+        def root1 = solution2.upsideDownBinaryTree(root)
+        def arr = toArray(root1)
+
+        then:
+        arr == [2, null, 1] as Integer[]
+    }
+
+    def makeTree(int[] trees) {
+        def nodes = [trees.length]
+        for (i in 0..trees.length - 1) {
+            def val = trees[i]
+            def node = new TreeNode(val, null, null)
+            nodes[i] = node
+        }
+        for (i in 1..<nodes.size()) {
+            int p = (i + 1) / 2 - 1
+            if (p >= 0) {
+                if (i % 2 == 1) {
+                    nodes[p].left = nodes[i]
+                } else {
+                    nodes[p].right = nodes[i]
+                }
+            }
+        }
+        return nodes[0]
+    }
+
+    def Integer[] toArray(TreeNode root) {
+        def lst = []
+        dfs(lst, root, 0)
+        return lst.toArray(Integer[]) as Integer[]
+    }
+
+    def dfs(List<Integer> lst, TreeNode node, int idx) {
+        if (node == null) {
+            return
+        }
+        lst[idx] = node.val
+
+        dfs(lst, node.left, idx * 2 + 1)
+        dfs(lst, node.right, idx * 2 + 2)
     }
 }

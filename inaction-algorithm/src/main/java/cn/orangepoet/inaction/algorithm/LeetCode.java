@@ -1,5 +1,6 @@
 package cn.orangepoet.inaction.algorithm;
 
+import cn.orangepoet.inaction.algorithm.model.TreeNode;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayDeque;
@@ -19,33 +20,6 @@ import java.util.Set;
 import java.util.TreeMap;
 
 public class LeetCode {
-    private int[][] matrix;
-
-    public static class TreeNode {
-        int val;
-        public TreeNode left;
-        public TreeNode right;
-
-        public TreeNode(int x) {
-            val = x;
-        }
-
-        public TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-
-        @Override
-        public String toString() {
-            return this.val
-                + "["
-                + (this.left != null ? left.val : "null")
-                + ", "
-                + (this.right != null ? this.right.val : "null")
-                + "]";
-        }
-    }
 
     /**
      * 合并两个有序数组
@@ -2122,7 +2096,6 @@ public class LeetCode {
     }
 
     public List<Integer> spiralOrder2(int[][] matrix) {
-        this.matrix = matrix;
         List<Integer> result = new ArrayList<>();
         if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
             return result;
