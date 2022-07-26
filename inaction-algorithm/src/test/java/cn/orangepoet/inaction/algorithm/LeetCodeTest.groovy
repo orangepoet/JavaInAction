@@ -1,5 +1,6 @@
 package cn.orangepoet.inaction.algorithm
 
+import cn.orangepoet.inaction.algorithm.model.ListNode
 import cn.orangepoet.inaction.algorithm.model.TreeNode
 import spock.lang.Specification
 
@@ -247,19 +248,19 @@ class LeetCodeTest extends Specification {
 
     def '两数相加'() {
         given:
-        def p1 = new LeetCode.ListNode(2)
-        def p2 = new LeetCode.ListNode(4)
-        def p3 = new LeetCode.ListNode(3)
+        def p1 = new ListNode(2)
+        def p2 = new ListNode(4)
+        def p3 = new ListNode(3)
         p1.next = p2
         p2.next = p3
-        def r1 = new LeetCode.ListNode(5)
-        def r2 = new LeetCode.ListNode(6)
-        def r3 = new LeetCode.ListNode(4)
+        def r1 = new ListNode(5)
+        def r2 = new ListNode(6)
+        def r3 = new ListNode(4)
         r1.next = r2
         r2.next = r3
-        def t1 = new LeetCode.ListNode(7)
-        def t2 = new LeetCode.ListNode(0)
-        def t3 = new LeetCode.ListNode(8)
+        def t1 = new ListNode(7)
+        def t2 = new ListNode(0)
+        def t3 = new ListNode(8)
         t1.next = t2
         t2.next = t3
         def solution = new LeetCode()
@@ -907,5 +908,32 @@ class LeetCodeTest extends Specification {
 
         dfs(lst, node.left, idx * 2 + 1)
         dfs(lst, node.right, idx * 2 + 2)
+    }
+
+    def ListNode makeListNode(int[] arr) {
+        ListNode root = new ListNode(arr[0])
+        ListNode prev = root;
+        for (i in 1..<arr.length) {
+            ListNode n = new ListNode(arr[i])
+            prev.next = n
+            prev = n
+        }
+        return root
+    }
+
+    def toIntArr(ListNode listNode) {
+        def list = []
+        while (listNode != null) {
+            list.add(listNode.val)
+            listNode = listNode.next
+        }
+        return list.toArray(Integer[])
+    }
+
+    def '从未排序的链表中移除重复元素'() {
+        when:
+        def node = solution2.deleteDuplicatesUnsorted(makeListNode([1, 2, 3, 2] as int[]))
+        then:
+        toIntArr(node) == [1, 3] as Integer[]
     }
 }

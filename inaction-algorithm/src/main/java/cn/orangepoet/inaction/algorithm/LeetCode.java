@@ -1,5 +1,6 @@
 package cn.orangepoet.inaction.algorithm;
 
+import cn.orangepoet.inaction.algorithm.model.ListNode;
 import cn.orangepoet.inaction.algorithm.model.TreeNode;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,7 +15,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.TreeMap;
@@ -295,41 +295,6 @@ public class LeetCode {
             return 0;
         }
         return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
-    }
-
-    public static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int x) {
-            val = x;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            ListNode listNode = (ListNode)o;
-            if (val == listNode.val) {
-                if (this.next == null) {
-                    if (listNode.next == null) {
-                        return true;
-                    }
-                    return false;
-                }
-                return this.next.equals(listNode.next);
-            }
-            return false;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(val);
-        }
     }
 
     /**
