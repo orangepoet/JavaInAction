@@ -874,14 +874,19 @@ class LeetCodeTest extends Specification {
         arr == [2, null, 1] as Integer[]
     }
 
-    def makeTree(int[] trees) {
-        def nodes = [trees.length]
+    def makeTree(Integer[] trees) {
+        def nodes = [trees.length] as List<TreeNode>
         for (i in 0..trees.length - 1) {
             def val = trees[i]
-            def node = new TreeNode(val, null, null)
-            nodes[i] = node
+            if (val != null) {
+                def node = new TreeNode(val, null, null)
+                nodes[i] = node
+            }
         }
         for (i in 1..<nodes.size()) {
+            if (nodes[i] == null) {
+                continue
+            }
             int p = (i + 1) / 2 - 1
             if (p >= 0) {
                 if (i % 2 == 1) {
@@ -935,5 +940,49 @@ class LeetCodeTest extends Specification {
         def node = solution2.deleteDuplicatesUnsorted(makeListNode([1, 2, 3, 2] as int[]))
         then:
         toIntArr(node) == [1, 3] as Integer[]
+    }
+
+    def '回文素数'() {
+        when:
+        def ans = solution2.primePalindrome(102)
+        then:
+        ans == 131
+    }
+
+    def '到达终点数字'() {
+        expect:
+        solution2.reachNumber(target) == n
+
+        where:
+        target | n
+        2      | 3
+    }
+
+    def '划分数组为连续数字的集合'() {
+        expect:
+        solution2.isPossibleDivide(nums, k) == result
+        where:
+        nums                              | k | result
+        [1, 2, 3, 3, 4, 4, 5, 6] as int[] | 4 | true
+        [3, 3, 2, 2, 1, 1] as int[]       | 3 | true
+        [1, 2, 3, 4] as int[]             | 3 | false
+    }
+
+    def '二叉树最长连续序列'() {
+        given:
+        def root = makeTree([1, 2, 3] as Integer[])
+        when:
+        def result = solution2.longestConsecutive(root)
+        then:
+        result == 2
+    }
+
+    def '最短的桥'() {
+        given:
+        def A = [[0, 1, 0], [0, 0, 0], [0, 0, 1]] as int[][]
+        when:
+        def shortest = solution2.shortestBridge(A)
+        then:
+        shortest == 2
     }
 }
