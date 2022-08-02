@@ -2,6 +2,7 @@ package cn.orangepoet.inaction.algorithm;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.IntConsumer;
@@ -45,9 +46,9 @@ public class ZeroEvenOdd {
 
     // printNumber.accept(x) outputs "x", where x is an integer.
     public void zero(IntConsumer printNumber) throws InterruptedException {
-        while (true) {
+        while (i <= n) {
+            lock1.lock();
             try {
-                lock1.lock();
                 printNumber.accept(0);
                 if (i == 0) {
                     i = 1;
@@ -57,76 +58,127 @@ public class ZeroEvenOdd {
                 } else {
                     evenCondition.signal();
                 }
-                if (i >= n) {
-                    break;
-                }
                 zeroCondition.await();
             } finally {
                 lock1.unlock();
             }
         }
-    }
-
-    public void even(IntConsumer printNumber) throws InterruptedException {
-        while (true) {
-            try {
-                lock1.lock();
-                if (i > 0 && i % 2 == 0) {
-                    printNumber.accept(i++);
-                    zeroCondition.signal();
-                }
-                if (i >= n) {
-                    break;
-                }
-                evenCondition.await();
-            } finally {
-                lock1.unlock();
-            }
-        }
+        log.info("FIN");
     }
 
     public void odd(IntConsumer printNumber) throws InterruptedException {
-        while (true) {
+        while (i < n - 1) {
+            lock1.lock();
             try {
-                lock1.lock();
-                if (i > 0 && i % 2 == 1) {
-                    printNumber.accept(i++);
-                    zeroCondition.signal();
+                while (i == 0 || i % 2 == 0) {
+                    log.info("await");
+                    oddCondition.await();
                 }
-                if (i >= n) {
-                    break;
-                }
-                oddCondition.await();
+                printNumber.accept(i++);
+                zeroCondition.signal();
+                log.info("single zero");
             } finally {
                 lock1.unlock();
             }
         }
+        log.info("FIN");
+    }
+
+    public void even(IntConsumer printNumber) throws InterruptedException {
+        while (i <= n) {
+            lock1.lock();
+            try {
+                while (i == 0 || i % 2 != 0) {
+                    log.info("await");
+                    evenCondition.await();
+                }
+                printNumber.accept(i++);
+                zeroCondition.signal();
+            } finally {
+                lock1.unlock();
+            }
+        }
+        log.info("FIN");
     }
 
     public static void main(String[] args) {
         IntConsumer consumer = (int i) -> log.info("print: {}", i);
+        test1(consumer);
+        test2(consumer);
+    }
+
+    private static void test1(IntConsumer consumer) {
+        log.info("---------------- test1 ---------------");
+        CountDownLatch cdl = new CountDownLatch(3);
         ZeroEvenOdd zeroEvenOdd = new ZeroEvenOdd(8);
 
         new Thread(() -> {
             try {
                 zeroEvenOdd.even(consumer);
+                cdl.countDown();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }).start();
+        }, "even").start();
         new Thread(() -> {
             try {
                 zeroEvenOdd.odd(consumer);
+                cdl.countDown();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }).start();
+        }, "odd").start();
         new Thread(() -> {
             try {
                 zeroEvenOdd.zero(consumer);
+                cdl.countDown();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }).start();
+        }, "zero").start();
+
+        try {
+            cdl.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        log.info("---------------- test1 ---------------");
+    }
+
+    private static void test2(IntConsumer consumer) {
+        log.info("---------------- test2 ---------------");
+        CountDownLatch cdl = new CountDownLatch(3);
+        ZeroEvenOdd zeroEvenOdd = new ZeroEvenOdd(8);
+
+        new Thread(() -> {
+            try {
+                zeroEvenOdd.even(consumer);
+                cdl.countDown();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }, "even").start();
+        new Thread(() -> {
+            try {
+                zeroEvenOdd.zero(consumer);
+                cdl.countDown();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }, "zero").start();
+        new Thread(() -> {
+            try {
+                zeroEvenOdd.odd(consumer);
+                cdl.countDown();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }, "odd").start();
+        try {
+            cdl.await();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        log.info("---------------- test2 ---------------");
     }
 }
