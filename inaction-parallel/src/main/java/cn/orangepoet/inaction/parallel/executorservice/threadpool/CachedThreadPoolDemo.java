@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class CachedThreadPoolDemo {
-    private static ExecutorService executors = new ThreadPoolExecutor(1, 100, 60L, TimeUnit.SECONDS,
+    private static ExecutorService executors = new ThreadPoolExecutor(1, 100, 3L, TimeUnit.SECONDS,
         new SynchronousQueue<>(), new ThreadPoolExecutor.CallerRunsPolicy());
 
     public static void main(String[] args) {
