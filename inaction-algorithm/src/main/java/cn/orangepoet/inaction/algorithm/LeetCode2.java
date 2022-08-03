@@ -291,4 +291,93 @@ public class LeetCode2 {
         }
         return path;
     }
+
+    public int compareVersion(String version1, String version2) {
+        String[] part1 = version1.split("\\.");
+        String[] part2 = version2.split("\\.");
+        int len = Math.min(part1.length, part2.length);
+        for (int i = 0; i < len; i++) {
+            int left = Integer.parseInt(trimZero(part1[i]));
+            System.out.println("left" + left);
+            int right = Integer.parseInt(trimZero(part2[i]));
+            System.out.println("right" + right);
+            int compare = Integer.compare(left, right);
+            if (compare != 0) {
+                return compare;
+            }
+        }
+        if (part1.length > len) {
+            return isZero(part1, len) ? 0 : 1;
+        } else if (part2.length > len) {
+            return isZero(part2, len) ? 0 : -1;
+        } else {
+            return 0;
+        }
+    }
+
+    private String trimZero(String s) {
+        int i = 0;
+        while (i < s.length() - 1 && s.charAt(i) == '0') {
+            i++;
+        }
+        return i > 0 ? s.substring(i) : s;
+    }
+
+    private boolean isZero(String[] arr, int start) {
+        for (int i = start; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length(); j++) {
+                if (arr[i].charAt(j) != '0') {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public int orderOfLargestPlusSign(int n, int[][] mines) {
+        int[][] ans = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                ans[i][j] = 1;
+            }
+        }
+        for (int i = 0; i < mines.length; i++) {
+            int[] p = mines[i];
+            ans[p[0]][p[1]] = 0;
+        }
+
+        int max = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (ans[i][j] == 1 && i > 0 && i < n - 1 && j > 0 && j < n - 1) {
+                    int val = plusSign0(ans, i, j, n);
+                    ans[i][j] += val;
+                }
+                max = Math.max(ans[i][j], max);
+            }
+        }
+        return max;
+    }
+
+    private int plusSign0(int[][] ans, int i, int j, int n) {
+        int h = 0;
+        for (int k = 0; ; k++) {
+            int left = j - k;
+            int right = j + k;
+            if (left < 0 || right >= n || ans[i][left] == 0 || ans[i][right] == 0) {
+                break;
+            }
+            h = k;
+        }
+        int v = 0;
+        for (int k = 0; ; k++) {
+            int up = i - k;
+            int down = i + k;
+            if (up < 0 || down >= n || ans[up][j] == 0 || ans[down][j] == 0 || k > h) {
+                break;
+            }
+            v = k;
+        }
+        return Math.min(h, v);
+    }
 }

@@ -985,4 +985,16 @@ class LeetCodeTest extends Specification {
         then:
         shortest == 2
     }
+
+    def '最大加号标志'() {
+        expect:
+        solution2.orderOfLargestPlusSign(n, mines) == ans
+        where:
+        ans | n | mines
+        2   | 3 | [[0, 0]] as int[][]
+        2   | 5 | [[4, 2]] as int[][]
+        2   | 5 | [[3, 0], [3, 3]] as int[][]
+        2   | 5 | [[0, 0], [0, 3], [1, 1], [1, 4], [2, 3], [3, 0], [4, 2]] as int[][]
+        2   | 2 | [[0, 0], [0, 1], [1, 0]] as int[][]
+    }
 }
