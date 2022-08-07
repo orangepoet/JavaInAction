@@ -21,6 +21,7 @@
         <module>../inaction-spi</module>
         <module>../inaction-annotationprocessing</module>
         <module>../inaction-function</module>
+        <module>../inaction-netty</module>
     </modules>
     <packaging>pom</packaging>
 
