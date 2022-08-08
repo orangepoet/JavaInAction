@@ -4,6 +4,8 @@ import cn.orangepoet.inaction.algorithm.model.ListNode
 import cn.orangepoet.inaction.algorithm.model.TreeNode
 import spock.lang.Specification
 
+import java.rmi.server.ExportException
+
 
 /**
  * 使用Spock示例
@@ -1025,5 +1027,23 @@ class LeetCodeTest extends Specification {
         println("m2: ${t4 - t3}")
         then:
         n.val == treeNode.val
+    }
+
+    def '丑数'() {
+        expect:
+        solution2.isUgly(n) == ret
+        where:
+        n  | ret
+        14 | true
+        9  | true
+    }
+
+    def '第n丑数'() {
+        expect:
+        solution2.nthUglyNumber(n) == num
+        where:
+        n  | num
+        10 | 12
+
     }
 }

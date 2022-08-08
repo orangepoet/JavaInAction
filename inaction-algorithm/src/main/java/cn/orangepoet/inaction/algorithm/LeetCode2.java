@@ -6,11 +6,17 @@ import cn.orangepoet.inaction.algorithm.model.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class LeetCode2 {
 
@@ -451,5 +457,43 @@ public class LeetCode2 {
             }
         }
         return root;
+    }
+
+    public boolean isUgly(int n) {
+        if (n <= 0) {
+            return false;
+        }
+        int i = n;
+        int j = 2;
+        while (j <= Math.sqrt(i)) {
+            if (i % j == 0) {
+                i = i / j;
+            } else {
+                j++;
+            }
+            if (j > 5) {
+                return false;
+            }
+        }
+        return i <= 5;
+    }
+
+    public int nthUglyNumber(int n) {
+        int[] factors = {2, 3, 5};
+        PriorityQueue<Long> heap = new PriorityQueue<>();
+        heap.offer(1L);
+        Set<Long> seen = new HashSet<>();
+        int ugly = 1;
+        for (int i = 0; i < n; i++) {
+            long curr = heap.poll();
+            ugly = (int)curr;
+            for (int j = 0; j < factors.length; j++) {
+                long e = curr * factors[j];
+                if (seen.add(e)) {
+                    heap.offer(e);
+                }
+            }
+        }
+        return ugly;
     }
 }
