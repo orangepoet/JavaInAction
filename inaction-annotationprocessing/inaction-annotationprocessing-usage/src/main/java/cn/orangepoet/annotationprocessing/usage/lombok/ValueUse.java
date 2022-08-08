@@ -2,6 +2,9 @@ package cn.orangepoet.annotationprocessing.usage.lombok;
 
 import lombok.Value;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Value
 public class ValueUse {
     String name;

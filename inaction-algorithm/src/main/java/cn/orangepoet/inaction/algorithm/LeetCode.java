@@ -2,7 +2,7 @@ package cn.orangepoet.inaction.algorithm;
 
 import cn.orangepoet.inaction.algorithm.model.ListNode;
 import cn.orangepoet.inaction.algorithm.model.TreeNode;
-import org.jetbrains.annotations.NotNull;
+import com.sun.istack.internal.NotNull;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

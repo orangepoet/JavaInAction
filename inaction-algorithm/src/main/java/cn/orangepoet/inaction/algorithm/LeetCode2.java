@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class LeetCode2 {
 
@@ -379,5 +380,76 @@ public class LeetCode2 {
             v = k;
         }
         return Math.min(h, v);
+    }
+
+    public String serialize(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        List<Integer> list = new ArrayList<>();
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            boolean hasNext = false;
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode tn = queue.poll();
+                list.add(tn == null ? null : tn.val);
+                if (tn != null) {
+                    queue.offer(tn.left);
+                    queue.offer(tn.right);
+                    if (tn.left != null || tn.right != null) {
+                        hasNext = true;
+                    }
+                }
+            }
+            if (!hasNext) {
+                break;
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            sb.append(list.get(i));
+            if (i != list.size() - 1) {
+                sb.append(",");
+            }
+        }
+        return sb.toString();
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        if (data == null || data.length() == 0) {
+            return null;
+        }
+        String[] trees0 = data.split(",");
+        Integer[] trees = new Integer[trees0.length];
+        for (int i = 0; i < trees0.length; i++) {
+            trees[i] = trees0[i].equals("null") ? null : Integer.parseInt(trees0[i]);
+        }
+
+        int idx = 0;
+        TreeNode root = new TreeNode(trees[idx], null, null);
+        LinkedList<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                if (idx >= trees.length - 1) {
+                    return root;
+                }
+                TreeNode tn = queue.poll();
+                tn.left = trees[++idx] != null ? new TreeNode(trees[idx], null, null) : null;
+                tn.right = trees[++idx] != null ? new TreeNode(trees[idx], null, null) : null;
+                if (tn.left != null) {
+                    queue.offer(tn.left);
+                }
+                if (tn.right != null) {
+                    queue.offer(tn.right);
+                }
+            }
+        }
+        return root;
     }
 }
