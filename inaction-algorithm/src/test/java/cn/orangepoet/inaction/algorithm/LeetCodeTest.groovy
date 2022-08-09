@@ -1044,6 +1044,21 @@ class LeetCodeTest extends Specification {
         where:
         n  | num
         10 | 12
+    }
 
+    def '会议室'() {
+        expect:
+        solution2.canAttendMeetings(intervals) == ret
+        where:
+        intervals                      | ret
+        [[13, 15], [1, 13]] as int[][] | false
+    }
+
+    def '会议室2'() {
+        expect:
+        solution2.minMeetingRooms(intervals) == ret
+        where:
+        intervals                               | ret
+        [[0, 30], [5, 10], [15, 20]] as int[][] | 2
     }
 }

@@ -6,8 +6,7 @@ import cn.orangepoet.inaction.algorithm.model.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -15,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class LeetCode2 {
 
@@ -496,4 +493,44 @@ public class LeetCode2 {
         }
         return ugly;
     }
+
+    public boolean canAttendMeetings(int[][] intervals) {
+        Arrays.sort(intervals, Comparator.comparingInt(x -> x[0]));
+        int[] prev = null;
+        for (int[] each : intervals) {
+            if (prev != null) {
+                if (each[0] < prev[1]) {
+                    return false;
+                }
+            }
+            prev = each;
+        }
+        return true;
+    }
+
+    public int minMeetingRooms(int[][] intervals) {
+        Arrays.sort(intervals, Comparator.comparingInt(x -> x[0]));
+        int size = intervals.length;
+        int[] taken = new int[size];
+        int i = 0;
+        int rooms = 0;
+        int[] prev = null;
+        while (i < size) {
+            for (int j = 0; j < size; j++) {
+                if (taken[j] == 1) {
+                    continue;
+                }
+                if (prev == null || intervals[j][0] >= prev[1]) {
+                    taken[j] = 1;
+                    i++;
+                    prev = intervals[j];
+                }
+            }
+            rooms++;
+            prev = null;
+        }
+        return rooms;
+    }
+
+
 }
