@@ -6,6 +6,7 @@ import cn.orangepoet.inaction.algorithm.model.TreeNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -563,5 +564,27 @@ public class LeetCode2 {
         int tmp = nums[i];
         nums[i] = nums[j];
         nums[j] = tmp;
+    }
+
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> output = new ArrayList<>();
+        for (int n : nums) {
+            output.add(n);
+        }
+        backtrack(ans, output, nums.length, 0);
+        return ans;
+    }
+
+    private void backtrack(List<List<Integer>> ans, List<Integer> output, int length, int first) {
+        if (first == length) {
+            ans.add(new ArrayList<>(output));
+            return;
+        }
+        for (int i = first; i < length; i++) {
+            Collections.swap(output, first, i);
+            backtrack(ans, output, length, first + 1);
+            Collections.swap(output, i, first);
+        }
     }
 }

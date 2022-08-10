@@ -1068,4 +1068,12 @@ class LeetCodeTest extends Specification {
         then:
         nums == [3, 5, 1, 6, 2, 4] as int[]
     }
+
+    def '全排列'() {
+        expect:
+        solution2.permute(nums) == ans
+        where:
+        nums               | ans
+        [1, 2, 3] as int[] | [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 2, 1], [3, 1, 2]]
+    }
 }
