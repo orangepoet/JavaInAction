@@ -532,5 +532,36 @@ public class LeetCode2 {
         return rooms;
     }
 
+    public int addDigits(int num) {
+        int m = num;
+        while (m >= 10) {
+            int x = m;
+            int y = 0;
+            while (x > 0) {
+                y += x % 10;
+                x = x / 10;
+            }
+            m = y;
+        }
+        return m;
+    }
 
+    public void wiggleSort(int[] nums) {
+        if (nums.length <= 1) {
+            return;
+        }
+        int dir = 1;
+        for (int i = 0; i < nums.length - 1; i++) {
+            if ((dir < 0 && nums[i] < nums[i + 1]) || (dir > 0 && nums[i] > nums[i + 1])) {
+                swap(nums, i, i + 1);
+            }
+            dir = -1 * dir;
+        }
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
 }

@@ -1061,4 +1061,13 @@ class LeetCodeTest extends Specification {
         intervals                               | ret
         [[0, 30], [5, 10], [15, 20]] as int[][] | 2
     }
+
+    def '摆动排序'() {
+        given:
+        def nums = [3,5,2,1,6,4] as int[]
+        when:
+        solution2.wiggleSort(nums)
+        then:
+        nums == [3, 5, 1, 6, 2, 4] as int[]
+    }
 }

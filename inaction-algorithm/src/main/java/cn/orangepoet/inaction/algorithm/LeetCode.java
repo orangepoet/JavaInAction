@@ -1968,17 +1968,20 @@ public class LeetCode {
     }
 
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode first = head;
-        ListNode p = null;
-        ListNode prev = null;
+        ListNode h = new ListNode(-1);
+        h.next = head;
+
+        ListNode p = head;
         for (int i = 0; i < n; i++) {
-            prev = p;
-            p = head.next;
+            p = p.next;
         }
-        if (p != null && prev != null) {
-            prev.next = p.next;
+        ListNode p2 = h;
+        while (p != null) {
+            p2 = p2.next;
+            p = p.next;
         }
-        return first;
+        p2.next = p2.next != null ? p2.next.next : null;
+        return h.next;
     }
 
     public int numDecodings(String s) {
