@@ -1719,8 +1719,7 @@ public class LeetCode {
      */
     public List<String> generateParenthesis(int n) {
         List<String> ans = new ArrayList<>();
-        String path = "";
-        appendBrack(ans, n, n, path);
+        appendBrack(ans, n, n, "");
         return ans;
     }
 
@@ -1732,7 +1731,7 @@ public class LeetCode {
         if (left > 0) {
             appendBrack(ans, left - 1, right, path + "(");
         }
-        if (left < right) {
+        if (right > left) {
             appendBrack(ans, left, right - 1, path + ")");
         }
     }
