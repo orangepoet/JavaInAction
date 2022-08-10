@@ -1029,28 +1029,25 @@ public class LeetCode {
      * @return
      */
     public boolean isValid(String s) {
-        Map<Character, Character> map = new HashMap<Character, Character>() {{
-            put('?', '?');
-            put('{', '}');
-            put('(', ')');
-            put('[', ']');
-        }};
-        LinkedList<Character> stack = new LinkedList<Character>() {{
-            add('?');
-        }};
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            // 左进栈
-            if (map.containsKey(c)) {
+        Map<Character, Character> pair = new HashMap<>();
+        pair.put('{', '}');
+        pair.put('[', ']');
+        pair.put('(', ')');
+        Deque<Character> stack = new LinkedList<>();
+        for (char c : s.toCharArray()) {
+            if (c == '(' || c == '{' || c == '[') {
                 stack.push(c);
             } else {
-                Character c1 = stack.pop();
-                if (map.get(c1) != c) {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                char prev = stack.pop();
+                if (pair.get(prev) != c) {
                     return false;
                 }
             }
         }
-        return stack.size() == 1;
+        return stack.isEmpty();
     }
 
     /**
