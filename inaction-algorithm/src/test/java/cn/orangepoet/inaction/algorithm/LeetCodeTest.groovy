@@ -92,15 +92,13 @@ class LeetCodeTest extends Specification {
     }
 
     def '测试目标数解集'() {
-
-
         expect:
-        solution.combinationSum(candidates, target) == ans
-        solution.combinationSumOfDfs(candidates, target) == ans1
+        solution.combination(candidates, target) == ans
 
         where:
-        candidates            | target | ans              | ans1
-        [2, 3, 6, 7] as int[] | 7      | [[2, 2, 3], [7]] | [[7], [2, 2, 3]]
+        candidates                 | target | ans
+        [2, 3, 6, 7] as int[]      | 7      | []
+        [100, 200, 4, 12] as int[] | 400    | []
     }
 
     def '三数之和'() {
@@ -1064,7 +1062,7 @@ class LeetCodeTest extends Specification {
 
     def '摆动排序'() {
         given:
-        def nums = [3,5,2,1,6,4] as int[]
+        def nums = [3, 5, 2, 1, 6, 4] as int[]
         when:
         solution2.wiggleSort(nums)
         then:

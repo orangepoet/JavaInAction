@@ -337,44 +337,7 @@ public class LeetCode {
         return new int[] {low, high};
     }
 
-    /**
-     * 给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。 candidates 中的数字可以无限制重复被选取。 说明：
-     * <p>
-     * 所有数字（包括 target）都是正整数。 解集不能包含重复的组合。
-     *
-     * <p>
-     * 示例 1:
-     * <p>
-     * 输入: candidates = [2,3,6,7], target = 7, 所求解集为: [ [7], [2,2,3] ]
-     * <p/>
-     *
-     * @param candidates
-     * @param target
-     * @return
-     */
-    public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        List<List<Integer>> ans = new ArrayList<>();
-        Arrays.sort(candidates);
-        backtrack0(candidates, target, ans, new ArrayList<>(), 0);
-        return ans;
-    }
-
-    private void backtrack0(int[] candidates, int target, List<List<Integer>> ans, List<Integer> combination, int start) {
-        if (target == 0) {
-            ans.add(combination);
-            return;
-        }
-        for (int i = start; i < candidates.length; i++) {
-            if (target < candidates[i]) {
-                break;
-            }
-            List<Integer> copy = new ArrayList<>(combination);
-            copy.add(candidates[i]);
-            backtrack0(candidates, target - candidates[i], ans, copy, i);
-        }
-    }
-
-    public List<List<Integer>> combinationSumOfDfs(int[] candidates, int target) {
+    public List<List<Integer>> combination(int[] candidates, int target) {
         List<List<Integer>> ans = new ArrayList<>();
         dfs0(candidates, target, ans, new ArrayList<>(), 0);
         return ans;
