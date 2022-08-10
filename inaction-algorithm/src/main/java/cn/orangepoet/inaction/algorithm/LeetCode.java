@@ -2099,62 +2099,35 @@ public class LeetCode {
      * @return
      */
     public boolean search(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
-            return false;
-        }
-        if (nums.length == 1) {
-            return nums[0] == target;
-        }
-        int low = 0;
-        int high = nums.length - 1;
-
-        int p0 = nums[0];
-
-        int middle = 0;
+        int low = 0, high = nums.length - 1;
         while (low <= high) {
-            middle = (low + high) >> 1;
-            if (nums[middle] < p0) {
-                // middle在第二段，向前找
-                high = middle - 1;
-            } else if (nums[middle] > p0) {
-                // middle还在第一段，继续向后找
-                low = middle + 1;
+            int mid = (low + high) >> 1;
+            if (nums[mid] == target) {
+                return true;
             } else {
-
-            }
-        }
-        int rotate = nums[middle] < p0 ? middle : middle + 1;
-
-        if (target < p0) {
-            // 第二段
-            low = rotate;
-            high = nums.length - 1;
-            while (low <= high) {
-                middle = (low + high) >> 1;
-                if (target > nums[middle]) {
-                    low = middle + 1;
-                } else if (target < nums[middle]) {
-                    high = middle - 1;
+                if (nums[low] == nums[mid] && nums[mid] == nums[high]) {
+                    while (low <= mid && nums[low] == nums[mid]) {
+                        low++;
+                    }
+                    while (high >= mid && nums[high] == nums[mid]) {
+                        high--;
+                    }
+                } else if (nums[low] <= nums[mid]) {
+                    // left: ordered, right: mixed
+                    if (target >= nums[low] && target < nums[mid]) {
+                        high = mid - 1;
+                    } else {
+                        low = mid + 1;
+                    }
                 } else {
-                    return true;
+                    // left: mixed, right: ordered
+                    if (target > nums[mid] && target <= nums[high]) {
+                        low = mid + 1;
+                    } else {
+                        high = mid - 1;
+                    }
                 }
             }
-        } else if (target > p0) {
-            // 第一段
-            low = 0;
-            high = rotate - 1;
-            while (low <= high) {
-                middle = (low + high) >> 1;
-                if (target > nums[middle]) {
-                    low = middle + 1;
-                } else if (target < nums[middle]) {
-                    high = middle - 1;
-                } else {
-                    return true;
-                }
-            }
-        } else {
-            return false;
         }
         return false;
     }
