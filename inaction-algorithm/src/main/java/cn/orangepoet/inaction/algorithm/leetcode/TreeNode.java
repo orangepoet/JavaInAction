@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.algorithm.model;
+package cn.orangepoet.inaction.algorithm.leetcode;
 
 public class TreeNode {
     public int val;

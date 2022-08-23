@@ -1,11 +1,8 @@
-package cn.orangepoet.inaction.algorithm
+package cn.orangepoet.inaction.algorithm.leetcode
 
-import cn.orangepoet.inaction.algorithm.model.ListNode
-import cn.orangepoet.inaction.algorithm.model.TreeNode
+import cn.orangepoet.inaction.algorithm.LFU
+import cn.orangepoet.inaction.algorithm.LRU2
 import spock.lang.Specification
-
-import java.rmi.server.ExportException
-
 
 /**
  * 使用Spock示例
@@ -13,8 +10,8 @@ import java.rmi.server.ExportException
  * @author chengzhi* @date 2019/09/27
  */
 class LeetCodeTest extends Specification {
-    def solution = new LeetCode()
-    def solution2 = new LeetCode2()
+    def solution = new Solution()
+    def solution2 = new Solution2()
 
     def "最大连续子序列"() {
         expect:
@@ -263,7 +260,7 @@ class LeetCodeTest extends Specification {
         def t3 = new ListNode(8)
         t1.next = t2
         t2.next = t3
-        def solution = new LeetCode()
+        def solution = new Solution()
 
 
         expect:
@@ -784,44 +781,6 @@ class LeetCodeTest extends Specification {
         ["1", "3", "5", "7"] as int[] | 145  | 137
         ["1", "3", "5", "7"] as int[] | 155  | 153
         ["1", "3", "5", "7"] as int[] | 165  | 157
-    }
-
-    def '测试区间合并'() {
-        given:
-        def rl = new RangeList()
-        when:
-        rl.add(1, 5)
-        rl.print()
-
-        rl.add(10, 20)
-        rl.print()
-
-        rl.add(20, 20)
-        rl.print()
-
-        rl.add(20, 21)
-        rl.print()
-
-        rl.add(2, 4)
-        rl.print()
-
-        rl.add(3, 8)
-        rl.print()
-
-        rl.remove(10, 10)
-        rl.print()
-
-        rl.remove(10, 11)
-        rl.print()
-
-        rl.remove(15, 17)
-        rl.print()
-
-        rl.remove(3, 19)
-        rl.print()
-
-        then:
-        true
     }
 
     def "重复数字"() {

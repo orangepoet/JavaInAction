@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.algorithm.flightattack;
+package cn.orangepoet.inaction.algorithm.games.flightattack;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;

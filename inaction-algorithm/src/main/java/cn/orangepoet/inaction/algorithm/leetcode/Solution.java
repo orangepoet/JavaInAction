@@ -1,7 +1,5 @@
-package cn.orangepoet.inaction.algorithm;
+package cn.orangepoet.inaction.algorithm.leetcode;
 
-import cn.orangepoet.inaction.algorithm.model.ListNode;
-import cn.orangepoet.inaction.algorithm.model.TreeNode;
 import com.sun.istack.internal.NotNull;
 
 import java.util.ArrayDeque;
@@ -19,7 +17,7 @@ import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class LeetCode {
+public class Solution {
 
     /**
      * 合并两个有序数组

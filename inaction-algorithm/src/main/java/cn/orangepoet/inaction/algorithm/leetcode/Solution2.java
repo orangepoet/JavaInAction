@@ -1,8 +1,4 @@
-package cn.orangepoet.inaction.algorithm;
-
-import cn.orangepoet.inaction.algorithm.model.ListNode;
-import cn.orangepoet.inaction.algorithm.model.Node;
-import cn.orangepoet.inaction.algorithm.model.TreeNode;
+package cn.orangepoet.inaction.algorithm.leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +12,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-public class LeetCode2 {
+public class Solution2 {
 
     public TreeNode upsideDownBinaryTree(TreeNode root) {
         if (root == null || root.left == null) {
@@ -585,6 +581,29 @@ public class LeetCode2 {
             Collections.swap(output, first, i);
             backtrack(ans, output, length, first + 1);
             Collections.swap(output, i, first);
+        }
+    }
+
+    public void sortColors(int[] nums) {
+        // [0,p1) 0
+        // [p1, i)  1
+        // (p2, n-1]  2
+        int n = nums.length;
+        int p1 = 0;
+        int p2 = n - 1;
+        int i = 0;
+        while (i <= p2) {
+            if (nums[i] == 0) {
+                i++;
+            } else if (nums[i] == 1) {
+                swap(nums, i, p1);
+                i++;
+                p1++;
+            } else {
+                swap(nums, i, p2);
+                i++;
+                p2--;
+            }
         }
     }
 }

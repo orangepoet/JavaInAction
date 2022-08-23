@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.algorithm.model;
+package cn.orangepoet.inaction.algorithm.leetcode;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,4 @@
-package cn.orangepoet.inaction.algorithm.model;
-
-import cn.orangepoet.inaction.algorithm.LeetCode;
+package cn.orangepoet.inaction.algorithm.leetcode;
 
 import java.util.Objects;
 

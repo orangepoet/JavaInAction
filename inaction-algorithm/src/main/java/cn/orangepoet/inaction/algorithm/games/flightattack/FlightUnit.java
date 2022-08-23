@@ -1,10 +1,9 @@
-package cn.orangepoet.inaction.algorithm.flightattack;
+package cn.orangepoet.inaction.algorithm.games.flightattack;
 
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author chengzhi
