@@ -2351,15 +2351,11 @@ public class LeetCode {
         int m = grid.length, n = grid[0].length;
         int[][] ans = new int[m][n];
 
-        int sum = 0;
         for (int i = 0; i < m; i++) {
-            sum += grid[i][0];
-            ans[i][0] = sum;
+            ans[i][0] = grid[i][0] + (i > 0 ? ans[i - 1][0] : 0);
         }
-        sum = 0;
         for (int i = 0; i < n; i++) {
-            sum += grid[0][i];
-            ans[0][i] = sum;
+            ans[0][i] = grid[0][i] + (i > 0 ? ans[0][i - 1] : 0);
         }
         for (int i = 1; i < m; i++) {
             for (int j = 1; j < n; j++) {

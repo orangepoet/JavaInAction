@@ -1,7 +1,5 @@
 package cn.orangepoet.inaction.function.rxjava;
 
-import io.reactivex.Single;
-
 import java.util.ArrayList;
 import java.util.List;
 
