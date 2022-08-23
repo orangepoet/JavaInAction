@@ -9,7 +9,7 @@ import spock.lang.Specification
  *
  * @author chengzhi* @date 2019/09/27
  */
-class LeetCodeTest extends Specification {
+class SolutionTest extends Specification {
     def solution = new Solution()
     def solution2 = new Solution2()
 
@@ -1034,5 +1034,26 @@ class LeetCodeTest extends Specification {
         where:
         nums               | ans
         [1, 2, 3] as int[] | [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 2, 1], [3, 1, 2]]
+    }
+
+    boolean isSorted(int[] arr) {
+        for (i in 1..<arr.length) {
+            if (arr[i] < arr[i - 1]) {
+                return false
+            }
+        }
+        return true
+    }
+
+    def '三色问题'() {
+        given:
+        def nums = [2, 0, 2, 1, 1, 0] as int[]
+        def num2 = [1, 2, 0] as int[]
+        when:
+        solution2.sortColors(nums)
+        solution2.sortColors(num2)
+        then:
+        isSorted(nums)
+        isSorted(nums2)
     }
 }

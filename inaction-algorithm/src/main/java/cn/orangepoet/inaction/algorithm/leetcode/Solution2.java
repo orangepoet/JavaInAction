@@ -584,24 +584,31 @@ public class Solution2 {
         }
     }
 
+    /**
+     * 荷兰国旗问题
+     *
+     * @param nums
+     */
     public void sortColors(int[] nums) {
-        // [0,p1) 0
-        // [p1, i)  1
-        // (p2, n-1]  2
+        /**
+         *  [0,p0) 0
+         *  [p0, i)  1
+         *  (p2, n-1]  2
+         */
         int n = nums.length;
-        int p1 = 0;
-        int p2 = n - 1;
+        int p0 = 0;
         int i = 0;
+        int p2 = n - 1;
         while (i <= p2) {
             if (nums[i] == 0) {
+                assert nums[p0] == 1 || (nums[p0] == 0 && p0 == i);
+                swap(nums, i, p0);
                 i++;
+                p0++;
             } else if (nums[i] == 1) {
-                swap(nums, i, p1);
                 i++;
-                p1++;
             } else {
                 swap(nums, i, p2);
-                i++;
                 p2--;
             }
         }
