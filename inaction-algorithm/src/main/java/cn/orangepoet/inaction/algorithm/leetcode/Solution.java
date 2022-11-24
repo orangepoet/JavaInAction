@@ -1,7 +1,5 @@
 package cn.orangepoet.inaction.algorithm.leetcode;
 
-import com.sun.istack.internal.NotNull;
-
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -2585,7 +2583,7 @@ public class Solution {
         return kq;
     }
 
-    public boolean canPartition(@NotNull int[] nums) {
+    public boolean canPartition(int[] nums) {
         int sum = 0;
         for (int num : nums) {
             sum += num;

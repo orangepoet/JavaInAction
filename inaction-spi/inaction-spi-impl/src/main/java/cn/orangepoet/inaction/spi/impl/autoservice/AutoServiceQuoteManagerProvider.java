@@ -2,6 +2,7 @@ package cn.orangepoet.inaction.spi.impl.autoservice;
 
 import cn.orangepoet.inaction.spi.api.QuoteManager;
 import cn.orangepoet.inaction.spi.api.QuoteManagerProvider;
+
 import com.google.auto.service.AutoService;
 
 /**
@@ -10,6 +11,10 @@ import com.google.auto.service.AutoService;
  */
 @AutoService(QuoteManagerProvider.class)
 public class AutoServiceQuoteManagerProvider implements QuoteManagerProvider {
+    public AutoServiceQuoteManagerProvider() {
+        System.out.println("init");
+    }
+
     @Override
     public QuoteManager getManager() {
         return new QuoteManagerImpl2();
