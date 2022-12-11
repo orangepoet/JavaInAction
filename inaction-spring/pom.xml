@@ -16,6 +16,7 @@
         <module>inaction-spring-base</module>
         <module>inaction-spring-event</module>
         <module>inaction-spring-my-starter</module>
+        <module>inaction-spring-cache</module>
     </modules>
 
     <dependencies>
