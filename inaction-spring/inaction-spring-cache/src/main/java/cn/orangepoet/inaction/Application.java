@@ -13,9 +13,7 @@ import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.cache.interceptor.CacheResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.redis.cache.RedisCacheConfiguration;
 
-import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
@@ -70,13 +68,5 @@ public class Application {
     @Bean
     public CacheResolver cacheResolver(@Qualifier("caffeineCacheManager") CacheManager caffeineCacheManager, @Qualifier("concurrentCacheManager") CacheManager simpleCacheManager) {
         return new MultipleCacheResolver(caffeineCacheManager, simpleCacheManager);
-    }
-
-    @Bean
-    public RedisCacheConfiguration cacheConfiguration() {
-        return RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofMinutes(60))
-                .disableCachingNullValues();
-
     }
 }
