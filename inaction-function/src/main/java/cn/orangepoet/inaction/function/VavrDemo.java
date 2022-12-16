@@ -6,6 +6,7 @@ import io.vavr.Function0;
 import io.vavr.Lazy;
 import io.vavr.collection.List;
 import io.vavr.control.Either;
+import io.vavr.control.Option;
 import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,10 +55,10 @@ public class VavrDemo {
         //Integer result = integerTry.getOrElse(100);
         //System.out.println(result);
         integerTry
-            //.recover((t, i) -> {
-            //});
-            .onSuccess(System.out::println)
-            .onFailure(Throwable::printStackTrace);
+                //.recover((t, i) -> {
+                //});
+                .onSuccess(System.out::println)
+                .onFailure(Throwable::printStackTrace);
     }
 
     /**
@@ -67,8 +68,8 @@ public class VavrDemo {
         String str = "123";
 
         Integer result = Match(str).of(
-            Case($("1"), s -> 1),
-            Case($("2"), s -> 2)
+                Case($("1"), s -> 1),
+                Case($("2"), s -> 2)
         );
         System.out.println(result);
     }
@@ -78,7 +79,7 @@ public class VavrDemo {
      */
     public static void memorizeEx() {
         Function0<Double> hashCache =
-            Function0.of(Math::random).memoized();
+                Function0.of(Math::random).memoized();
 
         double randomValue1 = hashCache.apply();
         double randomValue2 = hashCache.apply();
@@ -116,5 +117,12 @@ public class VavrDemo {
         log.info("get1: {}", d1);
         Double d2 = lazy.get();
         log.info("get2: {}", d2);
+    }
+
+    public static void option() {
+        Option<String> option = Option.of(null);
+        if (option.isEmpty()) {
+            System.out.println(option);
+        }
     }
 }

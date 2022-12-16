@@ -37,4 +37,9 @@ public class VavrDemoTest {
     public void lazyEx() {
         VavrDemo.lazy();
     }
+
+    @Test
+    public void optionEx() {
+        VavrDemo.option();
+    }
 }
