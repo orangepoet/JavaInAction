@@ -5,19 +5,25 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.time.DateUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 
+import java.awt.print.Pageable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 public class Application {
@@ -42,7 +48,7 @@ public class Application {
             findByTags(Arrays.asList(1, 3));
             Date now = new Date();
             findByDate(DateUtils.addDays(now, -6), DateUtils.addDays(now, -1));
-            findByTpl(Arrays.asList(123L, 456L, 789L), Arrays.asList("scan_qr"), DateRange.of(DateUtils.addDays(now, -15), DateUtils.addDays(now, -1)), Arrays.asList(1, 3));
+            findByTpl(Arrays.asList(123L, 456L, 789L), Arrays.asList("scan_qr"), DateRange.of(DateUtils.addDays(now, -35), DateUtils.addDays(now, -1)), Arrays.asList(1, 3));
         };
     }
 
@@ -73,30 +79,47 @@ public class Application {
 
     private void findByTpl(List<Long> userIds, List<String> sourceList, DateRange dr, List<Integer> tags) {
         NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
+
+        // 多重过滤
         BoolQueryBuilder filter = QueryBuilders.boolQuery();
-        // userId
+        // userIds
         filter.must(QueryBuilders.termsQuery("userId", userIds));
         // source
         filter.must(QueryBuilders.termsQuery("source", sourceList));
         // interactTime
         filter.must(QueryBuilders.rangeQuery("interactTime").from(dr.start).to(dr.end));
         // orTags
-        filter.must(QueryBuilders.termsQuery("tags", tags));
+//        filter.must(QueryBuilders.termsQuery("tags", tags));
         // andTags
-        //..
+        for (Integer tag : tags) {
+            filter.must(QueryBuilders.matchQuery("tags", tag));
+        }
+
+        // 过滤条件
         queryBuilder.withFilter(filter);
+        // 分页
+        queryBuilder.withPageable(PageRequest.of(0, 10));
 
-        SearchHits<Follow> hits = elasticsearchRestTemplate.search(queryBuilder.build(), Follow.class);
+        NativeSearchQuery searchQuery = queryBuilder.build();
 
-        assert hits.getTotalHits() == 1;
-        assert hits.getSearchHit(0).getContent() != null;
+        // 只返回id列
+        searchQuery.addFields("id");
+
+        // 执行查询
+        SearchHits<Follow> hits = elasticsearchRestTemplate.search(searchQuery, Follow.class);
+
+        // 对象转换
+        List<Follow> follows = hits.stream().map(SearchHit::getContent).collect(Collectors.toList());
+
+        assert follows.size() == 1;
+        assert follows.get(0).getId() == 789L;
     }
 
     private void initFollows() {
         Date now = new Date();
         Follow f1 = new Follow(1L, 123L, "scan_qr", DateUtils.addDays(now, -35), new Integer[]{1, 2});
         Follow f2 = new Follow(2L, 456L, "scan_qr", DateUtils.addDays(now, -15), new Integer[]{2, 3});
-        Follow f3 = new Follow(3L, 789L, "scan_qr", DateUtils.addDays(now, -10), new Integer[]{3});
+        Follow f3 = new Follow(3L, 789L, "scan_qr", DateUtils.addDays(now, -10), new Integer[]{1, 3});
         Follow f4 = new Follow(4L, null, "scan_qr", DateUtils.addDays(now, -5), new Integer[]{3});
         Follow f5 = new Follow(5L, null, "source_1", DateUtils.addDays(now, -5), new Integer[]{3});
         Follow f6 = new Follow(6L, null, "source_2", DateUtils.addDays(now, -5), new Integer[]{3});
