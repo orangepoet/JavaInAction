@@ -1,11 +1,7 @@
 package cn.orangepoet.inaction.spring.data.elasticsearch;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.commons.lang3.time.DateUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -19,11 +15,15 @@ import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 
-import java.awt.print.Pageable;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 @SpringBootApplication
 public class Application {
@@ -48,7 +48,7 @@ public class Application {
             findByTags(Arrays.asList(1, 3));
             Date now = new Date();
             findByDate(DateUtils.addDays(now, -6), DateUtils.addDays(now, -1));
-            findByTpl(Arrays.asList(123L, 456L, 789L), Arrays.asList("scan_qr"), DateRange.of(DateUtils.addDays(now, -35), DateUtils.addDays(now, -1)), Arrays.asList(1, 3));
+            findByTpl(Arrays.asList(123L, 456L, 789L), Collections.singletonList("scan_qr"), DateRange.of(DateUtils.addDays(now, -35), DateUtils.addDays(now, -1)), Arrays.asList(1, 3));
         };
     }
 
