@@ -22,6 +22,7 @@
         <module>../inaction-annotationprocessing</module>
         <module>../inaction-function</module>
         <module>../inaction-netty</module>
+        <module>../inaction-wx</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -1,0 +1,7 @@
+wechat:
+  platform:
+    appId: 10001
+    appSecret: xxx
+    msgToken: xxxx
+    aesKey: xxx
+    authorizeLink: xxx
