@@ -1,11 +1,11 @@
 package cn.orangepoet.inaction.wx.utils;
 
 import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class RedisClient {
-    @Resource
+    @Autowired(required = false)
     private StringRedisTemplate redisTemplate;
 
     /**

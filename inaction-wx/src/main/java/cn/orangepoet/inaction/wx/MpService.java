@@ -10,14 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.text.StrSubstitutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 import weixin.popular.api.ComponentAPI;
 import weixin.popular.bean.component.ApiGetAuthorizerInfoResult;
 import weixin.popular.bean.component.ApiGetAuthorizerListResult;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 /**
@@ -121,7 +120,7 @@ public class MpService {
      * @param appId
      * @return
      */
-    public Future<Double> getSyncProgress(String appId) {
-        return CompletableFuture.supplyAsync(() -> syncUtils.getAppSyncProgress(appId));
+    public Mono<Double> getSyncProgress(String appId) {
+        return Mono.just(syncUtils.getAppSyncProgress(appId));
     }
 }

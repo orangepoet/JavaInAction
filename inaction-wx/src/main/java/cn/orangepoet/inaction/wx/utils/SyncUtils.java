@@ -1,7 +1,6 @@
 package cn.orangepoet.inaction.wx.utils;
 
 import com.google.common.base.Preconditions;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -52,9 +51,16 @@ public class SyncUtils {
      * @return
      */
     public Double getAppSyncProgress(String appId) {
-        String key = String.format(REDIS_KEY_APP_SYNC_FORMAT, appId);
-        String value = redisClient.brpop(key, 5);
-        return StringUtils.isNotBlank(value) ? Double.parseDouble(value) : null;
+        //        String key = String.format(REDIS_KEY_APP_SYNC_FORMAT, appId);
+//        String value = redisClient.brpop(key, 5);
+//        return StringUtils.isNotBlank(value) ? Double.parseDouble(value) : null;
+        try {
+            Thread.sleep(2000L);
+        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+        }
+        return 100d;
+
     }
 
     /**

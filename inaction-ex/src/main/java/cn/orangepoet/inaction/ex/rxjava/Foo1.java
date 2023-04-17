@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.ex.reactor.rxjava;
+package cn.orangepoet.inaction.ex.rxjava;
 
 import java.util.ArrayList;
 import java.util.List;
