@@ -17,6 +17,7 @@ import weixin.popular.bean.component.ApiGetAuthorizerListResult;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 /**
@@ -121,6 +122,9 @@ public class MpService {
      * @return
      */
     public Mono<Double> getSyncProgress(String appId) {
-        return Mono.just(syncUtils.getAppSyncProgress(appId));
+        return Mono.fromFuture(
+                CompletableFuture.supplyAsync(
+                        () -> syncUtils.getAppSyncProgress(appId)
+                ));
     }
 }

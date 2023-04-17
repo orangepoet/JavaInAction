@@ -51,16 +51,17 @@ public class SyncUtils {
      * @return
      */
     public Double getAppSyncProgress(String appId) {
-        //        String key = String.format(REDIS_KEY_APP_SYNC_FORMAT, appId);
+        String key = String.format(REDIS_KEY_APP_SYNC_FORMAT, appId);
 //        String value = redisClient.brpop(key, 5);
 //        return StringUtils.isNotBlank(value) ? Double.parseDouble(value) : null;
-        try {
-            Thread.sleep(2000L);
-        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-        }
-        return 100d;
 
+        //todo:mock redis invoke;
+        try {
+            Thread.sleep(1000L);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return Math.random();
     }
 
     /**
