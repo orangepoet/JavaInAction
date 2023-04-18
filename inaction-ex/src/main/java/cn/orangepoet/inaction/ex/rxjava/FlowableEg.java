@@ -7,7 +7,6 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.observables.ConnectableObservable;
 import io.reactivex.schedulers.Schedulers;
 import lombok.extern.slf4j.Slf4j;
@@ -19,16 +18,17 @@ import java.util.concurrent.TimeUnit;
 public class FlowableEg {
 
     public static void main(String[] args) throws InterruptedException {
-        test1();
+//        test1();
 //        test2();
 //        test3();
 //        test4();
-//        test5();
+        test5();
     }
 
     /**
      * 1. 上游模拟循环生产100个数据, 下游模拟每次处理消耗50ms;
      * 2. 背压策略: 使用 BackpressureStrategy.ERROR
+     * 3. 发布和订阅者使用专属的线程池
      *
      * @throws InterruptedException
      */
@@ -42,8 +42,8 @@ public class FlowableEg {
                     }
                     emitter.onComplete();
                 }, BackpressureStrategy.ERROR)
-//                .subscribeOn(Schedulers.newThread());
                 .observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.newThread())
                 .doOnComplete(() -> countDownLatch.countDown())
                 .subscribe(next -> {
                     mockRun(50);
@@ -53,7 +53,7 @@ public class FlowableEg {
     }
 
     /**
-     * 订阅者的匿名对象及方法实现
+     * 主要: 订阅者的匿名对象及方法实现
      */
     private static void test2() {
         Observable.create((ObservableOnSubscribe<String>) emitter -> {
@@ -66,12 +66,12 @@ public class FlowableEg {
             @Override
             public void onSubscribe(Disposable disposable) {
                 this.disposable = disposable;
-                System.out.println("subscribe");
+                log.info("subscribe");
             }
 
             @Override
             public void onNext(String s) {
-                System.out.println(s);
+                log.info(s);
 //                disposable.dispose();
             }
 
@@ -82,12 +82,14 @@ public class FlowableEg {
 
             @Override
             public void onComplete() {
-                System.out.println("complete");
+                log.info("complete");
             }
         });
     }
 
     /**
+     * 主要: 发布者生产数据的中间转换方法 flatMap
+     *
      * @throws InterruptedException
      */
     private static void test3() throws InterruptedException {
@@ -112,84 +114,86 @@ public class FlowableEg {
         cdl.await();
     }
 
+    /**
+     * 1. 发布者的最大数量控制
+     * 2. 发布者的replay方法, 将upstream的数据(包括一开始)打包给下游
+     * 2. 延迟订阅的示例
+     *
+     * @throws InterruptedException
+     */
     private static void test4() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(2);
         ConnectableObservable<Long> connectableObservable = Observable.interval(1, TimeUnit.SECONDS)
-                .doOnNext(next -> log.info("produce one: {}", next))
-                .take(6)
+                .doOnNext(next -> log.info("producer -> next: {}", next))
+                .take(10)
                 .replay();
 
         connectableObservable
                 .doOnComplete(() -> countDownLatch.countDown())
-                .subscribe(next -> log.info("first consumer: " + next));
+                .subscribe(next -> log.info("consumer-1: " + next));
 
-        connectableObservable.delaySubscription(3, TimeUnit.SECONDS)
+        connectableObservable.delaySubscription(4, TimeUnit.SECONDS)
                 .doOnComplete(() -> countDownLatch.countDown())
-                .subscribe(next -> log.info("second consumer: {}", next));
+                .subscribe(next -> log.info("consumer-2: {}", next));
 
         connectableObservable.connect();
 
         countDownLatch.await();
     }
 
-    private static void test5() {
+    /**
+     * 1. 热流和冷流的示例, 热流upstream不会给新订阅downstream老的数据, 冷流则不然
+     */
+    private static void test5() throws InterruptedException {
+        CountDownLatch cdl = new CountDownLatch(3);
+        CountDownLatch cdl2 = new CountDownLatch(1);
 //        Observable<String> observable = getObservableCold();
-        Observable<String> observable = getObservableHot();
-
-        Consumer<String> consumer1 = s -> {
-            System.out.println("consumer1: " + s);
-        };
-        Consumer<String> consumer2 = s -> {
-            System.out.println("consumer2: " + s);
-        };
+        Observable<Long> observable = getObservableHot();
 
         // hot observable operations:
         ((ConnectableObservable) observable).connect();
-        observable.subscribe(consumer1);
-        observable.subscribe(consumer2);
+        observable
+                .doOnComplete(() -> cdl.countDown())
+                .subscribe(s1 -> log.info("consumer-1: {}", s1));
+        observable
+                .doOnNext(next -> {
+                    if (next > 3) cdl2.countDown();
+                })
+                .doOnComplete(() -> cdl.countDown())
+                .subscribe(s1 -> log.info("consumer-2: {}", s1));
 
-        try {
-            Thread.sleep(500L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        cdl2.await();
 
-        Consumer<String> consumer3 = s -> {
-            System.out.println("consumer3: " + s);
-        };
-        observable.subscribe(consumer3);
+        observable
+                .doOnComplete(() -> cdl.countDown())
+                .subscribe(s -> log.info("consumer-3: " + s));
 
-        try {
-            Thread.sleep(50000L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        cdl.await();
     }
 
-    private static Observable<String> getObservableCold() {
-//        Observable<String> observable = Observable.just("a", "b", "c");
-        Observable<String> observable = Observable.create(emitter -> {
-            emitter.onNext("a");
-            emitter.onNext("b");
-            emitter.onNext("c");
+    private static Observable<Long> getObservableCold() {
+//        Observable<Long> observable = Observable.just(1L, 2L, 3L);
+        Observable<Long> observable = Observable.create(emitter -> {
+            emitter.onNext(1L);
+            emitter.onNext(2L);
+            emitter.onNext(3L);
             emitter.onComplete();
         });
         return observable;
     }
 
-    private static Observable<String> getObservableHot() {
-        Observable<String> observable = Observable.interval(100, TimeUnit.MILLISECONDS, Schedulers.computation())
+    private static Observable<Long> getObservableHot() {
+        return Observable.interval(100, TimeUnit.MILLISECONDS, Schedulers.computation())
                 .take(20)
-                .map(l -> String.valueOf(l))
                 .subscribeOn(Schedulers.newThread())
                 .publish();
-        return observable;
     }
 
     private static void mockRun(long ms) {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {
+            log.error("mockRun|error", e);
         }
     }
 }
