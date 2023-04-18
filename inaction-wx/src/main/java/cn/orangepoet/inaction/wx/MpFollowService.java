@@ -1,6 +1,11 @@
 package cn.orangepoet.inaction.wx;
 
-import cn.orangepoet.inaction.wx.model.*;
+import cn.orangepoet.inaction.wx.model.FollowClause;
+import cn.orangepoet.inaction.wx.model.MpFollow;
+import cn.orangepoet.inaction.wx.model.MpFollowBean;
+import cn.orangepoet.inaction.wx.model.MpFollowList;
+import cn.orangepoet.inaction.wx.model.MpTag;
+import cn.orangepoet.inaction.wx.model.PageQueryResult;
 import cn.orangepoet.inaction.wx.repository.MpFollowRepository;
 import cn.orangepoet.inaction.wx.utils.ObjectMapper;
 import cn.orangepoet.inaction.wx.utils.SyncUtils;
@@ -19,15 +24,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import weixin.popular.api.UserAPI;
 import weixin.popular.bean.BaseResult;
-import weixin.popular.bean.user.*;
+import weixin.popular.bean.user.FollowResult;
+import weixin.popular.bean.user.GetblacklistResult;
+import weixin.popular.bean.user.TagsCreatResult;
+import weixin.popular.bean.user.TagsGetResult;
+import weixin.popular.bean.user.User;
+import weixin.popular.bean.user.UserInfoList;
+import weixin.popular.bean.user.UserTagGetResult;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * 包装微信公众号粉丝管理的API
