@@ -1,5 +1,6 @@
 package cn.orangepoet.inaction.ex.rxjava;
 
+import io.reactivex.BackpressureOverflowStrategy;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -58,6 +59,8 @@ public class BackPressure {
                 .onBackpressureDrop(drop -> {
                     System.out.println("drop: " + drop);
                 })
+                .onBackpressureBuffer(8, () -> {
+                }, BackpressureOverflowStrategy.DROP_OLDEST)
                 .subscribeOn(Schedulers.newThread())
                 .doOnNext(next -> System.out.println("doOnNext: " + next))
                 .observeOn(Schedulers.single())

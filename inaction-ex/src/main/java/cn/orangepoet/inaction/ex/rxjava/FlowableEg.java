@@ -94,7 +94,6 @@ public class FlowableEg {
      */
     private static void test3() throws InterruptedException {
         CountDownLatch cdl = new CountDownLatch(1);
-
         Flowable.just(1, 2, 3)
                 .subscribeOn(Schedulers.computation())
                 .doOnNext(next -> log.info("doOnNext: {}", next))

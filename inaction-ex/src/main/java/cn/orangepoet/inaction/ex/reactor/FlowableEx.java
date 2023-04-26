@@ -10,7 +10,6 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -20,14 +19,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FlowableEx {
     public static void main(String[] args) {
-        for (; ; ) {
-            try {
-                System.in.read();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            test2();
-        }
+        test2();
     }
 
 
@@ -94,14 +86,16 @@ public class FlowableEx {
         Scheduler userHandleScheduler = Schedulers.newParallel("user-handle", 16);
 
         int max = 5_000;
-        userIdList1(max, 10_000)
+        Flux<List<User>> publisher = userIdList1(max, 10_000)
                 .doOnComplete(() -> log.info("user-get|complete"))
                 .flatMap(batchUserId -> Flux.fromIterable(ListUtils.partition(batchUserId, 100)))
                 .flatMap(unit -> getUsers(unit)
                         .subscribeOn(userGetScheduler))
                 .doOnComplete(() -> {
                     log.info("complete");
-                })
+                });
+
+        publisher
                 .publishOn(userHandleScheduler)
                 .subscribe(users -> saveUsers(users)
                         .then(saveTags(users))
