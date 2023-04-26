@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
+import org.reactivestreams.Subscription;
+import reactor.core.publisher.BaseSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
@@ -19,7 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FlowableEx {
     public static void main(String[] args) {
-        test2();
+        test3();
     }
 
 
@@ -103,6 +105,39 @@ public class FlowableEx {
                         .then(publishEvents(users))
                         .subscribe()
                 );
+    }
+
+    private static void test3() {
+        Flux.<Integer>create(emitter -> {
+                    for (int i = 0; i < 100; i++) {
+                        log.info("next->{}", i);
+                        emitter.next(i);
+                    }
+                    emitter.complete();
+                })
+                .subscribe(new BaseSubscriber<Integer>() {
+                    private final int bufferSize = 10;
+                    private int count;
+
+                    @Override
+                    protected void hookOnSubscribe(Subscription subscription) {
+                        request(bufferSize);
+                    }
+
+                    @Override
+                    protected void hookOnNext(Integer value) {
+                        log.info("receive:{}", value);
+
+                        mockRun(1000);
+                        count++;
+//                         reached the maximum buffer size, request more items
+                        if (count == bufferSize) {
+                            count = 0;
+                            request(bufferSize);
+                        }
+                    }
+                });
+        log.info("end");
     }
 
     private static List<Integer> userIdList(int nextid, int max, int batchSize) {

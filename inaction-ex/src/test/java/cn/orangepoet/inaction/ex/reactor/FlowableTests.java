@@ -18,7 +18,12 @@ public class FlowableTests {
 
     @Test
     public void requestOnDemand() {
-        Flux.range(1, 100)
+        Flux.<Integer>create(emitter -> {
+                    for (int i = 0; i < 100; i++) {
+                        emitter.next(i);
+                    }
+                    emitter.complete();
+                })
                 .subscribe(new BaseSubscriber<Integer>() {
                     private final int bufferSize = 2;
                     private int count;
@@ -31,6 +36,7 @@ public class FlowableTests {
                     @Override
                     protected void hookOnNext(Integer value) {
                         log.info("value:{}", value);
+
                         mockRun(1000);
                         count++;
                         // reached the maximum buffer size, request more items
