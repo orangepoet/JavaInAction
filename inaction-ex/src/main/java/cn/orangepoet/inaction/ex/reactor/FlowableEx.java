@@ -9,8 +9,6 @@ import org.reactivestreams.Subscription;
 import reactor.core.publisher.BaseSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Scheduler;
-import reactor.core.scheduler.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FlowableEx {
     public static void main(String[] args) {
-        test3();
+        test2();
     }
 
 
@@ -84,27 +82,21 @@ public class FlowableEx {
      * 背压的测试
      */
     private static void test2() {
-        Scheduler userGetScheduler = Schedulers.newParallel("user-get", 2);
-        Scheduler userHandleScheduler = Schedulers.newParallel("user-handle", 16);
+//        Scheduler userGetScheduler = Schedulers.newParallel("user-get", 2);
+//        Scheduler userHandleScheduler = Schedulers.newParallel("user-handle", 16);
 
         int max = 5_000;
         Flux<List<User>> publisher = userIdList1(max, 10_000)
-                .doOnComplete(() -> log.info("user-get|complete"))
                 .flatMap(batchUserId -> Flux.fromIterable(ListUtils.partition(batchUserId, 100)))
-                .flatMap(unit -> getUsers(unit)
-                        .subscribeOn(userGetScheduler))
-                .doOnComplete(() -> {
-                    log.info("complete");
-                });
+                .flatMap(unit -> getUsers(unit), 2)
+                .doOnComplete(() -> log.info("user-get|complete"));
 
         publisher
-                .publishOn(userHandleScheduler)
-                .subscribe(users -> saveUsers(users)
+                .flatMap(users -> saveUsers(users)
                         .then(saveTags(users))
                         .then(saveEs(users))
-                        .then(publishEvents(users))
-                        .subscribe()
-                );
+                        .then(publishEvents(users)), 8)
+                .subscribe();
     }
 
     private static void test3() {

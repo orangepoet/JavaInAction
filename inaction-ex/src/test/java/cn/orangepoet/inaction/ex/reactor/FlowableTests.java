@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.reactivestreams.Subscription;
 import reactor.core.publisher.BaseSubscriber;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 public class FlowableTests {
@@ -20,6 +21,7 @@ public class FlowableTests {
     public void requestOnDemand() {
         Flux.<Integer>create(emitter -> {
                     for (int i = 0; i < 100; i++) {
+                        log.info("emitter:{}", i);
                         emitter.next(i);
                     }
                     emitter.complete();
@@ -47,5 +49,18 @@ public class FlowableTests {
                     }
                 });
         log.info("end");
+    }
+
+    @Test
+    public void concurrencyTest() {
+        Flux.range(1, 100)
+                .doOnSubscribe(s -> s.request(8))
+                .flatMap(next -> process(next), 4)
+                .subscribe(x -> log.info("x->{}", x));
+    }
+
+    private Mono<Integer> process(int next) {
+        mockRun(1000);
+        return Mono.just(next * 10);
     }
 }
