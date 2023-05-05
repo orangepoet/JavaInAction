@@ -45,16 +45,73 @@ public class Solution {
         return isMirror(root, root);
     }
 
-    private boolean isMirror(TreeNode left, TreeNode right) {
-        if (left == null && right == null) {
-            return true;
+    /**
+     * 判断IP地址
+     *
+     * @param IP
+     * @return
+     */
+    public static String validIPAddress(String IP) {
+        if (IP == null || IP.length() == 0) {
+            return "Neither";
         }
-        if (left == null || right == null) {
-            return false;
+        if (IP.contains(".")) {
+            String[] segments = IP.split("\\.", -1);
+            if (segments.length != 4) {
+                return "Neither";
+            }
+            Set<String> set = new HashSet<>();
+            for (int j = 0; j <= 9; j++) {
+                set.add(String.valueOf(j));
+            }
+
+            for (int i = 0; i < segments.length; i++) {
+                String seg = segments[i];
+                if (seg.length() == 0 || seg.length() > 4) {
+                    return "Neither";
+                }
+                if (seg.length() > 1 && seg.startsWith("0")) {
+                    return "Neither";
+                }
+                for (int j = 0; j < seg.length(); j++) {
+                    char c = seg.charAt(j);
+                    if (!set.contains(String.valueOf(c))) {
+                        return "Neither";
+                    }
+                }
+
+                try {
+                    int num = Integer.parseInt(seg);
+                    if (num < 0 || num > 255) {
+                        return "Neither";
+                    }
+                } catch (NumberFormatException e) {
+                    return "Neither";
+                }
+            }
+            return "IPv4";
+        } else if (IP.contains(":")) {
+            String[] segments = IP.split(":", -1);
+            if (segments.length != 8) {
+                return "Neither";
+            }
+            Set<Character> cSet = new HashSet(Arrays.asList(
+                    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'A', 'B', 'C', 'D', 'E', 'F'
+            ));
+            for (int i = 0; i < segments.length; i++) {
+                String seg = segments[i];
+                if (seg.length() == 0 || seg.length() > 4) {
+                    return "Neither";
+                }
+                for (int j = 0; j < seg.length(); j++) {
+                    if (!cSet.contains(seg.charAt(j))) {
+                        return "Neither";
+                    }
+                }
+            }
+            return "IPv6";
         }
-        return left.val == right.val
-            && isMirror(left.right, right.left)
-            && isMirror(left.left, right.right);
+        return "Neither";
     }
 
     /**
@@ -293,6 +350,18 @@ public class Solution {
         return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
     }
 
+    private boolean isMirror(TreeNode left, TreeNode right) {
+        if (left == null && right == null) {
+            return true;
+        }
+        if (left == null || right == null) {
+            return false;
+        }
+        return left.val == right.val
+                && isMirror(left.right, right.left)
+                && isMirror(left.left, right.right);
+    }
+
     /**
      * 查找目标数的开始和结束位置
      *
@@ -330,9 +399,16 @@ public class Solution {
             }
         }
 
-        return new int[] {low, high};
+        return new int[]{low, high};
     }
 
+    /**
+     * 组合数的和 解法1
+     *
+     * @param candidates
+     * @param target
+     * @return
+     */
     public List<List<Integer>> combination(int[] candidates, int target) {
         List<List<Integer>> ans = new ArrayList<>();
         dfs0(candidates, target, ans, new ArrayList<>(), 0);
@@ -340,20 +416,26 @@ public class Solution {
     }
 
     private void dfs0(int[] candidates, int target, List<List<Integer>> ans, List<Integer> combination, int idx) {
-        if (idx == candidates.length) {
-            return;
-        }
         if (target == 0) {
             ans.add(new ArrayList<>(combination));
+            return;
+        }
+        if (idx == candidates.length) {
             return;
         }
 
         dfs0(candidates, target, ans, combination, idx + 1);
         if (target >= candidates[idx]) {
             combination.add(candidates[idx]);
-            dfs0(candidates, target - candidates[idx], ans, combination, idx);
+            dfs0(candidates, target - candidates[idx], ans, combination, idx + 1);
             combination.remove(combination.size() - 1);
         }
+    }
+
+    public List<List<Integer>> combination0(int[] nums, int m) {
+        List<List<Integer>> ans = new ArrayList<>();
+        dfs11(nums, new ArrayList<>(), 0, m, ans);
+        return ans;
     }
 
     /**
@@ -590,55 +672,49 @@ public class Solution {
         return dp[len - 1];
     }
 
+    /**
+     * 数学组合
+     *
+     * @param nums
+     * @param comb
+     * @param start
+     * @param count
+     * @param ans
+     */
+    private void dfs11(int[] nums, List<Integer> comb, int start, int count, List<List<Integer>> ans) {
+        if (count == 0) {
+            System.out.println(comb);
+            ans.add(new ArrayList<>(comb));
+            return;
+        }
+        for (int i = start; i < nums.length; i++) {
+            comb.add(nums[i]);
+            dfs11(nums, comb, i + 1, count - 1, ans);
+            comb.remove(comb.size() - 1);
+        }
+    }
+
     private boolean isNumDuplicate(char[][] board, int i, int j) {
         int num = board[i][j];
         int gX = i / 3 * 3;
         int gY = j / 3 * 3;
         for (int m = 0; m < 3; m++) {
             for (int n = 0; n < 3; n++) {
-                if (!(i == (gX + m) && j == (gY + n)) && (int)board[gX + m][gY + n] == num) {
+                if (!(i == (gX + m) && j == (gY + n)) && (int) board[gX + m][gY + n] == num) {
                     return true;
                 }
             }
         }
 
         for (int k = 0; k < 9; k++) {
-            if (k != i && (int)board[k][j] == num) {
+            if (k != i && (int) board[k][j] == num) {
                 return true;
             }
-            if (k != j && (int)board[i][k] == num) {
+            if (k != j && (int) board[i][k] == num) {
                 return true;
             }
         }
         return false;
-    }
-
-    /**
-     * 字母移位
-     *
-     * @param S
-     * @param shifts
-     * @return
-     */
-    public String shiftingLetters(String S, int[] shifts) {
-        int size = shifts.length;
-        long[] shifts2 = new long[size];
-        shifts2[size - 1] = shifts[size - 1];
-
-        for (int i = size - 2; i >= 0; i--) {
-            shifts2[i] = shifts[i] + shifts2[i + 1];
-        }
-        StringBuilder ans = new StringBuilder();
-        for (int i = 0; i < S.length(); i++) {
-            char c = S.charAt(i);
-            if (i < shifts2.length) {
-                int index = (int)c - 97;
-                int newIndex = (int)((index + shifts2[i]) % 26);
-                c = (char)(newIndex + 97);
-            }
-            ans.append(c);
-        }
-        return ans.toString();
     }
 
     /**
@@ -1123,22 +1199,31 @@ public class Solution {
     }
 
     /**
-     * 判断树是否平衡
+     * 字母移位
      *
-     * @param root
+     * @param S
+     * @param shifts
      * @return
      */
-    public boolean isBalanced(TreeNode root) {
-        if (root == null) {
-            return true;
+    public String shiftingLetters(String S, int[] shifts) {
+        int size = shifts.length;
+        long[] shifts2 = new long[size];
+        shifts2[size - 1] = shifts[size - 1];
+
+        for (int i = size - 2; i >= 0; i--) {
+            shifts2[i] = shifts[i] + shifts2[i + 1];
         }
-
-        int leftHeight = height(root.left);
-        int rightHeight = height(root.right);
-
-        return Math.abs(leftHeight - rightHeight) <= 1
-            && isBalanced(root.left)
-            && isBalanced(root.right);
+        StringBuilder ans = new StringBuilder();
+        for (int i = 0; i < S.length(); i++) {
+            char c = S.charAt(i);
+            if (i < shifts2.length) {
+                int index = (int) c - 97;
+                int newIndex = (int) ((index + shifts2[i]) % 26);
+                c = (char) (newIndex + 97);
+            }
+            ans.append(c);
+        }
+        return ans.toString();
     }
 
     private int height(TreeNode treeNode) {
@@ -1189,72 +1274,22 @@ public class Solution {
     }
 
     /**
-     * 判断IP地址
+     * 判断树是否平衡
      *
-     * @param IP
+     * @param root
      * @return
      */
-    public static String validIPAddress(String IP) {
-        if (IP == null || IP.length() == 0) {
-            return "Neither";
+    public boolean isBalanced(TreeNode root) {
+        if (root == null) {
+            return true;
         }
-        if (IP.contains(".")) {
-            String[] segments = IP.split("\\.", -1);
-            if (segments.length != 4) {
-                return "Neither";
-            }
-            Set<String> set = new HashSet<>();
-            for (int j = 0; j <= 9; j++) {
-                set.add(String.valueOf(j));
-            }
 
-            for (int i = 0; i < segments.length; i++) {
-                String seg = segments[i];
-                if (seg.length() == 0 || seg.length() > 4) {
-                    return "Neither";
-                }
-                if (seg.length() > 1 && seg.startsWith("0")) {
-                    return "Neither";
-                }
-                for (int j = 0; j < seg.length(); j++) {
-                    char c = seg.charAt(j);
-                    if (!set.contains(String.valueOf(c))) {
-                        return "Neither";
-                    }
-                }
+        int leftHeight = height(root.left);
+        int rightHeight = height(root.right);
 
-                try {
-                    int num = Integer.parseInt(seg);
-                    if (num < 0 || num > 255) {
-                        return "Neither";
-                    }
-                } catch (NumberFormatException e) {
-                    return "Neither";
-                }
-            }
-            return "IPv4";
-        } else if (IP.contains(":")) {
-            String[] segments = IP.split(":", -1);
-            if (segments.length != 8) {
-                return "Neither";
-            }
-            Set<Character> cSet = new HashSet(Arrays.asList(
-                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'A', 'B', 'C', 'D', 'E', 'F'
-            ));
-            for (int i = 0; i < segments.length; i++) {
-                String seg = segments[i];
-                if (seg.length() == 0 || seg.length() > 4) {
-                    return "Neither";
-                }
-                for (int j = 0; j < seg.length(); j++) {
-                    if (!cSet.contains(seg.charAt(j))) {
-                        return "Neither";
-                    }
-                }
-            }
-            return "IPv6";
-        }
-        return "Neither";
+        return Math.abs(leftHeight - rightHeight) <= 1
+                && isBalanced(root.left)
+                && isBalanced(root.right);
     }
 
     /**
@@ -1488,7 +1523,7 @@ public class Solution {
             }
             if (isSorted) {
                 for (int j = 0; j < A.length; j++) {
-                    weight[j] = weight[j] * 26 + (int)A[j].charAt(i);
+                    weight[j] = weight[j] * 26 + (int) A[j].charAt(i);
                 }
             }
         }
@@ -1723,13 +1758,13 @@ public class Solution {
     }
 
     /**
-     * 数组中不重复的子序列， 和为target
+     * 组合数的和 解法2
      *
      * @param candidates
      * @param target
      * @return
      */
-    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+    public List<List<Integer>> combination2(int[] candidates, int target) {
         List<List<Integer>> list = new LinkedList<>();
         Arrays.sort(candidates);//先排序
         backtrack(list, new ArrayList<>(), candidates, target, 0);
@@ -1742,7 +1777,9 @@ public class Solution {
             return;
         }
         for (int i = start; i < candidates.length; i++) {
-            if (target < candidates[i]) {break;}
+            if (target < candidates[i]) {
+                break;
+            }
             if (i > start && candidates[i] == candidates[i - 1]) {
                 continue; //去掉重复的
             }
@@ -2028,7 +2065,7 @@ public class Solution {
         int total = rows * columns;
         int row = 0, column = 0;
         int directionIndex = 0;
-        int[][] directions = new int[][] {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        int[][] directions = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
         for (int i = 0; i < total; i++) {
             result.add(matrix[row][column]);
             visited[row][column] = true;
@@ -2379,9 +2416,7 @@ public class Solution {
 
     private void merge0(int[] arr, int left, int mid, int right) {
         int[] L = new int[mid - left + 2];
-        for (int i = 0; i < L.length - 1; i++) {
-            L[i] = arr[left + i];
-        }
+        if (L.length - 1 >= 0) System.arraycopy(arr, left, L, 0, L.length - 1);
         L[L.length - 1] = Integer.MAX_VALUE;
         int[] R = new int[right - mid + 1];
         for (int i = 0; i < R.length - 1; i++) {
@@ -2570,10 +2605,10 @@ public class Solution {
             if (queue.size() == k) {
                 if (queue.peek()[1] < cnt) {
                     queue.poll();
-                    queue.offer(new int[] {num, cnt});
+                    queue.offer(new int[]{num, cnt});
                 }
             } else {
-                queue.offer(new int[] {num, cnt});
+                queue.offer(new int[]{num, cnt});
             }
         }
         int[] kq = new int[k];
@@ -2634,9 +2669,7 @@ public class Solution {
     public int largestRectangleArea(int[] heights) {
         Deque<Integer> stack = new LinkedList<>();
         int[] copy = new int[heights.length + 2];
-        for (int i = 0; i < heights.length; i++) {
-            copy[i + 1] = heights[i];
-        }
+        System.arraycopy(heights, 0, copy, 1, heights.length);
         heights = copy;
 
         int max = 0;

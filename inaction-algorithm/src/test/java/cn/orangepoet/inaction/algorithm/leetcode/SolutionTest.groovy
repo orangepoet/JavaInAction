@@ -88,14 +88,21 @@ class SolutionTest extends Specification {
         [5, 7, 7, 8, 8, 10] as int[] | 8      | [3, 4] as int[]
     }
 
-    def '测试目标数解集'() {
+    def '组合数的和'() {
         expect:
         solution.combination(candidates, target) == ans
 
         where:
-        candidates                 | target | ans
-        [2, 3, 6, 7] as int[]      | 7      | []
-        [100, 200, 4, 12] as int[] | 400    | []
+        candidates                           | target | ans
+        [1, 2, 3, 4, 5, 6, 7, 8, 9] as int[] | 12     | [[5, 7], [4, 8], [3, 9], [3, 4, 5], [2, 4, 6], [2, 3, 7], [1, 5, 6], [1, 4, 7], [1, 3, 8], [1, 2, 9], [1, 2, 4, 5], [1, 2, 3, 6]] as List<List<Integer>>
+    }
+
+    def 'C(n,m)组合'() {
+        expect:
+        solution.combination0(arr, m) == ans
+        where:
+        arr                   | m | ans
+        [1, 2, 3, 4] as int[] | 2 | [[1, 2], [1, 3], [1, 4], [2, 3], [2, 4], [3, 4]] as List<List<Integer>>
     }
 
     def '三数之和'() {
@@ -168,7 +175,7 @@ class SolutionTest extends Specification {
     }
 
     def '字母移位'() {
-        ;
+
 
         expect:
         solution.shiftingLetters(S, arr).equals(ans)
@@ -400,7 +407,7 @@ class SolutionTest extends Specification {
 
     def '组合和2'() {
         expect:
-        solution.combinationSum2(candidates, target) == ans
+        solution.combination2(candidates, target) == ans
 
         where:
         candidates                      | target | ans
@@ -653,7 +660,7 @@ class SolutionTest extends Specification {
 
     def '测试LRU'() {
         given:
-        LRU2 lru = new LRU2(2);
+        LRU2 lru = new LRU2(2)
 
         when:
         lru.put(2, 1)
@@ -670,7 +677,7 @@ class SolutionTest extends Specification {
 
     def '测试LFU'() {
         given:
-        LFU lfu = new LFU(2);
+        LFU lfu = new LFU(2)
 
         when:
         lfu.put(1, 1)
@@ -859,7 +866,7 @@ class SolutionTest extends Specification {
         return root
     }
 
-    def Integer[] toArray(TreeNode root) {
+    Integer[] toArray(TreeNode root) {
         def list = new ArrayList<Integer>()
         def queue = [] as LinkedList<TreeNode>
         queue.offer(root)
@@ -885,9 +892,9 @@ class SolutionTest extends Specification {
         return list.toArray(Integer[]) as Integer[]
     }
 
-    def ListNode makeListNode(int[] arr) {
+    ListNode makeListNode(int[] arr) {
         ListNode root = new ListNode(arr[0])
-        ListNode prev = root;
+        ListNode prev = root
         for (i in 1..<arr.length) {
             ListNode n = new ListNode(arr[i])
             prev.next = n
