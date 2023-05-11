@@ -1,12 +1,12 @@
-package cn.orangepoet.inaction.spring.base.aspect.sample.traffic;
+package cn.orangepoet.inaction.spring.base.aspect.traffic.impl;
 
-import java.util.List;
-
-import cn.orangepoet.inaction.spring.base.aspect.sample.traffic.impl.Train;
+import cn.orangepoet.inaction.spring.base.aspect.traffic.Traffic;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Created by Orange on 2017/1/11.
@@ -34,7 +34,7 @@ public class TrafficFactory {
     @Getter
     private List<Traffic> trafficList;
 
-    public Traffic getTraffic(TrafficWay way) {
+    public Traffic getTraffic(Traffic.TrafficWay way) {
         System.out.println(name);
         switch (way) {
             case FLIGHT_WAY:

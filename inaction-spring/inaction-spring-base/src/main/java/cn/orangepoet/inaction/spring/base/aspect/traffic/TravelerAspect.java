@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.spring.base.aspect.sample.traffic.aspect;
+package cn.orangepoet.inaction.spring.base.aspect.traffic;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class TravelerAspect {
-    @Pointcut("execution(public * cn.orangepoet.inaction.spring.base.aspect.sample.traffic.Traveler.*(..))")
+    @Pointcut("execution(public * cn.orangepoet.inaction.spring.base.aspect.traffic.Traveler.*(..))")
     public void go() {
     }
 

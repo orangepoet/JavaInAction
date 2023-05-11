@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.spring.base.aspect;
+package cn.orangepoet.inaction.spring.base.aspect.subpub;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -19,9 +19,9 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class ObserverAspect {
 
-    private Logger logger = LoggerFactory.getLogger(ObserverAspect.class);
+    private final Logger logger = LoggerFactory.getLogger(ObserverAspect.class);
 
-    @Pointcut("execution(public * cn.orangepoet.inaction.spring.base.aspect.SubjectImpl.onMessage1())")
+    @Pointcut("execution(public * cn.orangepoet.inaction.spring.base.aspect.subpub.SubjectImpl.onMessage1())")
     public void log() {
     }
 

@@ -1,20 +1,20 @@
-package cn.orangepoet.inaction.spring.base.aspect;
-
-import java.util.ArrayList;
-import java.util.List;
+package cn.orangepoet.inaction.spring.base.aspect.subpub;
 
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author orangecheng
  */
 @Component
 public class SubjectImpl implements Subject {
-    private Logger logger = LoggerFactory.getLogger(Subject.class);
-    private List<Observer> observerList = new ArrayList<>();
+    private final Logger logger = LoggerFactory.getLogger(Subject.class);
+    private final List<Observer> observerList = new ArrayList<>();
 
     @Override
     public void attach(Observer observer) {

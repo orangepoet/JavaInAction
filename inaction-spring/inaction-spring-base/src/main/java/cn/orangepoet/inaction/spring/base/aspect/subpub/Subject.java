@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.spring.base.aspect;
+package cn.orangepoet.inaction.spring.base.aspect.subpub;
 
 public interface Subject {
     void attach(Observer observer);

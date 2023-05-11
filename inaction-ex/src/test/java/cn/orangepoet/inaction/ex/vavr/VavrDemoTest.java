@@ -1,6 +1,5 @@
-package cn.orangepoet.inaction.function;
+package cn.orangepoet.inaction.ex.vavr;
 
-import cn.orangepoet.inaction.ex.vavr.VavrDemo;
 import org.junit.Test;
 
 /**

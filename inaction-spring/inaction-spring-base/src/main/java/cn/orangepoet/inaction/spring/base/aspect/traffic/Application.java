@@ -1,5 +1,6 @@
-package cn.orangepoet.inaction.spring.base.aspect.sample.traffic;
+package cn.orangepoet.inaction.spring.base.aspect.traffic;
 
+import cn.orangepoet.inaction.spring.base.aspect.traffic.impl.TrafficFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -24,7 +25,7 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        traveler.go(TrafficWay.TRAIN_WAY);
+        traveler.go(Traffic.TrafficWay.TRAIN_WAY);
 
         factory.getTrafficList().forEach(traffic -> {
             log.info(traffic.toString());

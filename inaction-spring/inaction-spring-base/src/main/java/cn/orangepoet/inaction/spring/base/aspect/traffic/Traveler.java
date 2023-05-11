@@ -1,5 +1,6 @@
-package cn.orangepoet.inaction.spring.base.aspect.sample.traffic;
+package cn.orangepoet.inaction.spring.base.aspect.traffic;
 
+import cn.orangepoet.inaction.spring.base.aspect.traffic.impl.TrafficFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +17,17 @@ import java.util.Optional;
  */
 @Component
 public class Traveler {
-    private Logger logger = LoggerFactory.getLogger(Traveler.class);
+    private final Logger logger = LoggerFactory.getLogger(Traveler.class);
 
     @Autowired
     private TrafficFactory factory;
     //@Autowired
     //private List<String> myList;
 
-    public void go(TrafficWay way) {
-        if (Optional.ofNullable(way).orElse(TrafficWay.UNKNOWN) == TrafficWay.UNKNOWN) {
+    public void go(Traffic.TrafficWay way) {
+        if (Optional.ofNullable(way).orElse(Traffic.TrafficWay.UNKNOWN) == Traffic.TrafficWay.UNKNOWN) {
             logger.error("empty way");
+            return;
         }
 
         //myList.add("myname");
