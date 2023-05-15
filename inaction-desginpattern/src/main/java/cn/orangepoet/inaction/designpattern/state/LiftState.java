@@ -7,11 +7,11 @@ package cn.orangepoet.inaction.designpattern.state;
  * @since 2018/8/7
  */
 public interface LiftState {
-    void stop(Context context);
+    void onStop(Context context);
 
-    void run(Context context);
+    void onRun(Context context);
 
-    void open(Context context);
+    void onOpen(Context context);
 
-    void close(Context context);
+    void onClose(Context context);
 }

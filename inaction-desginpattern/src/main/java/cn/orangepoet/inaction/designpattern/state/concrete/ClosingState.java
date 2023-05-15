@@ -1,5 +1,6 @@
 package cn.orangepoet.inaction.designpattern.state.concrete;
 
+import cn.orangepoet.inaction.designpattern.state.AbstractLiftState;
 import cn.orangepoet.inaction.designpattern.state.Context;
 import cn.orangepoet.inaction.designpattern.state.LiftState;
 
@@ -7,30 +8,25 @@ import cn.orangepoet.inaction.designpattern.state.LiftState;
  * @author chengz
  * @since 2018/8/7
  */
-public class ClosingState implements LiftState {
+public class ClosingState extends AbstractLiftState {
     @Override
-    public void stop(Context context) {
+    public void onStop(Context context) {
         LiftState liftState = Context.STOPPING_STATE;
         context.setState(liftState);
-        liftState.stop(context);
+        liftState.onStop(context);
     }
 
     @Override
-    public void run(Context context) {
+    public void onRun(Context context) {
         LiftState liftState = Context.RUNNING_STATUE;
         context.setState(liftState);
-        liftState.run(context);
+        liftState.onRun(context);
     }
 
     @Override
-    public void open(Context context) {
+    public void onOpen(Context context) {
         LiftState liftState = Context.OPENING_STATE;
         context.setState(liftState);
-        liftState.open(context);
-    }
-
-    @Override
-    public void close(Context context) {
-        System.out.println("closing");
+        liftState.onOpen(context);
     }
 }

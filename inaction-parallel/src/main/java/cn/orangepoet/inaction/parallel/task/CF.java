@@ -17,7 +17,8 @@ public class CF {
                 })
                 .whenComplete((r, t) -> log.error("error", t));
 
-        Thread.sleep(5000);
+
         log.info("main finish");
+        Thread.sleep(5000);
     }
 }

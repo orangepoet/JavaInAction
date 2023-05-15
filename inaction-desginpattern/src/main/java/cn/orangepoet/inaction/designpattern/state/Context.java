@@ -26,18 +26,18 @@ public class Context {
     }
 
     public void open() {
-        this.state.open(this);
+        this.state.onOpen(this);
     }
 
     public void close() {
-        this.state.close(this);
+        this.state.onClose(this);
     }
 
     public void run() {
-        this.state.run(this);
+        this.state.onRun(this);
     }
 
     public void stop() {
-        this.state.stop(this);
+        this.state.onStop(this);
     }
 }
