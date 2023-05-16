@@ -1,5 +1,6 @@
 spring:
-  data:
-    elasticsearch:
-      cluster-name: elasticsearch
-      cluster-nodes: localhost:9200
+  elasticsearch:
+    rest:
+      uris: localhost:9200
+#      username: flotage_rw
+#      password: 7CEAmPOW1FR4uAohyhRM
