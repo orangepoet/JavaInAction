@@ -21,6 +21,15 @@ val rule5 = """
         }
     """.trimIndent()
 
+val calculatorScript = """
+    class Cal {
+        def add(int x,int y) {
+            x+y
+        }
+    }
+    new Cal()
+""".trimIndent()
+
 typealias testRuleFunc = (params: Map<String, Any>, script: String) -> Any?
 
 /**
@@ -50,6 +59,15 @@ fun scriptExec(params: Map<String, Any>, script: String): Any? {
 
 
 fun main() {
+    // 执行一段关联的代码
+    scriptExec(mapOf("context" to Context(), "job" to Job(), "x" to 20), rule5)
+
+    // 加载一个类
+    val calculator = scriptEngine.eval(calculatorScript)
+    val add = calculator.javaClass.getMethod("add", *arrayOf(Int::class.java, Int::class.java))
+    // 调用类的成员方法
+    val value = add.invoke(calculator, 1, 2)
+    println(value)
 }
 
 /**
@@ -72,7 +90,6 @@ private fun measureTestRulePerformance(f: testRuleFunc, times: Int) {
             f(mapOf("x" to 1, "y" to 2), rule4)
             f(mapOf("x" to 1, "y" to 3), rule4)
             f(mapOf("x" to 2, "y" to 2), rule4)
-            f(mapOf("context" to Context(), "job" to Job(), "x" to 20), rule5)
         }
     }
     val used = reset - runtime.freeMemory()
