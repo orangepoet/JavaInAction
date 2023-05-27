@@ -1,11 +1,6 @@
 package cn.orangepoet.inaction.algorithm.games.flightattack
 
-import cn.orangepoet.inaction.algorithm.games.flightattack.Flight
-import cn.orangepoet.inaction.algorithm.games.flightattack.FlightMap
-import cn.orangepoet.inaction.algorithm.games.flightattack.FlightUnit
-import cn.orangepoet.inaction.algorithm.games.flightattack.MatchResult
-import cn.orangepoet.inaction.algorithm.games.flightattack.Position
-import cn.orangepoet.inaction.algorithm.games.flightattack.Application
+
 import spock.lang.Specification
 
 /**
