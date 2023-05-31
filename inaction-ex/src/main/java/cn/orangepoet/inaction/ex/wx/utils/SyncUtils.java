@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.wx.utils;
+package cn.orangepoet.inaction.ex.wx.utils;
 
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;

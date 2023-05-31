@@ -1,14 +1,14 @@
-package cn.orangepoet.inaction.wx;
+package cn.orangepoet.inaction.ex.wx;
 
-import cn.orangepoet.inaction.wx.model.FollowClause;
-import cn.orangepoet.inaction.wx.model.MpFollow;
-import cn.orangepoet.inaction.wx.model.MpFollowBean;
-import cn.orangepoet.inaction.wx.model.MpFollowList;
-import cn.orangepoet.inaction.wx.model.MpTag;
-import cn.orangepoet.inaction.wx.model.PageQueryResult;
-import cn.orangepoet.inaction.wx.repository.MpFollowRepository;
-import cn.orangepoet.inaction.wx.utils.ObjectMapper;
-import cn.orangepoet.inaction.wx.utils.SyncUtils;
+import cn.orangepoet.inaction.ex.wx.model.FollowClause;
+import cn.orangepoet.inaction.ex.wx.model.MpFollow;
+import cn.orangepoet.inaction.ex.wx.model.MpFollowBean;
+import cn.orangepoet.inaction.ex.wx.model.MpFollowList;
+import cn.orangepoet.inaction.ex.wx.model.MpTag;
+import cn.orangepoet.inaction.ex.wx.model.PageQueryResult;
+import cn.orangepoet.inaction.ex.wx.repository.MpFollowRepository;
+import cn.orangepoet.inaction.ex.wx.utils.ObjectMapper;
+import cn.orangepoet.inaction.ex.wx.utils.SyncUtils;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Preconditions;
 import com.sun.istack.NotNull;

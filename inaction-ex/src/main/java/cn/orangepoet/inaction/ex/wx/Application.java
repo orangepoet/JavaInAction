@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.wx;
+package cn.orangepoet.inaction.ex.wx;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;

@@ -21,8 +21,6 @@
         <module>../inaction-spring</module>
         <module>../inaction-annotationprocessing</module>
         <module>../inaction-spi</module>
-        <module>../inaction-wx</module>
-        <module>../inaction-dns</module>
     </modules>
     <packaging>pom</packaging>
 

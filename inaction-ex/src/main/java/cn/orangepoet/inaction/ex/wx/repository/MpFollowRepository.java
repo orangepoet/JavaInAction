@@ -1,10 +1,10 @@
-package cn.orangepoet.inaction.wx.repository;
+package cn.orangepoet.inaction.ex.wx.repository;
 
-import cn.orangepoet.inaction.wx.model.FollowClause;
-import cn.orangepoet.inaction.wx.model.MpFollow;
-import cn.orangepoet.inaction.wx.model.MpFollowDoc;
-import cn.orangepoet.inaction.wx.model.PageQueryResult;
-import cn.orangepoet.inaction.wx.utils.ObjectMapper;
+import cn.orangepoet.inaction.ex.wx.model.FollowClause;
+import cn.orangepoet.inaction.ex.wx.model.MpFollow;
+import cn.orangepoet.inaction.ex.wx.model.MpFollowDoc;
+import cn.orangepoet.inaction.ex.wx.model.PageQueryResult;
+import cn.orangepoet.inaction.ex.wx.utils.ObjectMapper;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import lombok.NonNull;
@@ -21,7 +21,12 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
 

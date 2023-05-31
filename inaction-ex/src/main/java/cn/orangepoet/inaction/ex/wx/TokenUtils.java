@@ -1,7 +1,7 @@
-package cn.orangepoet.inaction.wx;
+package cn.orangepoet.inaction.ex.wx;
 
-import cn.orangepoet.inaction.wx.utils.MpConfig;
-import cn.orangepoet.inaction.wx.utils.RedisClient;
+import cn.orangepoet.inaction.ex.wx.utils.MpConfig;
+import cn.orangepoet.inaction.ex.wx.utils.RedisClient;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Joiner;
 import lombok.AllArgsConstructor;

@@ -1,9 +1,9 @@
-package cn.orangepoet.inaction.wx.utils;
+package cn.orangepoet.inaction.ex.wx.utils;
 
-import cn.orangepoet.inaction.wx.model.MpFollow;
-import cn.orangepoet.inaction.wx.model.MpFollowBean;
-import cn.orangepoet.inaction.wx.model.MpFollowDoc;
-import cn.orangepoet.inaction.wx.model.MpTag;
+import cn.orangepoet.inaction.ex.wx.model.MpFollow;
+import cn.orangepoet.inaction.ex.wx.model.MpFollowBean;
+import cn.orangepoet.inaction.ex.wx.model.MpFollowDoc;
+import cn.orangepoet.inaction.ex.wx.model.MpTag;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

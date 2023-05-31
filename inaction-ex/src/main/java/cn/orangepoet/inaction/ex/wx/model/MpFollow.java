@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.wx.model;
+package cn.orangepoet.inaction.ex.wx.model;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,9 +1,9 @@
-package cn.orangepoet.inaction.wx;
+package cn.orangepoet.inaction.ex.wx;
 
-import cn.orangepoet.inaction.wx.model.MpFollow;
-import cn.orangepoet.inaction.wx.repository.MpFollowRepository;
-import cn.orangepoet.inaction.wx.utils.MpConfig;
-import cn.orangepoet.inaction.wx.utils.RedisClient;
+import cn.orangepoet.inaction.ex.wx.model.MpFollow;
+import cn.orangepoet.inaction.ex.wx.repository.MpFollowRepository;
+import cn.orangepoet.inaction.ex.wx.utils.MpConfig;
+import cn.orangepoet.inaction.ex.wx.utils.RedisClient;
 import com.google.common.base.Joiner;
 import com.qq.weixin.mp.aes.AesException;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;

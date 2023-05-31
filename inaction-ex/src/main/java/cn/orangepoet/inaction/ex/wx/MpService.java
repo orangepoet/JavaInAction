@@ -1,10 +1,10 @@
-package cn.orangepoet.inaction.wx;
+package cn.orangepoet.inaction.ex.wx;
 
-import cn.orangepoet.inaction.wx.model.MpInfo;
-import cn.orangepoet.inaction.wx.model.PageQueryResult;
-import cn.orangepoet.inaction.wx.repository.MpFollowRepository;
-import cn.orangepoet.inaction.wx.utils.MpConfig;
-import cn.orangepoet.inaction.wx.utils.SyncUtils;
+import cn.orangepoet.inaction.ex.wx.model.MpInfo;
+import cn.orangepoet.inaction.ex.wx.model.PageQueryResult;
+import cn.orangepoet.inaction.ex.wx.repository.MpFollowRepository;
+import cn.orangepoet.inaction.ex.wx.utils.MpConfig;
+import cn.orangepoet.inaction.ex.wx.utils.SyncUtils;
 import com.google.common.collect.ImmutableMap;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.text.StrSubstitutor;
