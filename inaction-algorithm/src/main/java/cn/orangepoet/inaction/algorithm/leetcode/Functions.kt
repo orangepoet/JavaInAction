@@ -53,14 +53,14 @@ fun makeTree(arr: Array<Int?>): TreeNode {
 /**
  * 链表转数组
  */
-fun toIntArr(listNode: ListNode?): Array<Int?> {
-    var next = listNode
+fun toIntArr(root: ListNode?): IntArray {
+    var next = root
     val list = mutableListOf<Int>()
     while (next != null) {
         list.add(next.value)
         next = next.next
     }
-    return list.toTypedArray()
+    return list.toIntArray()
 }
 
 fun toIntArr(root: TreeNode?): Array<Int?> {

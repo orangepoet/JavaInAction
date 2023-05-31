@@ -16,14 +16,14 @@ class Solution2Test extends Specification {
         def arr = toIntArr(root1)
 
         then:
-        arr == [2, null, 1] as Integer[]
+        arr == [2, null, 1] as int[]
     }
 
     def '从未排序的链表中移除重复元素'() {
         when:
         def node = deleteDuplicatesUnsorted(makeListNode([1, 2, 3, 2] as int[]))
         then:
-        toIntArr(node) == [1, 3] as Integer[]
+        toIntArr(node) == [1, 3] as int[]
     }
 
     def '回文素数'() {

@@ -582,6 +582,9 @@ private fun permute0(ans: ArrayList<IntArray>, arr: IntArray, first: Int) {
     }
 }
 
+/**
+ * 组合
+ */
 fun combine(count: Int): List<IntArray> {
     val ans = ArrayList<IntArray>()
     val arr = IntArray(count)
@@ -641,3 +644,31 @@ fun sortColors(nums: IntArray) {
     }
 }
 
+
+val ans = mutableListOf<List<Int>>()
+val cur = mutableListOf<Int>()
+
+/**
+ * k数组合
+ */
+fun combine(n: Int, k: Int): List<List<Int>> {
+    dfs(n, k, 1)
+    return ans
+}
+
+fun dfs(n: Int, k: Int, p: Int) {
+    if (cur.size + (n - p + 1) < k) {
+        return
+    }
+
+    if (cur.size == k) {
+        ans.add(cur.toList())
+        return
+    }
+
+    cur.add(p)
+    dfs(n, k, p + 1)
+
+    cur.removeAt(cur.size - 1)
+    dfs(n, k, p + 1)
+}
