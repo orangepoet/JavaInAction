@@ -17,7 +17,7 @@
     <artifactId>inaction-annotationprocessing</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <!--        <module>inaction-annotationprocessing-processor</module>-->
-        <!--        <module>inaction-annotationprocessing-usage</module>-->
+        <module>inaction-annotationprocessing-processor</module>
+        <module>inaction-annotationprocessing-usage</module>
     </modules>
 </project>

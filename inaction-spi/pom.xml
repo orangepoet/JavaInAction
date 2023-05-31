@@ -16,6 +16,5 @@
     <modules>
         <module>inaction-spi-api</module>
         <module>inaction-spi-impl</module>
-        <module>inaction-spi-starter</module>
     </modules>
 </project>
