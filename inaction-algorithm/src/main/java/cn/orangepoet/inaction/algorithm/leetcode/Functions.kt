@@ -98,3 +98,13 @@ fun isSorted(arr: IntArray): Boolean {
     }
     return true
 }
+
+private val random = Random()
+
+fun randomSequence(count: Int): IntArray {
+    val ret = IntArray(count)
+    for (i in 0 until count) {
+        ret[i] = random.nextInt(3)
+    }
+    return ret
+}

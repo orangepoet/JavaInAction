@@ -1713,20 +1713,20 @@ public class Solution {
      */
     public List<String> generateParenthesis(int n) {
         List<String> ans = new ArrayList<>();
-        appendBrack(ans, n, n, "");
+        appendBracket(ans, n, n, "");
         return ans;
     }
 
-    private void appendBrack(List<String> ans, int left, int right, String path) {
+    private void appendBracket(List<String> ans, int left, int right, String path) {
         if (left == 0 && right == 0) {
             ans.add(path);
             return;
         }
         if (left > 0) {
-            appendBrack(ans, left - 1, right, path + "(");
+            appendBracket(ans, left - 1, right, path + "(");
         }
         if (right > left) {
-            appendBrack(ans, left, right - 1, path + ")");
+            appendBracket(ans, left, right - 1, path + ")");
         }
     }
 

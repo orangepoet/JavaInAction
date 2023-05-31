@@ -142,19 +142,27 @@ class Solution2Test extends Specification {
         nums == [3, 5, 1, 6, 2, 4] as int[]
     }
 
-    def '全排列'() {
+    def '排列'() {
         expect:
-        permute(nums) == ans
+        permute(count) == ans
         where:
-        nums               | ans
-        [1, 2, 3] as int[] | [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 2, 1], [3, 1, 2]]
+        count | ans
+        3     | [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 2, 1], [3, 1, 2]]
+    }
+
+    def '组合'() {
+        expect:
+        combine(count) == ans
+        where:
+        count | ans
+        3     | [[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]]
     }
 
 
     def '三色问题'() {
         given:
-        def nums = [2, 0, 2, 1, 1, 0] as int[]
-        def nums2 = [1, 2, 0] as int[]
+        def nums = randomSequence(20)
+        def nums2 = randomSequence(10)
         when:
         sortColors(nums)
         sortColors(nums2)

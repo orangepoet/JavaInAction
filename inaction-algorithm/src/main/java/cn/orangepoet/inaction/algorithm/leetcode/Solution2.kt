@@ -557,27 +557,49 @@ private fun swap(nums: IntArray, i: Int, j: Int) {
 }
 
 /**
- * 全排列
+ * 排列
  */
-fun permute(nums: IntArray): List<List<Int?>>? {
-    val ans = ArrayList<List<Int?>>()
-    val output = ArrayList<Int?>()
-    for (n in nums) {
-        output.add(n)
+fun permute(count: Int): List<IntArray> {
+    val ans = ArrayList<IntArray>()
+    val arr = IntArray(count)
+    for (i in 0 until count) {
+        arr[i] = i + 1
     }
-    backtrack(ans, output, nums.size, 0)
+    permute0(ans, arr, 0)
     return ans
 }
 
-private fun backtrack(ans: MutableList<List<Int?>>, output: List<Int?>, length: Int, first: Int) {
-    if (first == length) {
-        ans.add(ArrayList(output))
+private fun permute0(ans: ArrayList<IntArray>, arr: IntArray, first: Int) {
+    if (first == arr.size) {
+        println(arr.joinToString())
+        ans.add(arr.copyOf())
         return
     }
-    for (i in first until length) {
-        Collections.swap(output, first, i)
-        backtrack(ans, output, length, first + 1)
-        Collections.swap(output, i, first)
+    for (i in first until arr.size) {
+        swap(arr, first, i)
+        permute0(ans, arr, first + 1)
+        swap(arr, i, first)
+    }
+}
+
+fun combine(count: Int): List<IntArray> {
+    val ans = ArrayList<IntArray>()
+    val arr = IntArray(count)
+    for (i in 0 until count) {
+        arr[i] = i + 1
+    }
+    combine0(ans, arr, mutableListOf<Int>(), 0)
+
+    return ans
+}
+
+private fun combine0(result: MutableList<IntArray>, arr: IntArray, current: MutableList<Int>, start: Int) {
+    result.add(current.toIntArray())
+
+    for (i in start until arr.size) {
+        current.add(arr[i])
+        combine0(result, arr, current, i + 1)
+        current.removeAt(current.size - 1)
     }
 }
 
@@ -592,21 +614,29 @@ fun sortColors(nums: IntArray) {
      * [p0, i)  1
      * (p2, n-1]  2
      */
-    val n = nums.size
     var p0 = 0
     var i = 0
-    var p2 = n - 1
+    var p2 = nums.size - 1
+
+    var count = 0
     while (i <= p2) {
-        if (nums[i] == 0) {
-            assert(nums[p0] == 1 || nums[p0] == 0 && p0 == i)
-            swap(nums, i, p0)
-            i++
-            p0++
-        } else if (nums[i] == 1) {
-            i++
-        } else {
-            swap(nums, i, p2)
-            p2--
+        count++
+        when (nums[i]) {
+            0 -> {
+                assert(nums[p0] == 1 || nums[p0] == 0 && p0 == i)
+                swap(nums, i, p0)
+                i++
+                p0++
+            }
+
+            1 -> {
+                i++
+            }
+
+            2 -> {
+                swap(nums, i, p2)
+                p2--
+            }
         }
     }
 }
