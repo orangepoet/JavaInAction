@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.algorithm.games.flightattack;
+package cn.orangepoet.inaction.algorithm.ex.flightattack;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -104,7 +104,7 @@ public class FlightMap {
 
     public boolean isInScope(Flight flight) {
         return flight.allPosSet().stream().allMatch(p ->
-            p.getX() >= 1 && p.getX() <= size && p.getY() >= 1 && p.getY() <= size);
+                p.x() >= 1 && p.x() <= size && p.y() >= 1 && p.y() <= size);
     }
 
     public void printFlight(Flight flight) {
@@ -145,8 +145,8 @@ public class FlightMap {
     public Position getHintPos(List<FlightUnit> flightUnits,
                                Set<Position> hintPosSet) {
         Map<Position, Long> posCntMap = flightUnits
-            .stream()
-            .flatMap(fn -> fn.getFlights().stream())
+                .stream()
+                .flatMap(fn -> fn.flights().stream())
             .map(Flight::getHead)
             .filter(p -> !hintPosSet.contains(p))
             .collect(Collectors.groupingBy(h -> h, Collectors.counting()));

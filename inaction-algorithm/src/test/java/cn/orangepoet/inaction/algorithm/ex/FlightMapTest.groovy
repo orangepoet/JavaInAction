@@ -1,6 +1,6 @@
-package cn.orangepoet.inaction.algorithm.games.flightattack
+package cn.orangepoet.inaction.algorithm.ex
 
-
+import cn.orangepoet.inaction.algorithm.ex.flightattack.*
 import spock.lang.Specification
 
 /**

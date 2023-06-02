@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.algorithm.games.flightattack;
+package cn.orangepoet.inaction.algorithm.ex.flightattack;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,10 +37,10 @@ public class Flight implements FlightJudge {
     private static Set<Position> getBody(Position head, Direction direction) {
         Set<Position> body = new HashSet<>();
 
-        int hx = head.getX();
-        int hy = head.getY();
+        int hx = head.x();
+        int hy = head.y();
         switch (direction) {
-            case LEFT:
+            case LEFT -> {
                 for (int y = hy - 2; y <= hy + 2; y++) {
                     body.add(Position.get(hx + 1, y));
                 }
@@ -48,8 +48,8 @@ public class Flight implements FlightJudge {
                     body.add(Position.get(hx + 3, y));
                 }
                 body.add(Position.get(hx + 2, hy));
-                break;
-            case RIGHT:
+            }
+            case RIGHT -> {
                 for (int y = hy - 2; y <= hy + 2; y++) {
                     body.add(Position.get(hx - 1, y));
                 }
@@ -57,8 +57,8 @@ public class Flight implements FlightJudge {
                     body.add(Position.get(hx - 3, y));
                 }
                 body.add(Position.get(hx - 2, hy));
-                break;
-            case UP:
+            }
+            case UP -> {
                 for (int x = hx - 2; x <= hx + 2; x++) {
                     body.add(Position.get(x, hy + 1));
                 }
@@ -66,8 +66,8 @@ public class Flight implements FlightJudge {
                     body.add(Position.get(x, hy + 3));
                 }
                 body.add(Position.get(hx, hy + 2));
-                break;
-            case DOWN:
+            }
+            case DOWN -> {
                 for (int x = hx - 2; x <= hx + 2; x++) {
                     body.add(Position.get(x, hy - 1));
                 }
@@ -75,8 +75,7 @@ public class Flight implements FlightJudge {
                     body.add(Position.get(x, hy - 3));
                 }
                 body.add(Position.get(hx, hy - 2));
-
-                break;
+            }
         }
         return body;
     }

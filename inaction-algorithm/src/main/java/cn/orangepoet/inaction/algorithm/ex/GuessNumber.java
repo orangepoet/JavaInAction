@@ -1,4 +1,6 @@
-package cn.orangepoet.inaction.algorithm.games;
+package cn.orangepoet.inaction.algorithm.ex;
+
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,8 +13,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * @author chengzhi
  * @date 2020/05/10
@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GuessNumber {
     public static final char BLANK = '.';
-    private static Set<Character> numCharSet = new HashSet<>(Arrays.asList('1', '2', '3', '4', '5', '6', '7', '8', '9'));
+    private static final Set<Character> numCharSet = new HashSet<>(Arrays.asList('1', '2', '3', '4', '5', '6', '7', '8', '9'));
 
     public static class TableNumConflictException extends RuntimeException {
     }
@@ -148,8 +148,8 @@ public class GuessNumber {
 
     private static boolean refreshFixedNum(char[][] table, Map<Cell, List<Character>> guessNumSet) {
         List<Map.Entry<Cell, List<Character>>> fixedNumCells = guessNumSet.entrySet().stream()
-            .filter(entry -> entry.getValue().size() == 1)
-            .collect(Collectors.toList());
+                .filter(entry -> entry.getValue().size() == 1)
+                .toList();
         if (!fixedNumCells.isEmpty()) {
             fixedNumCells.forEach(entry -> {
                 Cell loc = entry.getKey();

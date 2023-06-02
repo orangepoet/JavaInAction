@@ -1,7 +1,4 @@
-package cn.orangepoet.inaction.algorithm.games.flightattack;
-
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+package cn.orangepoet.inaction.algorithm.ex.flightattack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,17 +7,9 @@ import java.util.Map;
  * @author chengzhi
  * @date 2019/10/24
  */
-@Getter
-@EqualsAndHashCode
-public class Position {
-    private final Integer x;
-    private final Integer y;
+public record Position(int x, int y) {
     private final static Map<String, Position> POSITION_MAP = new HashMap<>();
 
-    private Position(Integer x, Integer y) {
-        this.x = x;
-        this.y = y;
-    }
 
     @Override
     public String toString() {

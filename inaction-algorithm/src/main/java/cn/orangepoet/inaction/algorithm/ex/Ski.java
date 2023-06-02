@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.algorithm;
+package cn.orangepoet.inaction.algorithm.ex;
 
 import java.util.Scanner;
 

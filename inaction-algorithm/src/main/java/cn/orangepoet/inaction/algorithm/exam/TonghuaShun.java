@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.algorithm.test;
+package cn.orangepoet.inaction.algorithm.exam;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.ReentrantLock;
