@@ -172,39 +172,6 @@ public class Solution {
     }
 
     /**
-     * 组合数 和为n, 数量为k
-     *
-     * @param k
-     * @param n
-     * @return
-     */
-    public List<List<Integer>> combinationSum3(int k, int n) {
-        if (k > 9) {
-            return Collections.emptyList();
-        }
-        List<List<Integer>> result = new ArrayList<>();
-        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-        int max = 1 << 9;
-        for (int i = 1; i < max; i++) {
-            List<Integer> combination = new ArrayList<>();
-            int sum = 0;
-            for (int j = 0; j < arr.length; j++) {
-                int bit = 1 << j;
-                if ((i & bit) == bit) {
-                    sum += arr[j];
-                    combination.add(arr[j]);
-                }
-            }
-            if (sum == n && combination.size() == k) {
-                result.add(combination);
-                System.out.println(Integer.toBinaryString(i));
-            }
-        }
-
-        return result;
-    }
-
-    /**
      * 爬楼算法
      * <p>
      * 爬楼算法, 1阶1种(1步), 2阶2种(1步或2步), n>2 可分解为先1阶或先2阶的策略合, 等同于斐波那契数
@@ -225,7 +192,7 @@ public class Solution {
     }
 
     /**
-     * 最大子序列的和
+     * 最大(连续)子序列的和
      *
      * @param nums
      * @return
@@ -273,6 +240,7 @@ public class Solution {
      * @param seq
      * @return result
      */
+    @Deprecated
     public int fibonacci1(int seq) {
         if (seq == 1 || seq == 2) {
             return 1;

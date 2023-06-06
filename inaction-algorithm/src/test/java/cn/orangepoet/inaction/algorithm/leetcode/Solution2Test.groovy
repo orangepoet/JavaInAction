@@ -16,7 +16,7 @@ class Solution2Test extends Specification {
         def arr = toIntArr(root1)
 
         then:
-        arr == [2, null, 1] as int[]
+        arr == [2, null, 1] as Integer[]
     }
 
     def '从未排序的链表中移除重复元素'() {
@@ -147,7 +147,7 @@ class Solution2Test extends Specification {
         permute(count) == ans
         where:
         count | ans
-        3     | [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 2, 1], [3, 1, 2]]
+        3     | [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 2, 1], [3, 1, 2]] as List<int[]>
     }
 
     def '组合'() {
@@ -155,7 +155,25 @@ class Solution2Test extends Specification {
         combine(count) == ans
         where:
         count | ans
-        3     | [[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]]
+        3     | [[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]] as List<int[]>
+    }
+
+    def 'N选K的组合'() {
+        expect:
+        combineK(n, k) == ans
+
+        where:
+        n | k | ans
+        3 | 2 | [[1, 2], [1, 3], [2, 3]]
+    }
+
+    def '数组K个成员和为N'() {
+        expect:
+        combineK2(arr, sum, k) == ans
+
+        where:
+        arr                                  | sum | k | ans
+        [1, 2, 3, 4, 5, 6, 7, 8, 9] as int[] | 12  | 2 | [[3, 9], [4, 8], [5, 7]]
     }
 
 

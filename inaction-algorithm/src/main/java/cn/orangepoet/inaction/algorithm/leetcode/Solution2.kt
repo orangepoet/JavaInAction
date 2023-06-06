@@ -89,7 +89,7 @@ fun diameter(root: Node?): Int {
 
 private fun diameter0(root: Node): Int {
     val children = root.children
-    if (children == null || children.size == 0) {
+    if (children.size == 0) {
         return 0
     }
     if (children.size == 1) {
@@ -112,10 +112,8 @@ private fun depth0(node: Node?): Int {
         return 0
     }
     var depth = 1
-    if (node.children != null) {
-        for (child in node.children) {
-            depth = Math.max(depth, depth0(child) + 1)
-        }
+    for (child in node.children) {
+        depth = Math.max(depth, depth0(child) + 1)
     }
     depthMap[node] = depth
     return depth
@@ -586,22 +584,17 @@ private fun permute0(ans: ArrayList<IntArray>, arr: IntArray, first: Int) {
  * 组合
  */
 fun combine(count: Int): List<IntArray> {
-    val ans = ArrayList<IntArray>()
-    val arr = IntArray(count)
-    for (i in 0 until count) {
-        arr[i] = i + 1
-    }
-    combine0(ans, arr, mutableListOf<Int>(), 0)
-
+    val ans = mutableListOf<IntArray>()
+    combine0(count, 0, mutableListOf(), ans)
     return ans
 }
 
-private fun combine0(result: MutableList<IntArray>, arr: IntArray, current: MutableList<Int>, start: Int) {
+private fun combine0(count: Int, start: Int, current: MutableList<Int>, result: MutableList<IntArray>) {
     result.add(current.toIntArray())
 
-    for (i in start until arr.size) {
-        current.add(arr[i])
-        combine0(result, arr, current, i + 1)
+    for (i in start until count) {
+        current.add(i + 1)
+        combine0(count, i + 1, current, result)
         current.removeAt(current.size - 1)
     }
 }
@@ -645,18 +638,16 @@ fun sortColors(nums: IntArray) {
 }
 
 
-val ans = mutableListOf<List<Int>>()
-val cur = mutableListOf<Int>()
-
 /**
- * k数组合
+ * k数组合 (n的组合数限定数量为k)
  */
-fun combine(n: Int, k: Int): List<List<Int>> {
-    dfs(n, k, 1)
+fun combineK(n: Int, k: Int): List<List<Int>> {
+    val ans = mutableListOf<List<Int>>()
+    combineK0(n, k, 1, mutableListOf(), ans)
     return ans
 }
 
-fun dfs(n: Int, k: Int, p: Int) {
+private fun combineK0(n: Int, k: Int, p: Int, cur: MutableList<Int>, ans: MutableList<List<Int>>) {
     if (cur.size + (n - p + 1) < k) {
         return
     }
@@ -667,8 +658,40 @@ fun dfs(n: Int, k: Int, p: Int) {
     }
 
     cur.add(p)
-    dfs(n, k, p + 1)
+    combineK0(n, k, p + 1, cur, ans)
 
     cur.removeAt(cur.size - 1)
-    dfs(n, k, p + 1)
+    combineK0(n, k, p + 1, cur, ans)
+}
+
+/**
+ * 数组中选k个数和为n, 数量为k
+ */
+fun combineK2(arr: IntArray, sum: Int, k: Int): List<List<Int>> {
+    val ans = mutableListOf<List<Int>>()
+    combineK20(arr, sum, k, 1, mutableListOf(), ans)
+    return ans
+}
+
+private fun combineK20(
+    arr: IntArray,
+    sum: Int,
+    k: Int,
+    p: Int,
+    cur: MutableList<Int>,
+    ans: MutableList<List<Int>>,
+) {
+    if (cur.size == k && cur.sum() == sum) {
+        ans.add(cur.toList())
+        return
+    }
+    if (cur.size > k || p >= arr.size) {
+        return
+    }
+
+    cur.add(arr[p])
+    combineK20(arr, sum, k, p + 1, cur, ans)
+
+    cur.removeAt(cur.size - 1)
+    combineK20(arr, sum, k, p + 1, cur, ans)
 }
