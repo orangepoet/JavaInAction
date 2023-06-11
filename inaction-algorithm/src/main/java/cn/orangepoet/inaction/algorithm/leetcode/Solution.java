@@ -2830,4 +2830,49 @@ public class Solution {
         }
         return ans;
     }
+
+    /**
+     * 给你一个链表的头节点 head 和一个特定值 x ，请你对链表进行分隔，使得所有 小于 x 的节点都出现在 大于或等于 x 的节点之前。
+     * <p>
+     * 你应当 保留 两个分区中每个节点的初始相对位置。
+     *
+     * @param head
+     * @param x
+     * @return
+     */
+    public ListNode partition(ListNode head, int x) {
+        if (head == null) {
+            return head;
+        }
+        ListNode l1 = new ListNode(-1);
+        ListNode l2 = l1;
+        ListNode r1 = new ListNode(-1);
+        ListNode r2 = r1;
+
+        ListNode cur = head;
+        while (cur != null) {
+            if (cur.value < x) {
+                l2.next = cur;
+                l2 = cur;
+            } else {
+                r2.next = cur;
+                r2 = cur;
+            }
+            cur = cur.next;
+        }
+        ListNode p = new ListNode(-1);
+        ListNode p2 = p;
+        if (l1.next != null) {
+            p.next = l1.next;
+            p = l2;
+            p.next = null;
+        }
+        if (r1.next != null) {
+            p.next = r1.next;
+            p = r2;
+            p.next = null;
+        }
+
+        return p2.next;
+    }
 }
