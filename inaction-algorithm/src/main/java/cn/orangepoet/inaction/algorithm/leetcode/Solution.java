@@ -1084,11 +1084,11 @@ public class Solution {
     }
 
     /**
-     * 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
+     * 给出两个非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照逆序的方式存储的，并且它们的每个节点只能存储一位数字。
      * <p>
      * 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
      * <p>
-     * 您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+     * 您可以假设除了数字 0 之外，这两个数都不会以 0开头。
      * <p>
      * <p>
      * 示例:
@@ -1358,7 +1358,7 @@ public class Solution {
     }
 
     /**
-     * 给定两个整数，分别表示分数的分子 numerator 和分母 denominator，以字符串形式返回小数。
+     * 给定两个整数，分别表示分数的分子numerator 和分母 denominator，以字符串形式返回小数。
      * <p>
      * 如果小数部分为循环小数，则将循环的部分括在括号内。
      *
@@ -1840,35 +1840,6 @@ public class Solution {
         return str;
     }
 
-    //public int strStr(String haystack, String needle) {
-    //    if (needle.isEmpty()) {
-    //        return 0;
-    //    }
-    //
-    //    char first = needle.charAt(0);
-    //    for (int i = 0; i < haystack.length(); i++) {
-    //        if (haystack.charAt(i) == first) {
-    //            boolean isMatched = true;
-    //            int p = i;
-    //            for (int j = 0; j < needle.length(); j++) {
-    //                if (p >= haystack.length()) {
-    //                    isMatched = false;
-    //                    break;
-    //                }
-    //                if (haystack.charAt(p) != needle.charAt(j)) {
-    //                    isMatched = false;
-    //                    break;
-    //                }
-    //                p++;
-    //            }
-    //            if (isMatched) {
-    //                return i;
-    //            }
-    //        }
-    //    }
-    //    return -1;
-    //}
-
     public int strStr(String haystack, String needle) {
         int needleLength = needle.length();
         int haystackLength = haystack.length();
@@ -1919,7 +1890,7 @@ public class Solution {
         return s.substring(start, end + 1);
     }
 
-    public int expandAroundCenter(String s, int left, int right) {
+    private int expandAroundCenter(String s, int left, int right) {
         while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
             --left;
             ++right;
@@ -2116,9 +2087,7 @@ public class Solution {
         for (int i = last - 1; i >= 0; i--) {
             for (int j = last; j > i; j--) {
                 if (nums[j] > nums[i]) {
-                    int p = nums[i];
-                    nums[i] = nums[j];
-                    nums[j] = p;
+                    swap(nums, i, j);
                     if (i + 1 < last) {
                         reverse(nums, i + 1, last);
                     }
@@ -2828,19 +2797,12 @@ public class Solution {
             }
             cur = cur.next;
         }
-        ListNode p = new ListNode(-1);
-        ListNode p2 = p;
-        if (l1.next != null) {
-            p.next = l1.next;
-            p = l2;
-            p.next = null;
-        }
-        if (r1.next != null) {
-            p.next = r1.next;
-            p = r2;
-            p.next = null;
-        }
+        r2.next = null;
 
-        return p2.next;
+        if (l1.next != null) {
+            l2.next = r1.next;
+            return l1.next;
+        }
+        return r1.next;
     }
 }

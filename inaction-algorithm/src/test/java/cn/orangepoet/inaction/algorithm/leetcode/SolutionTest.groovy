@@ -252,26 +252,11 @@ class SolutionTest extends Specification {
 
     def '两数相加'() {
         given:
-        def p1 = new ListNode(2)
-        def p2 = new ListNode(4)
-        def p3 = new ListNode(3)
-        p1.next = p2
-        p2.next = p3
-        def r1 = new ListNode(5)
-        def r2 = new ListNode(6)
-        def r3 = new ListNode(4)
-        r1.next = r2
-        r2.next = r3
-        def t1 = new ListNode(7)
-        def t2 = new ListNode(0)
-        def t3 = new ListNode(8)
-        t1.next = t2
-        t2.next = t3
-        def solution = new Solution()
-
-
+        def left = makeListNode([2, 4, 3] as int[])
+        def right = makeListNode([5, 6, 4] as int[])
+        def sum = makeListNode([7, 0, 8] as int[])
         expect:
-        solution.addTwoNumbers(p1, r1) == t1
+        solution.addTwoNumbers(left, right) == sum
     }
 
     def '最大无重复子序列'() {
@@ -465,10 +450,12 @@ class SolutionTest extends Specification {
 
     def '删除链表节点'() {
         expect:
-        solution.removeNthFromEnd(head, n) == res
+        solution.removeNthFromEnd(head, n) == result
 
         where:
-        res | head | n
+        head                                      | n | result
+        makeListNode([1, 2, 3, 4, 5, 6] as int[]) | 2 | makeListNode([1, 2, 3, 4, 6] as int[])
+        makeListNode([1, 2, 3, 4, 5, 6] as int[]) | 0 | makeListNode([1, 2, 3, 4, 5, 6] as int[])
     }
 
     def '测试编码组合'() {

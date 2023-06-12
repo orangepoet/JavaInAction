@@ -40,5 +40,9 @@ class ListNode(
     override fun hashCode(): Int {
         return Objects.hash(value)
     }
+
+    override fun toString(): String {
+        return this.value.toString() + if (this.next != null) "->${this.next.toString()}" else ""
+    }
 }
 
