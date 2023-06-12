@@ -3,6 +3,8 @@ package cn.orangepoet.inaction.algorithm.leetcode
 
 import spock.lang.Specification
 
+import static cn.orangepoet.inaction.algorithm.leetcode.FunctionsKt.makeListNode
+
 /**
  * 使用Spock示例
  *
@@ -657,7 +659,6 @@ class SolutionTest extends Specification {
     }
 
 
-
     def '岛屿数量'() {
         expect:
         solution.numIslands(grid) == count
@@ -786,5 +787,14 @@ class SolutionTest extends Specification {
         [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as int[]  | 8 | 9 | [8, 9]
         [10, 2, 3, 1, 5, 8, 6, 7, 9, 4] as int[]  | 8 | 9 | [8, 9]
         [10, 2, 3, 10, 3, 8, 6, 9, 9, 2] as int[] | 8 | 9 | [9, 10]
+    }
+
+    def '链表分隔'() {
+        expect:
+        solution.partition(head, x) == y
+
+        where:
+        head                                      | x | y
+        makeListNode([1, 4, 3, 2, 5, 2] as int[]) | 3 | makeListNode([1, 2, 2, 4, 3, 5] as int[])
     }
 }
