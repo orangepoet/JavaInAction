@@ -2439,9 +2439,9 @@ public class Solution {
             return;
         }
         grid[r][c] = '0';
-        dfs(grid, r - 1, c, row, col);
+//        dfs(grid, r - 1, c, row, col);
         dfs(grid, r + 1, c, row, col);
-        dfs(grid, r, c - 1, row, col);
+//        dfs(grid, r, c - 1, row, col);
         dfs(grid, r, c + 1, row, col);
     }
 
@@ -2804,5 +2804,72 @@ public class Solution {
             return l1.next;
         }
         return r1.next;
+    }
+
+    /**
+     * unix 路径简化
+     *
+     * @param path
+     * @return
+     */
+    public String simplifyPath(String path) {
+        Deque<String> stack = new LinkedList<>();
+        String[] parts = path.split("/");
+        for (String s : parts) {
+            if (s == null || s.length() == 0 || s.equals(".")) {
+                continue;
+            }
+
+            if (s.equals("..")) {
+                if (!stack.isEmpty()) {
+                    stack.pop();
+                }
+            } else {
+                stack.push(s);
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        String ans;
+        if (!stack.isEmpty()) {
+            while (!stack.isEmpty()) {
+                sb.append("/").append(stack.pollLast());
+            }
+            ans = sb.toString();
+        } else {
+            ans = "/";
+        }
+        return ans;
+    }
+
+    /**
+     * 删除链表的重复元素
+     *
+     * @param head
+     * @return
+     */
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode dump = new ListNode(-101, head);
+        ListNode p = head;
+        ListNode p1 = dump;
+        ListNode last = dump;
+        boolean needDelete = false;
+        while (p != null) {
+            if (last.value == p.value) {
+                needDelete = true;
+            } else {
+                if (needDelete) {
+                    p1.next = p;
+                    needDelete = false;
+                } else {
+                    p1 = last;
+                }
+                last = p;
+            }
+            p = p.next;
+        }
+        if (needDelete) {
+            p1.next = p;
+        }
+        return dump.next;
     }
 }

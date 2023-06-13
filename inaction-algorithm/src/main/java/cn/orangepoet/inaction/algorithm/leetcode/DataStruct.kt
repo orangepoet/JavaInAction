@@ -42,7 +42,7 @@ class ListNode(
     }
 
     override fun toString(): String {
-        return this.value.toString() + if (this.next != null) "->${this.next.toString()}" else ""
+        return "${this.value}->${this.next?.toString()}"
     }
 }
 

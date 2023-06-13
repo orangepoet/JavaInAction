@@ -784,4 +784,15 @@ class SolutionTest extends Specification {
         head                                      | x | y
         makeListNode([1, 4, 3, 2, 5, 2] as int[]) | 3 | makeListNode([1, 2, 2, 4, 3, 5] as int[])
     }
+
+    def '删除链表重复元素'() {
+        expect:
+        solution.deleteDuplicates(head) == ans
+
+        where:
+        head                                         | ans
+        makeListNode([1, 2, 3, 3, 4, 4, 5] as int[]) | makeListNode([1, 2, 5] as int[])
+        makeListNode([1, 1, 1, 2, 3] as int[])       | makeListNode([2, 3] as int[])
+        makeListNode([1, 2, 2] as int[])             | makeListNode([1] as int[])
+    }
 }
