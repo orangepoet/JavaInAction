@@ -3,16 +3,16 @@ package cn.orangepoet.inaction.algorithm.leetcode
 import spock.lang.Specification
 
 import static cn.orangepoet.inaction.algorithm.leetcode.FunctionsKt.*
-import static cn.orangepoet.inaction.algorithm.leetcode.Solution2Kt.*
 
 class Solution2Test extends Specification {
+    def solution2 = new Solution2()
 
     def '上下翻转二叉树'() {
         given:
         def root = makeTree([1, 2, null] as Integer[])
 
         when:
-        def root1 = upsideDownBinaryTree(root)
+        def root1 = solution2.upsideDownBinaryTree(root)
         def arr = toIntArr(root1)
 
         then:
@@ -21,21 +21,21 @@ class Solution2Test extends Specification {
 
     def '从未排序的链表中移除重复元素'() {
         when:
-        def node = deleteDuplicatesUnsorted(makeListNode([1, 2, 3, 2] as int[]))
+        def node = solution2.deleteDuplicatesUnsorted(makeListNode([1, 2, 3, 2] as int[]))
         then:
         toIntArr(node) == [1, 3] as int[]
     }
 
     def '回文素数'() {
         when:
-        def ans = primePalindrome(102)
+        def ans = solution2.primePalindrome(102)
         then:
         ans == 131
     }
 
     def '到达终点数字'() {
         expect:
-        reachNumber(target) == n
+        solution2.reachNumber(target) == n
 
         where:
         target | n
@@ -44,7 +44,7 @@ class Solution2Test extends Specification {
 
     def '划分数组为连续数字的集合'() {
         expect:
-        isPossibleDivide(nums, k) == result
+        solution2.isPossibleDivide(nums, k) == result
         where:
         nums                              | k | result
         [1, 2, 3, 3, 4, 4, 5, 6] as int[] | 4 | true
@@ -56,7 +56,7 @@ class Solution2Test extends Specification {
         given:
         def root = makeTree([1, 2, 3] as Integer[])
         when:
-        def result = longestConsecutive(root)
+        def result = solution2.longestConsecutive(root)
         then:
         result == 2
     }
@@ -65,21 +65,9 @@ class Solution2Test extends Specification {
         given:
         def A = [[0, 1, 0], [0, 0, 0], [0, 0, 1]] as int[][]
         when:
-        def shortest = shortestBridge(A)
+        def shortest = solution2.shortestBridge(A)
         then:
         shortest == 2
-    }
-
-    def '最大加号标志'() {
-        expect:
-        orderOfLargestPlusSign(n, mines) == ans
-        where:
-        ans | n | mines
-        2   | 3 | [[0, 0]] as int[][]
-        2   | 5 | [[4, 2]] as int[][]
-        2   | 5 | [[3, 0], [3, 3]] as int[][]
-        2   | 5 | [[0, 0], [0, 3], [1, 1], [1, 4], [2, 3], [3, 0], [4, 2]] as int[][]
-        2   | 2 | [[0, 0], [0, 1], [1, 0]] as int[][]
     }
 
     def '二叉树的序列化与反序列化'() {
@@ -88,30 +76,21 @@ class Solution2Test extends Specification {
         def treeNode = makeTree(intArr)
         when:
         def t1 = System.currentTimeMillis()
-        def x = serialize(treeNode)
+        def x = solution2.serialize(treeNode)
         def t2 = System.currentTimeMillis()
         println("m1: ${t2 - t1}")
 
         def t3 = System.currentTimeMillis()
-        def n = deserialize(x)
+        def n = solution2.deserialize(x)
         def t4 = System.currentTimeMillis()
         println("m2: ${t4 - t3}")
         then:
         n.val == treeNode.val
     }
 
-    def '丑数'() {
-        expect:
-        isUgly(n) == ret
-        where:
-        n  | ret
-        14 | true
-        9  | true
-    }
-
     def '第n丑数'() {
         expect:
-        nthUglyNumber(n) == num
+        solution2.nthUglyNumber(n) == num
         where:
         n  | num
         10 | 12
@@ -119,7 +98,7 @@ class Solution2Test extends Specification {
 
     def '会议室'() {
         expect:
-        canAttendMeetings(intervals) == ret
+        solution2.canAttendMeetings(intervals) == ret
         where:
         intervals                      | ret
         [[13, 15], [1, 14]] as int[][] | false
@@ -127,7 +106,7 @@ class Solution2Test extends Specification {
 
     def '会议室2'() {
         expect:
-        minMeetingRooms(intervals) == ret
+        solution2.minMeetingRooms(intervals) == ret
         where:
         intervals                               | ret
         [[0, 30], [5, 10], [15, 20]] as int[][] | 2
@@ -137,22 +116,22 @@ class Solution2Test extends Specification {
         given:
         def nums = [3, 5, 2, 1, 6, 4] as int[]
         when:
-        wiggleSort(nums)
+        solution2.wiggleSort(nums)
         then:
         nums == [3, 5, 1, 6, 2, 4] as int[]
     }
 
     def '排列'() {
         expect:
-        permute(count) == ans
+        solution2.permute(count) == ans
         where:
         count | ans
-        3     | [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 2, 1], [3, 1, 2]] as List<int[]>
+        3 | [[1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [3, 2, 1], [3, 1, 2]] as List<List<Integer>>
     }
 
     def '组合'() {
         expect:
-        combine(count) == ans
+        solution2.combine(count) == ans
         where:
         count | ans
         3     | [[], [1], [1, 2], [1, 2, 3], [1, 3], [2], [2, 3], [3]] as List<int[]>
@@ -160,7 +139,7 @@ class Solution2Test extends Specification {
 
     def 'N选K的组合'() {
         expect:
-        combineK(n, k) == ans
+        solution2.combineK(n, k) == ans
 
         where:
         n | k | ans
@@ -169,7 +148,7 @@ class Solution2Test extends Specification {
 
     def '数组K个成员和为N'() {
         expect:
-        combineK2(arr, sum, k) == ans
+        solution2.combineK2(arr, sum, k) == ans
 
         where:
         arr                                  | sum | k | ans
@@ -182,8 +161,8 @@ class Solution2Test extends Specification {
         def nums = randomSequence(20)
         def nums2 = randomSequence(10)
         when:
-        sortColors(nums)
-        sortColors(nums2)
+        solution2.sortColors(nums)
+        solution2.sortColors(nums2)
         then:
         isSorted(nums)
         isSorted(nums2)

@@ -1114,11 +1114,11 @@ public class Solution {
         while (l1 != null || l2 != null) {
             int sum = 0;
             if (l1 != null) {
-                sum += l1.value;
+                sum += l1.val;
                 l1 = l1.next;
             }
             if (l2 != null) {
-                sum += l2.value;
+                sum += l2.val;
                 l2 = l2.next;
             }
             if (exceed > 0) {
@@ -2788,7 +2788,7 @@ public class Solution {
 
         ListNode cur = head;
         while (cur != null) {
-            if (cur.value < x) {
+            if (cur.val < x) {
                 l2.next = cur;
                 l2 = cur;
             } else {
@@ -2854,7 +2854,7 @@ public class Solution {
         ListNode last = dump;
         boolean needDelete = false;
         while (p != null) {
-            if (last.value == p.value) {
+            if (last.val == p.val) {
                 needDelete = true;
             } else {
                 if (needDelete) {

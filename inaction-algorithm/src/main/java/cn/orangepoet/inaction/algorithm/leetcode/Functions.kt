@@ -57,7 +57,7 @@ fun toIntArr(root: ListNode?): IntArray {
     var next = root
     val list = mutableListOf<Int>()
     while (next != null) {
-        list.add(next.value)
+        list.add(next.`val`)
         next = next.next
     }
     return list.toIntArray()

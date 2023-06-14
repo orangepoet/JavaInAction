@@ -17,7 +17,7 @@ data class TreeNode(
 
 
 class ListNode(
-    @JvmField var value: Int,
+    @JvmField var `val`: Int,
     @JvmField var next: ListNode?,
 ) {
     constructor(`val`: Int) : this(`val`, null)
@@ -38,11 +38,11 @@ class ListNode(
     }
 
     override fun hashCode(): Int {
-        return Objects.hash(value)
+        return Objects.hash(`val`)
     }
 
     override fun toString(): String {
-        return "${this.value}->${this.next?.toString()}"
+        return "${this.`val`}->${this.next?.toString()}"
     }
 }
 
