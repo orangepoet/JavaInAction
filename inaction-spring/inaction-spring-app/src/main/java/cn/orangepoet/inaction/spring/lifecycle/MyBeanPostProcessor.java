@@ -3,12 +3,13 @@ package cn.orangepoet.inaction.spring.lifecycle;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.stereotype.Component;
 
 /**
  * @author chengzhi
  * @date 2022/06/01
  */
-//@Component
+@Component
 @Slf4j
 class MyBeanPostProcessor implements BeanPostProcessor {
     @Override

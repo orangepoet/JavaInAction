@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Data
 @Slf4j
-class MyBean implements BeanNameAware, BeanFactoryAware, ApplicationContextAware {
+public class MyBean implements BeanNameAware, BeanFactoryAware, ApplicationContextAware {
     public static final AtomicInteger versions = new AtomicInteger();
 
     public MyBean(String f1, String f2) {

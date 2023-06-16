@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.spring.properties;
+package cn.orangepoet.inaction.spring;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

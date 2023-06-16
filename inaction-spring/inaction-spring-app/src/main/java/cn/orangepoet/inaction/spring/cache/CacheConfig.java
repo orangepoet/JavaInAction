@@ -3,49 +3,21 @@ package cn.orangepoet.inaction.spring.cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.cache.interceptor.CacheResolver;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
-@SpringBootApplication
 @EnableCaching
 @Slf4j
-public class Application {
-    @Resource
-    private RemoteClient remoteClient;
-    @Resource
-    private UserClient userClient;
-
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class);
-    }
-
-    @Bean
-    public CommandLineRunner commandLineRunner() {
-        return (args) -> {
-            for (int i = 0; i < 3; i++) {
-                log.info("remoteClient.getData..., times: {}", i);
-                String data = remoteClient.getData(String.valueOf(1));
-                log.info("data: {}", data);
-            }
-
-            for (int i = 0; i < 3; i++) {
-                log.info("userClient.getUser1..., times: {}", i);
-                String user1 = userClient.getUser1(1);
-                log.info("user1: {}", user1);
-            }
-        };
-    }
+@Configuration
+public class CacheConfig {
 
     @Bean
     @Primary

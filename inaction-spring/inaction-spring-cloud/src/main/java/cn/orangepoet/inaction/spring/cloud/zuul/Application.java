@@ -1,4 +1,4 @@
-package cn.orangepoet.inaction.spring.gateway;
+package cn.orangepoet.inaction.spring.cloud.zuul;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,8 +6,8 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 @EnableZuulProxy
 @SpringBootApplication
-public class GatewayApplication {
+public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(GatewayApplication.class);
+        SpringApplication.run(Application.class);
     }
 }

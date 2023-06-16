@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Scope;
  * @author chengzhi
  * @date 2022/06/01
  */
-@Configuration
+@Configuration("myConfiguration2")
 public class MyConfiguration {
     @Bean
     public String f3() {
