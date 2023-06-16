@@ -20,7 +20,6 @@
         <module>inaction-ex</module>
         <!--<module>../inaction-annotationprocessing</module>-->
         <module>inaction-spi</module>
-        <module>inaction-starter</module>
         <module>inaction-spring</module>
     </modules>
     <packaging>pom</packaging>
