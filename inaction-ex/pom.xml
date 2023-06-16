@@ -7,7 +7,6 @@
         <groupId>cn.orangepoet.inaction</groupId>
         <artifactId>inaction</artifactId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../inaction/pom.xml</relativePath>
     </parent>
 
     <artifactId>inaction-ex</artifactId>
@@ -16,16 +15,6 @@
         <dependency>
             <groupId>cn.orangepoet.inaction</groupId>
             <artifactId>inaction-starter</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.orangepoet.inaction</groupId>
-            <artifactId>inaction-spi-api</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.orangepoet.inaction</groupId>
-            <artifactId>inaction-spi-impl</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -115,10 +104,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
@@ -127,10 +113,6 @@
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
+
     </dependencies>
 </project>

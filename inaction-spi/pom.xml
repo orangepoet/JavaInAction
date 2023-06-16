@@ -6,7 +6,6 @@
         <artifactId>inaction</artifactId>
         <groupId>cn.orangepoet.inaction</groupId>
         <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../inaction/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,5 +15,6 @@
     <modules>
         <module>inaction-spi-api</module>
         <module>inaction-spi-impl</module>
+        <module>inaction-client</module>
     </modules>
 </project>

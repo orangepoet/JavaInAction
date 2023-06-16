@@ -1,0 +1,12 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: zuul-proxy
+zuul:
+  routes:
+    foos:
+      path: /foos/**
+      url: http://localhost:8001/foo/
+cz:
+  name: orange
