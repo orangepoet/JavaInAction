@@ -745,40 +745,31 @@ public class Solution2 {
     }
 
     public List<TreeNode> generateTrees(int n) {
-        Map<Integer, List<TreeNode>> ans = new HashMap<>();
-        ans.put(0, new ArrayList<>());
-        for (int i = 1; i <= n; i++) {
-            List<TreeNode> lst = new ArrayList<>();
-            for (int j = 1; j <= i; j++) {
-                List<TreeNode> lefts = ans.get(j - 1);
-                List<TreeNode> rights = ans.get(i - j);
-                if (lefts.size() > 0 && rights.size() > 0) {
-                    for (TreeNode left : lefts) {
-                        for (TreeNode right : rights) {
-                            TreeNode root = new TreeNode(j);
-                            root.left = left;
-                            root.right = right;
-                            lst.add(root);
-                        }
-                    }
-                } else if (lefts.size() > 0) {
-                    for (TreeNode left : lefts) {
-                        TreeNode root = new TreeNode(j);
-                        root.left = left;
-                        lst.add(root);
-                    }
-                } else if (rights.size() > 0) {
-                    for (TreeNode right : rights) {
-                        TreeNode root = new TreeNode(j);
-                        root.right = right;
-                        lst.add(root);
-                    }
-                } else {
-                    lst.add(new TreeNode(j));
+        return makeTree(1, n);
+    }
+
+    private List<TreeNode> makeTree(int from, int to) {
+        if (from > to) {
+            return new ArrayList<>();
+        }
+        if (from == to) {
+            return Collections.singletonList(new TreeNode(from));
+        }
+        List<TreeNode> list = new ArrayList<>();
+        for (int i = from; i <= to; i++) {
+            List<TreeNode> lefts = makeTree(from, i - 1);
+            List<TreeNode> rights = makeTree(i + 1, to);
+            if (lefts.isEmpty()) lefts.add(null);
+            if (rights.isEmpty()) rights.add(null);
+            for (TreeNode left : lefts) {
+                for (TreeNode right : rights) {
+                    TreeNode root = new TreeNode(i);
+                    root.left = left;
+                    root.right = right;
+                    list.add(root);
                 }
             }
-            ans.put(i, lst);
         }
-        return ans.get(n);
+        return list;
     }
 }
