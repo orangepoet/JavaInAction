@@ -13,7 +13,6 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 public class Solution2 {
-
     /**
      * 上下翻转二叉树
      */
@@ -681,5 +680,105 @@ public class Solution2 {
         combineK20(arr, sum, k, p + 1, cur, ans);
         cur.remove(cur.size() - 1);
         combineK20(arr, sum, k, p + 1, cur, ans);
+    }
+
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        if (head == null || left > right) {
+            return head;
+        }
+        // p1, p2 指代left位置的prev， p
+        ListNode p1 = new ListNode(-501, head), p2 = head;
+        for (int j = 0; j < left - 1; j++) {
+            if (p2 == null) {
+                break;
+            }
+            p1 = p2;
+            p2 = p2.next;
+        }
+        if (p2 != null) {
+            // p3, p4 指代right位置的prev， p
+            ListNode p3 = p2;
+            ListNode p4 = p3.next;
+            for (int i = 0; i < right - left; i++) {
+                if (p4 == null) {
+                    break;
+                }
+
+                ListNode next = p4.next;
+                p1.next = p4;
+                p4.next = p2;
+                p3.next = next;
+
+                p2 = p1.next;
+                p4 = next;
+            }
+        }
+        return left != 1 ? head : p1.next;
+    }
+
+    public ListNode reverseBetween2(ListNode head, int left, int right) {
+        if (head == null || left > right) {
+            return head;
+        }
+        ListNode p = head;
+        List<ListNode> list = new ArrayList<>();
+        while (p != null) {
+            list.add(p);
+            p = p.next;
+        }
+        int r = Math.min(right - 1, list.size() - 1);
+        int l = Math.max(0, left - 1);
+        if (l < r) {
+            for (int i = r; i > l; i--) {
+                list.get(i).next = list.get(i - 1);
+                list.get(i - 1).next = null;
+            }
+            if (l > 0) {
+                list.get(l - 1).next = list.get(r);
+            }
+            if (r + 1 < list.size()) {
+                list.get(l).next = list.get(r + 1);
+            }
+        }
+
+        return l > 0 ? head : list.get(r);
+    }
+
+    public List<TreeNode> generateTrees(int n) {
+        Map<Integer, List<TreeNode>> ans = new HashMap<>();
+        ans.put(0, new ArrayList<>());
+        for (int i = 1; i <= n; i++) {
+            List<TreeNode> lst = new ArrayList<>();
+            for (int j = 1; j <= i; j++) {
+                List<TreeNode> lefts = ans.get(j - 1);
+                List<TreeNode> rights = ans.get(i - j);
+                if (lefts.size() > 0 && rights.size() > 0) {
+                    for (TreeNode left : lefts) {
+                        for (TreeNode right : rights) {
+                            TreeNode root = new TreeNode(j);
+                            root.left = left;
+                            root.right = right;
+                            lst.add(root);
+                        }
+                    }
+                } else if (lefts.size() > 0) {
+                    for (TreeNode left : lefts) {
+                        TreeNode root = new TreeNode(j);
+                        root.left = left;
+                        lst.add(root);
+                    }
+                } else if (rights.size() > 0) {
+                    for (TreeNode right : rights) {
+                        TreeNode root = new TreeNode(j);
+                        root.right = right;
+                        lst.add(root);
+                    }
+                } else {
+                    lst.add(new TreeNode(j));
+                }
+            }
+            ans.put(i, lst);
+        }
+        return ans.get(n);
     }
 }

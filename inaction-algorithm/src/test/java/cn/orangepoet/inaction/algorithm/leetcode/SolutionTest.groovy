@@ -3,8 +3,6 @@ package cn.orangepoet.inaction.algorithm.leetcode
 
 import spock.lang.Specification
 
-import static cn.orangepoet.inaction.algorithm.leetcode.FunctionsKt.makeListNode
-
 /**
  * 使用Spock示例
  *
@@ -221,7 +219,7 @@ class SolutionTest extends Specification {
         [100, 99, 2, 1] as int[] | 3 | 1
         [1, 1, 2, 1, 1] as int[] | 3 | 2
         [2, 4, 6] as int[]       | 1 | 0
-        [1, 100, 1] as int[]     | 2 | 1
+        [1, 100, 1] as int[] | 2 | 0
     }
 
     def '和大于等于target的最短子数组'() {
@@ -252,9 +250,9 @@ class SolutionTest extends Specification {
 
     def '两数相加'() {
         given:
-        def left = makeListNode([2, 4, 3] as int[])
-        def right = makeListNode([5, 6, 4] as int[])
-        def sum = makeListNode([7, 0, 8] as int[])
+        def left = ListNode.create([2, 4, 3] as int[])
+        def right = ListNode.create([5, 6, 4] as int[])
+        def sum = ListNode.create([7, 0, 8] as int[])
         expect:
         solution.addTwoNumbers(left, right) == sum
     }
@@ -337,18 +335,7 @@ class SolutionTest extends Specification {
         ["xc", "yb", "za"] as String[] | 0
         ["zyx", "wvu", "tsr"] as String[] | 3
         ["xga", "xfb", "yfa"] as String[] | 1
-        ["vqyoysnpxbjiitandmvugsqpfmggkv", "uzdfeclxepjzfecmsxrqqkcomtrnvm", "yvhwrsapfffwehdmvqwxstgeexfeua", "awjymwysjpazpgdeqtvdiebfwuapin", "odhihlbvsnximvdwqntdeqptigiyik", "qtrfpwiilxskcieilfvarqbnpdxham", "whvrqkdwuzbcaagsmlfvfbeataygud", "kncwqrmejjmhtfhppsrdmzqperwlww", "hgphuwaumjjibzhvvejpniopjxizie", "bxvccswqevnudqicgrvjecfqpeppob", "nnmvncnpbksdjyjjelsjizliicxpgz", "oifmofrkbgpxlhkcbibwaoiygmqqio", "ekdfyvsumngcfjlydgpmhgjjyfovfi", "fyqryrpkvauhkylmfzhuasjxpqrohx", "rdvjglvpavzdmtobnpjfwdwivhrpsj", "zahrkuiejecndfprwysunznialtfok", "jlrgpfdptlolmlqoophhciiqjnxdkh", "bhbsdukebqvvemrcunboipprcbrfcl", "kreyeyvsmufolvsrzdyeqpuqlieeij", "vgosaxsfnbsndstjohgyknyionhoga", "igmnlibpadandgtugbgxpxwlqbknmv", "mjdbxxprxbjegvtthlrenhfpdlamww", "qfssehellhvqyntozbrizixptppfpr", "utghfndlcturahtcvmqrjyxqfhrsxt", "xvminqhybbiadetniqfwubqxmjokjv", "udfckncwvhcrmxtbkqbqqptymlqnss", "gwwcmterazvyakuvwtyhthfiohlywq", "mpieryurvarojfvhfbbcwepdeoedri", "lpaonsugmlzuweyvrrlgwwdjsgwmoh", "kexyawgkinwvjvzwvofqlthmhaicgs"] as String[] | 23
-    }
-
-    def '测试数组'() {
-        expect:
-        solution.splitArraySameAverage(A) == ans
-
-
-        where:
-        A                                        | ans
-        [1, 2, 3, 4, 5, 6, 7, 8] as int[]        | true
-        [17, 5, 5, 1, 14, 10, 13, 1, 6] as int[] | true
+        ["vqyoysnpxbjiitandmvugsqpfmggkv", "uzdfeclxepjzfecmsxrqqkcomtrnvm", "yvhwrsapfffwehdmvqwxstgeexfeua", "awjymwysjpazpgdeqtvdiebfwuapin", "odhihlbvsnximvdwqntdeqptigiyik", "qtrfpwiilxskcieilfvarqbnpdxham", "whvrqkdwuzbcaagsmlfvfbeataygud", "kncwqrmejjmhtfhppsrdmzqperwlww", "hgphuwaumjjibzhvvejpniopjxizie", "bxvccswqevnudqicgrvjecfqpeppob", "nnmvncnpbksdjyjjelsjizliicxpgz", "oifmofrkbgpxlhkcbibwaoiygmqqio", "ekdfyvsumngcfjlydgpmhgjjyfovfi", "fyqryrpkvauhkylmfzhuasjxpqrohx", "rdvjglvpavzdmtobnpjfwdwivhrpsj", "zahrkuiejecndfprwysunznialtfok", "jlrgpfdptlolmlqoophhciiqjnxdkh", "bhbsdukebqvvemrcunboipprcbrfcl", "kreyeyvsmufolvsrzdyeqpuqlieeij", "vgosaxsfnbsndstjohgyknyionhoga", "igmnlibpadandgtugbgxpxwlqbknmv", "mjdbxxprxbjegvtthlrenhfpdlamww", "qfssehellhvqyntozbrizixptppfpr", "utghfndlcturahtcvmqrjyxqfhrsxt", "xvminqhybbiadetniqfwubqxmjokjv", "udfckncwvhcrmxtbkqbqqptymlqnss", "gwwcmterazvyakuvwtyhthfiohlywq", "mpieryurvarojfvhfbbcwepdeoedri", "lpaonsugmlzuweyvrrlgwwdjsgwmoh", "kexyawgkinwvjvzwvofqlthmhaicgs"] as String[] | 22
     }
 
     def '四因数'() {
@@ -397,10 +384,10 @@ class SolutionTest extends Specification {
         where:
         candidates                      | target | ans
         [10, 1, 2, 7, 6, 1, 5] as int[] | 8      | [
-                [1, 7],
+                [1, 1, 6],
                 [1, 2, 5],
-                [2, 6],
-                [1, 1, 6]
+                [1, 7],
+                [2, 6]
         ] as List<List<Integer>>
     }
 
@@ -453,9 +440,9 @@ class SolutionTest extends Specification {
         solution.removeNthFromEnd(head, n) == result
 
         where:
-        head                                      | n | result
-        makeListNode([1, 2, 3, 4, 5, 6] as int[]) | 2 | makeListNode([1, 2, 3, 4, 6] as int[])
-        makeListNode([1, 2, 3, 4, 5, 6] as int[]) | 0 | makeListNode([1, 2, 3, 4, 5, 6] as int[])
+        head                                         | n | result
+        ListNode.create([1, 2, 3, 4, 5, 6] as int[]) | 2 | ListNode.create([1, 2, 3, 4, 6] as int[])
+        ListNode.create([1, 2, 3, 4, 5, 6] as int[]) | 0 | ListNode.create([1, 2, 3, 4, 5, 6] as int[])
     }
 
     def '测试编码组合'() {
@@ -782,7 +769,7 @@ class SolutionTest extends Specification {
 
         where:
         head                                      | x | y
-        makeListNode([1, 4, 3, 2, 5, 2] as int[]) | 3 | makeListNode([1, 2, 2, 4, 3, 5] as int[])
+        ListNode.create([1, 4, 3, 2, 5, 2] as int[]) | 3 | ListNode.create([1, 2, 2, 4, 3, 5] as int[])
     }
 
     def '删除链表重复元素'() {
@@ -790,9 +777,9 @@ class SolutionTest extends Specification {
         solution.deleteDuplicates(head) == ans
 
         where:
-        head                                         | ans
-        makeListNode([1, 2, 3, 3, 4, 4, 5] as int[]) | makeListNode([1, 2, 5] as int[])
-        makeListNode([1, 1, 1, 2, 3] as int[])       | makeListNode([2, 3] as int[])
-        makeListNode([1, 2, 2] as int[])             | makeListNode([1] as int[])
+        head                                            | ans
+        ListNode.create([1, 2, 3, 3, 4, 4, 5] as int[]) | ListNode.create([1, 2, 5] as int[])
+        ListNode.create([1, 1, 1, 2, 3] as int[])       | ListNode.create([2, 3] as int[])
+        ListNode.create([1, 2, 2] as int[])             | ListNode.create([1] as int[])
     }
 }

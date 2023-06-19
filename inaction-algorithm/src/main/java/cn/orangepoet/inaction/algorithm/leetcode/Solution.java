@@ -1470,28 +1470,28 @@ public class Solution {
     /**
      * 删列造序
      *
-     * @param A
+     * @param strs
      * @return
      */
-    public int minDeletionSize(String[] A) {
-        if (A == null || A.length <= 0) {
+    public int minDeletionSize(String[] strs) {
+        if (strs == null || strs.length <= 0) {
             return 0;
         }
 
         int ans = 0;
-        int[] weight = new int[A.length];
-        for (int i = 0; i < A[0].length(); i++) {
+        int[] weight = new int[strs.length];
+        for (int i = 0; i < strs[0].length(); i++) {
             boolean isSorted = true;
-            for (int j = 1; j < A.length; j++) {
-                if (weight[j] == weight[j - 1] && A[j].charAt(i) < A[j - 1].charAt(i)) {
+            for (int j = 1; j < strs.length; j++) {
+                if (weight[j] == weight[j - 1] && strs[j].charAt(i) < strs[j - 1].charAt(i)) {
                     ans++;
                     isSorted = false;
                     break;
                 }
             }
             if (isSorted) {
-                for (int j = 0; j < A.length; j++) {
-                    weight[j] = weight[j] * 26 + (int) A[j].charAt(i);
+                for (int j = 0; j < strs.length; j++) {
+                    weight[j] = weight[j] * 26 + (int) strs[j].charAt(i);
                 }
             }
         }
@@ -1542,56 +1542,6 @@ public class Solution {
             }
         }
         return ans;
-    }
-
-    public boolean splitArraySameAverage(int[] A) {
-        Arrays.sort(A);
-
-        int sum = 0;
-        for (int i = 0; i < A.length; i++) {
-            sum += A[i];
-        }
-
-        double avg = sum * 1.0 / A.length;
-
-        int mid = 0;
-        int left = 0;
-        int right = A.length - 1;
-        for (; mid < A.length; mid++) {
-            if (A[mid] == avg) {
-                left = mid - 1;
-                right = mid + 1;
-                break;
-            } else if (A[mid] > avg) {
-                left = mid - 1;
-                right = mid;
-                break;
-            }
-
-        }
-        List<Integer> subSet = new ArrayList<>();
-        while (left > 0 && right < A.length - 1) {
-            if (!subSet.isEmpty()) {
-                double avg0 = getAvg(subSet);
-                if (avg0 < avg) {
-                    subSet.add(A[right++]);
-                } else if (avg0 > avg) {
-                    subSet.add(A[left--]);
-                } else {
-                    subSet.clear();
-                }
-            } else {
-                subSet.add(A[left--]);
-                subSet.add(A[right++]);
-            }
-        }
-        while (left > 0) {
-            subSet.add(A[left--]);
-        }
-        while (right < A.length - 1) {
-            subSet.add(A[right++]);
-        }
-        return subSet.isEmpty() || getAvg(subSet) == avg;
     }
 
     private double getAvg(List<Integer> lst) {
@@ -1853,15 +1803,16 @@ public class Solution {
         }
 
         for (int i = 0; i < haystackLength; i++) {
-            int scanIdx = 0;
-
             boolean matched = true;
-            while (scanIdx < needleLength) {
-                if (haystack.charAt(i + scanIdx) != needle.charAt(scanIdx)) {
+            for (int j = 0; j < needleLength; j++) {
+                if ((i + j) >= haystackLength) {
                     matched = false;
                     break;
                 }
-                scanIdx++;
+                if (haystack.charAt(i + j) != needle.charAt(j)) {
+                    matched = false;
+                    break;
+                }
             }
             if (matched) {
                 return i;
@@ -1882,7 +1833,7 @@ public class Solution {
             int len1 = expandAroundCenter(s, i, i);
             int len2 = expandAroundCenter(s, i, i + 1);
             int len = Math.max(len1, len2);
-            if (len > end - start) {
+            if (len > (end - start + 1)) {
                 start = i - (len - 1) / 2;
                 end = i + len / 2;
             }
