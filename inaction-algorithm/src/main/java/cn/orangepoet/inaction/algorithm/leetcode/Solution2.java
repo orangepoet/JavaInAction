@@ -744,6 +744,14 @@ public class Solution2 {
         return l > 0 ? head : list.get(r);
     }
 
+    /**
+     * 不同的二叉搜索树
+     * <p>
+     * 给你一个整数 n ，请你生成并返回所有由 n 个节点组成且节点值从 1 到 n 互不相同的不同 二叉搜索树 。可以按 任意顺序 返回答案。
+     *
+     * @param n
+     * @return
+     */
     public List<TreeNode> generateTrees(int n) {
         return makeTree(1, n);
     }
@@ -771,5 +779,25 @@ public class Solution2 {
             }
         }
         return list;
+    }
+
+    /**
+     * 同上，只是统计数量
+     *
+     * @param n
+     * @return
+     */
+    public int numTrees(int n) {
+        int[] ans = new int[n + 1];
+        ans[0] = 1;
+
+        for (int i = 1; i <= n; i++) {
+            int sum = 0;
+            for (int j = 0; j <= i - 1; j++) {
+                sum += ans[j] * ans[i - j - 1];
+            }
+            ans[i] = sum;
+        }
+        return ans[n];
     }
 }
