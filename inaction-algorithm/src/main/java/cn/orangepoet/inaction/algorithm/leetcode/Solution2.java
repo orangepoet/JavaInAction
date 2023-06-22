@@ -800,4 +800,24 @@ public class Solution2 {
         }
         return ans[n];
     }
+
+    /**
+     * 阶乘后的零
+     *
+     * @param n
+     * @return
+     */
+    public int trailingZeroes(int n) {
+        if (n < 5) {
+            return 0;
+        }
+        int m = 0;
+        int[] ans = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            int j = i % 5 == 0 ? (1 + ans[i / 5]) : 0;
+            m += j;
+            ans[i] = j;
+        }
+        return m;
+    }
 }

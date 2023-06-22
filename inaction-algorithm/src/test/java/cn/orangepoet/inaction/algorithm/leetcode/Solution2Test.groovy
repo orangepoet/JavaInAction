@@ -182,4 +182,12 @@ class Solution2Test extends Specification {
         n | ans
         3 | [TreeNode.create([1, null, 2, null, 3] as Integer[]), TreeNode.create([1, null, 3, 2, null] as Integer[]), TreeNode.create([2, 1, 3] as Integer[]), TreeNode.create([3, 1, null, null, 2] as Integer[]), TreeNode.create([3, 2, null, 1, null] as Integer[])]
     }
+
+    def '阶乘后的零'() {
+        expect:
+        solution2.trailingZeroes(n) == m
+        where:
+        n  | m
+        30 | 7
+    }
 }
