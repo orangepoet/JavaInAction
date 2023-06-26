@@ -190,4 +190,13 @@ class Solution2Test extends Specification {
         n  | m
         30 | 7
     }
+
+    def '重排链表'() {
+        given:
+        def head = ListNode.create([1, 2, 3, 4, 5] as int[])
+        when:
+        solution2.reorderList(head)
+        then:
+        head == ListNode.create([1, 5, 2, 4, 3] as int[])
+    }
 }

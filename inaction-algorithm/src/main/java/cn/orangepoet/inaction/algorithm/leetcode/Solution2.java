@@ -816,4 +816,29 @@ public class Solution2 {
         }
         return m;
     }
+
+    /**
+     * 链表重排 交叉序列
+     *
+     * @param head
+     */
+    public void reorderList(ListNode head) {
+        List<ListNode> list = new ArrayList<>();
+        ListNode p = head;
+        while (p != null) {
+            list.add(p);
+            p = p.next;
+        }
+        int size = list.size();
+        int i;
+        int j = size - 1;
+        for (i = 0; i + 1 < j; i++, j--) {
+            ListNode l = list.get(i);
+            ListNode m = list.get(j);
+            ListNode r = l.next;
+            l.next = m;
+            m.next = r;
+        }
+        list.get(j).next = null;
+    }
 }
