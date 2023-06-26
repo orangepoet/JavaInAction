@@ -5,8 +5,8 @@ spring:
     name: zuul-proxy
 zuul:
   routes:
-    foos:
-      path: /foos/**
-      url: http://localhost:8001/foo/
+    cloud:
+      path: /app/**
+      url: http://localhost:9000
 cz:
   name: orange

@@ -1,2 +1,4 @@
 cz:
   name: orangepoet
+server:
+  port: 9000
