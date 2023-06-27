@@ -1,6 +1,6 @@
 package cn.orangepoet.inaction.algorithm
 
-
+import cn.orangepoet.inaction.algorithm.leetcode.TreeNode
 import spock.lang.Specification
 
 /**
@@ -45,6 +45,13 @@ class TreeAlgoTest extends Specification {
     def "深度遍历"() {
     }
 
-    def "后序遍历"() {
+    def "中序遍历"() {
+        given:
+        def root = TreeNode.create([4, 2, 6, 1, 3, 5, 7] as Integer[])
+
+        when:
+        def list = root.inorderTravel()
+        then:
+        list == [1, 2, 3, 4, 5, 6, 7]
     }
 }

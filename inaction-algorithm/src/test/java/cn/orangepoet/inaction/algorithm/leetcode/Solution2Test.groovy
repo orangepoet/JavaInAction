@@ -199,4 +199,18 @@ class Solution2Test extends Specification {
         then:
         head == ListNode.create([1, 5, 2, 4, 3] as int[])
     }
+
+    def '恢复二叉搜索树'() {
+        given:
+        def root = TreeNode.create([1, 3, null, null, 2] as Integer[])
+        def root2 = TreeNode.create([3, 1, 4, null, null, 2] as Integer[])
+
+        when:
+        solution2.recoverTree(root)
+        solution2.recoverTree(root2)
+
+        then:
+        root == TreeNode.create([3, 1, null, null, 2] as Integer[])
+        root2 == TreeNode.create([2, 1, 4, null, null, 3] as Integer[])
+    }
 }

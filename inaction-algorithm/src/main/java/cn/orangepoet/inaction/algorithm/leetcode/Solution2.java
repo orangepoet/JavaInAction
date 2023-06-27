@@ -1,9 +1,11 @@
 package cn.orangepoet.inaction.algorithm.leetcode;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -840,5 +842,42 @@ public class Solution2 {
             m.next = r;
         }
         list.get(j).next = null;
+    }
+
+    /**
+     * 给你二叉搜索树的根节点 root ，该树中的 恰好 两个节点的值被错误地交换。请在不改变其结构的情况下，恢复这棵树 。
+     *
+     * @param root
+     */
+    public void recoverTree(TreeNode root) {
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        TreeNode x = null, y = null, pred = null;
+
+        TreeNode p = root;
+        while (!stack.isEmpty() || p != null) {
+            while (p != null) {
+                stack.push(p);
+                p = p.left;
+            }
+            p = stack.pop();
+            if (pred != null && p.val < pred.val) {
+                y = p;
+                if (x == null) {
+                    x = pred;
+                } else {
+                    break;
+                }
+            }
+            pred = p;
+            p = p.right;
+        }
+
+        swap(x, y);
+    }
+
+    private void swap(TreeNode left, TreeNode right) {
+        int tmp = left.val;
+        left.val = right.val;
+        right.val = tmp;
     }
 }
