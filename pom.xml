@@ -4,19 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.10</version>
-    </parent>
-
     <groupId>cn.orangepoet.inaction</groupId>
     <artifactId>JavaInAction</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>inaction-desginpattern</module>
-        <module>inaction-parallel</module>
-        <module>inaction-ex</module>
+        <module>inaction</module>
         <module>inaction-spi</module>
         <module>inaction-spring</module>
     </modules>
@@ -32,21 +24,11 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.18.24</version>
-            </dependency>
-            <dependency>
-                <groupId>org.spockframework</groupId>
-                <artifactId>spock-core</artifactId>
-                <version>2.3-groovy-3.0</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.groovy</groupId>
-                <artifactId>groovy-all</artifactId>
-                <version>${groovy.version}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.5.10</version>
                 <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -55,11 +37,6 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
             <version>${kotlin.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <type>pom</type>
         </dependency>
     </dependencies>
 
@@ -117,6 +94,23 @@
                     <source>17</source>
                     <target>17</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>unpack-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/unpacked</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
